@@ -1,0 +1,6 @@
+framework module Pods_InsViewer {
+  umbrella header "Pods-InsViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
