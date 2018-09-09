@@ -6,5 +6,6 @@ target 'InsViewer' do
   use_frameworks!
 
   # Pods for InsViewer
-
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
 end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2BA75F2FE0C89AFF37600062 /* Pods_InsViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */; };
+		EA4A4DE721454B8E00B17ECB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */; };
 		EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C032144279F00EBC0A8 /* AppDelegate.swift */; };
 		EAE93C062144279F00EBC0A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C052144279F00EBC0A8 /* RootViewController.swift */; };
 		EAE93C092144279F00EBC0A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C072144279F00EBC0A8 /* Main.storyboard */; };
@@ -16,11 +17,13 @@
 		EAE93C1621442A5800EBC0A8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C1521442A5800EBC0A8 /* HomeViewController.swift */; };
 		EAE93C1921442AD500EBC0A8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C1821442AD500EBC0A8 /* CameraViewController.swift */; };
 		EAE93C1B21442AFF00EBC0A8 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C1A21442AFF00EBC0A8 /* MessageViewController.swift */; };
+		EAE93C1F214548EC00EBC0A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C1E214548EC00EBC0A8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InsViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62690D5B6754981165134A4F /* Pods-InsViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InsViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EAE93C002144279F00EBC0A8 /* InsViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE93C032144279F00EBC0A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAE93C052144279F00EBC0A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -31,6 +34,7 @@
 		EAE93C1521442A5800EBC0A8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EAE93C1821442AD500EBC0A8 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		EAE93C1A21442AFF00EBC0A8 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		EAE93C1E214548EC00EBC0A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FB4B06808686F7CF7C2D4E31 /* Pods-InsViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InsViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +93,7 @@
 				EAE93C072144279F00EBC0A8 /* Main.storyboard */,
 				EAE93C0A214427A000EBC0A8 /* Assets.xcassets */,
 				EAE93C0C214427A000EBC0A8 /* LaunchScreen.storyboard */,
+				EAE93C1E214548EC00EBC0A8 /* GoogleService-Info.plist */,
 				EAE93C0F214427A000EBC0A8 /* Info.plist */,
 			);
 			path = InsViewer;
@@ -101,6 +106,7 @@
 				EAE93C1521442A5800EBC0A8 /* HomeViewController.swift */,
 				EAE93C1821442AD500EBC0A8 /* CameraViewController.swift */,
 				EAE93C1A21442AFF00EBC0A8 /* MessageViewController.swift */,
+				EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -116,6 +122,7 @@
 				EAE93BFC2144279F00EBC0A8 /* Sources */,
 				EAE93BFD2144279F00EBC0A8 /* Frameworks */,
 				EAE93BFE2144279F00EBC0A8 /* Resources */,
+				646B85A5C09F236211404001 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -166,6 +173,7 @@
 			files = (
 				EAE93C0E214427A000EBC0A8 /* LaunchScreen.storyboard in Resources */,
 				EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */,
+				EAE93C1F214548EC00EBC0A8 /* GoogleService-Info.plist in Resources */,
 				EAE93C092144279F00EBC0A8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +199,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		646B85A5C09F236211404001 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -198,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4A4DE721454B8E00B17ECB /* LoginViewController.swift in Sources */,
 				EAE93C1621442A5800EBC0A8 /* HomeViewController.swift in Sources */,
 				EAE93C1921442AD500EBC0A8 /* CameraViewController.swift in Sources */,
 				EAE93C062144279F00EBC0A8 /* RootViewController.swift in Sources */,
