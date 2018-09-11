@@ -1,2 +1,2 @@
 # InsViewer
-COMP90018 Assignment
+Instagram clone with Firebase
