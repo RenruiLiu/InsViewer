@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		2BA75F2FE0C89AFF37600062 /* Pods_InsViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */; };
-		EA4A4DE721454B8E00B17ECB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */; };
+		EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */; };
 		EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186C21461403005EBDFC /* UserProfileViewController.swift */; };
 		EA8F18702146A015005EBDFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186F2146A015005EBDFC /* Extensions.swift */; };
 		EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F187121475632005EBDFC /* MainTabBarViewController.swift */; };
+		EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F189A21480387005EBDFC /* UserProfileHeader.swift */; };
+		EA8F189D2148E41C005EBDFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F189C2148E41C005EBDFC /* LoginViewController.swift */; };
 		EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C032144279F00EBC0A8 /* AppDelegate.swift */; };
-		EAE93C062144279F00EBC0A8 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C052144279F00EBC0A8 /* RootViewController.swift */; };
 		EAE93C092144279F00EBC0A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C072144279F00EBC0A8 /* Main.storyboard */; };
 		EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C0A214427A000EBC0A8 /* Assets.xcassets */; };
 		EAE93C0E214427A000EBC0A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C0C214427A000EBC0A8 /* LaunchScreen.storyboard */; };
@@ -23,13 +24,14 @@
 /* Begin PBXFileReference section */
 		0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InsViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62690D5B6754981165134A4F /* Pods-InsViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InsViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer.debug.xcconfig"; sourceTree = "<group>"; };
-		EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		EA8F186C21461403005EBDFC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EA8F186F2146A015005EBDFC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EA8F187121475632005EBDFC /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		EA8F189A21480387005EBDFC /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
+		EA8F189C2148E41C005EBDFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EAE93C002144279F00EBC0A8 /* InsViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE93C032144279F00EBC0A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EAE93C052144279F00EBC0A8 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		EAE93C082144279F00EBC0A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EAE93C0A214427A000EBC0A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EAE93C0D214427A000EBC0A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -111,10 +113,11 @@
 		EAE93C1721442A5F00EBC0A8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				EAE93C052144279F00EBC0A8 /* RootViewController.swift */,
-				EA4A4DE621454B8E00B17ECB /* LoginViewController.swift */,
+				EA8F189C2148E41C005EBDFC /* LoginViewController.swift */,
+				EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */,
 				EA8F186C21461403005EBDFC /* UserProfileViewController.swift */,
 				EA8F187121475632005EBDFC /* MainTabBarViewController.swift */,
+				EA8F189A21480387005EBDFC /* UserProfileHeader.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -236,11 +239,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA4A4DE721454B8E00B17ECB /* LoginViewController.swift in Sources */,
+				EA8F189D2148E41C005EBDFC /* LoginViewController.swift in Sources */,
+				EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */,
 				EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */,
 				EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */,
+				EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */,
 				EA8F18702146A015005EBDFC /* Extensions.swift in Sources */,
-				EAE93C062144279F00EBC0A8 /* RootViewController.swift in Sources */,
 				EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
