@@ -20,7 +20,7 @@ extension UIView{
         if let top = top{
             topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true}
         if let bottom = bottom{
-            bottomAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true}
+            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true}
         if let left = left{
             leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true}
         if let right = right{

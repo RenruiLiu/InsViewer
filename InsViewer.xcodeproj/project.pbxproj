@@ -14,6 +14,10 @@
 		EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F187121475632005EBDFC /* MainTabBarViewController.swift */; };
 		EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F189A21480387005EBDFC /* UserProfileHeader.swift */; };
 		EA8F189D2148E41C005EBDFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F189C2148E41C005EBDFC /* LoginViewController.swift */; };
+		EA8F189F2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F189E2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift */; };
+		EA8F18A1214A247A005EBDFC /* PhotoSeletorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18A0214A247A005EBDFC /* PhotoSeletorCell.swift */; };
+		EA8F18A3214A29DD005EBDFC /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18A2214A29DD005EBDFC /* PhotoSelectorHeader.swift */; };
+		EA8F18A5214A3294005EBDFC /* SharePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18A4214A3294005EBDFC /* SharePhotoViewController.swift */; };
 		EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C032144279F00EBC0A8 /* AppDelegate.swift */; };
 		EAE93C092144279F00EBC0A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C072144279F00EBC0A8 /* Main.storyboard */; };
 		EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C0A214427A000EBC0A8 /* Assets.xcassets */; };
@@ -30,6 +34,10 @@
 		EA8F187121475632005EBDFC /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		EA8F189A21480387005EBDFC /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		EA8F189C2148E41C005EBDFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EA8F189E2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCollectionViewController.swift; sourceTree = "<group>"; };
+		EA8F18A0214A247A005EBDFC /* PhotoSeletorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSeletorCell.swift; sourceTree = "<group>"; };
+		EA8F18A2214A29DD005EBDFC /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
+		EA8F18A4214A3294005EBDFC /* SharePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePhotoViewController.swift; sourceTree = "<group>"; };
 		EAE93C002144279F00EBC0A8 /* InsViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE93C032144279F00EBC0A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAE93C082144279F00EBC0A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,6 +126,10 @@
 				EA8F186C21461403005EBDFC /* UserProfileViewController.swift */,
 				EA8F187121475632005EBDFC /* MainTabBarViewController.swift */,
 				EA8F189A21480387005EBDFC /* UserProfileHeader.swift */,
+				EA8F189E2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift */,
+				EA8F18A0214A247A005EBDFC /* PhotoSeletorCell.swift */,
+				EA8F18A2214A29DD005EBDFC /* PhotoSelectorHeader.swift */,
+				EA8F18A4214A3294005EBDFC /* SharePhotoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -243,8 +255,12 @@
 				EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */,
 				EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */,
 				EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */,
+				EA8F18A1214A247A005EBDFC /* PhotoSeletorCell.swift in Sources */,
+				EA8F189F2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift in Sources */,
+				EA8F18A5214A3294005EBDFC /* SharePhotoViewController.swift in Sources */,
 				EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */,
 				EA8F18702146A015005EBDFC /* Extensions.swift in Sources */,
+				EA8F18A3214A29DD005EBDFC /* PhotoSelectorHeader.swift in Sources */,
 				EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
