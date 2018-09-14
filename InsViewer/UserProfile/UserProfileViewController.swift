@@ -17,11 +17,12 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     //____________________________________________________________________________________
     //set up collection view cells
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7 //number of items in collection view section
+        return posts.count //number of items in collection view section
     }
+    // set up the custom cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .purple
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
+        cell.post = posts[indexPath.item]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -99,20 +100,33 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         
         //provide a custom collection header
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setupLogoutBtn()
+        
+        // fetch post images
+        fetchOrderedPosts()
+    }
+    
+    //____________________________________________________________________________________
+    // fetch posts
+    var posts = [Post]()
+    
+    fileprivate func fetchOrderedPosts(){
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let ref = Database.database().reference().child("posts").child(uid)
+        // gives post in right order // implement some pagination of data??
+        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+            
+            guard let dictionary = snapshot.value as? [String: Any] else {return}
+            let post = Post(dictionary: dictionary)
+            self.posts.append(post)
+            
+            // reload the view every time a new item comes in
+            self.collectionView?.reloadData()
+        }) { (err) in
+            print("Failed to fetch ordered posts:", err)
+        }
     }
     
 }
 
-//____________________________________________________________________________________
-struct UserProfile{
-    let username: String
-    let profileImgUrl: String
-    
-    init(dict:[String:Any]){
-        // sign the database dictionary to local userProfile dictionary
-        self.username = dict["username"] as? String ?? ""
-        self.profileImgUrl = dict["profileImageUrl"] as? String ?? ""
-    }
-}

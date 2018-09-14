@@ -14,14 +14,15 @@ class UserProfileHeader: UICollectionViewCell {
     var user: UserProfile?{
         didSet {
             // setup the profile image right after got the user data
-            setupProfileImg()
+            guard let profileImageUrl = user?.profileImgUrl else {return}
+            profileImageView.loadImage(urlString: profileImageUrl)
             usernameLabel.text = user?.username
         }
     }
     
     //____________________________________________________________________________________
-    let profileImageView: UIImageView = {
-        let imgview = UIImageView()
+    let profileImageView: CustomImageView = {
+        let imgview = CustomImageView()
         imgview.layer.cornerRadius = 80/2 // make it round
         imgview.clipsToBounds = true
         return imgview
@@ -90,31 +91,6 @@ class UserProfileHeader: UICollectionViewCell {
     
     //____________________________________________________________________________________
     //functions
-    
-    fileprivate func setupProfileImg(){
-        //
-        guard let profileImgUrl = user?.profileImgUrl else {return} //get the string(Url)
-        guard let url = URL(string: profileImgUrl) else {return} // cast the string url to URL
-        
-        //URLSession will open a background thread to download whatever in the url
-        // and can do something after the response is returned
-        URLSession.shared.dataTask(with: url) { (data, response, err) in
-            // check err then construct the img using the data
-            if let err = err{
-                print("Failed to fetch profile image:", err)
-                return
-            }
-            
-            // successfully got the data (HTTP Code 200)
-            guard let data = data else {return}
-            let img = UIImage(data: data)
-            
-            // get back onto the main UI thread, otherwise it stays on URLSession background thread
-            DispatchQueue.main.async {
-                self.profileImageView.image = img
-            }
-        }.resume()
-    }
     
     fileprivate func setupBottomToolbar(){
         let topDividerView = UIView()
