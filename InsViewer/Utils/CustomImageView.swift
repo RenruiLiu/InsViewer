@@ -8,13 +8,22 @@
 
 import UIKit
 
+var imageCache = [String: UIImage]()
+
 class CustomImageView: UIImageView {
     
     var lastUrlUsedToLoadImage: String?
     
     func loadImage(urlString: String){
+        self.image = nil
         
         lastUrlUsedToLoadImage = urlString
+        // check cache
+        // if this url is in the cache dictionary, then return in order to prevent fetch it againa
+        if let cachedImage = imageCache[urlString] {
+            self.image = cachedImage
+            return
+        }
         
         guard let url = URL(string: urlString) else {return}
         //URLSession will open a background thread to download whatever in the url
@@ -34,6 +43,8 @@ class CustomImageView: UIImageView {
             // cast the data to UIImage
             guard let imageData = data else {return}
             let photoImg = UIImage(data: imageData)
+            // store the image into cache
+            imageCache[url.absoluteString] = photoImg
             // get back onto the main UI thread, otherwise it stays on URLSession background thread
             DispatchQueue.main.async {
                 // set the image to the view

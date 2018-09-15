@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2BA75F2FE0C89AFF37600062 /* Pods_InsViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */; };
+		EA20EEDA214B6308003FA06D /* HomePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20EED9214B6308003FA06D /* HomePostCell.swift */; };
+		EA20EEDD214B98AB003FA06D /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20EEDC214B98AB003FA06D /* UserSearchViewController.swift */; };
+		EA20EEDF214B9FAB003FA06D /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20EEDE214B9FAB003FA06D /* UserSearchCell.swift */; };
 		EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */; };
 		EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186C21461403005EBDFC /* UserProfileViewController.swift */; };
 		EA8F18702146A015005EBDFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186F2146A015005EBDFC /* Extensions.swift */; };
@@ -22,6 +25,7 @@
 		EA8F18AA214B4568005EBDFC /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18A9214B4568005EBDFC /* UserProfile.swift */; };
 		EA8F18B0214B482D005EBDFC /* UserProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18AF214B482D005EBDFC /* UserProfilePhotoCell.swift */; };
 		EA8F18B2214B523F005EBDFC /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18B1214B523F005EBDFC /* CustomImageView.swift */; };
+		EA8F18B5214B60E8005EBDFC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F18B4214B60E8005EBDFC /* HomeViewController.swift */; };
 		EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE93C032144279F00EBC0A8 /* AppDelegate.swift */; };
 		EAE93C092144279F00EBC0A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C072144279F00EBC0A8 /* Main.storyboard */; };
 		EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAE93C0A214427A000EBC0A8 /* Assets.xcassets */; };
@@ -32,6 +36,9 @@
 /* Begin PBXFileReference section */
 		0AA40E344F321FAAC3BBD89E /* Pods_InsViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InsViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62690D5B6754981165134A4F /* Pods-InsViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InsViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		EA20EED9214B6308003FA06D /* HomePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCell.swift; sourceTree = "<group>"; };
+		EA20EEDC214B98AB003FA06D /* UserSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
+		EA20EEDE214B9FAB003FA06D /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
 		EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		EA8F186C21461403005EBDFC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EA8F186F2146A015005EBDFC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -46,6 +53,7 @@
 		EA8F18A9214B4568005EBDFC /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		EA8F18AF214B482D005EBDFC /* UserProfilePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePhotoCell.swift; sourceTree = "<group>"; };
 		EA8F18B1214B523F005EBDFC /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		EA8F18B4214B60E8005EBDFC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EAE93C002144279F00EBC0A8 /* InsViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InsViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE93C032144279F00EBC0A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAE93C082144279F00EBC0A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -83,6 +91,15 @@
 				FB4B06808686F7CF7C2D4E31 /* Pods-InsViewer.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EA20EEDB214B9895003FA06D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				EA20EEDC214B98AB003FA06D /* UserSearchViewController.swift */,
+				EA20EEDE214B9FAB003FA06D /* UserSearchCell.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		EA8F186E2146A003005EBDFC /* Utils */ = {
@@ -141,6 +158,15 @@
 			path = MainPage;
 			sourceTree = "<group>";
 		};
+		EA8F18B3214B60D7005EBDFC /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EA8F18B4214B60E8005EBDFC /* HomeViewController.swift */,
+				EA20EED9214B6308003FA06D /* HomePostCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		EAE93BF72144279F00EBC0A8 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +188,8 @@
 		EAE93C022144279F00EBC0A8 /* InsViewer */ = {
 			isa = PBXGroup;
 			children = (
+				EA20EEDB214B9895003FA06D /* Search */,
+				EA8F18B3214B60D7005EBDFC /* Home */,
 				EA8F18AE214B4807005EBDFC /* MainPage */,
 				EA8F18AD214B47CF005EBDFC /* AddPhoto */,
 				EA8F18AC214B47A9005EBDFC /* UserProfile */,
@@ -296,16 +324,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA8F189D2148E41C005EBDFC /* LoginViewController.swift in Sources */,
+				EA20EEDA214B6308003FA06D /* HomePostCell.swift in Sources */,
 				EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */,
 				EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */,
 				EA8F18A8214B4531005EBDFC /* Post.swift in Sources */,
+				EA20EEDF214B9FAB003FA06D /* UserSearchCell.swift in Sources */,
 				EA8F18B2214B523F005EBDFC /* CustomImageView.swift in Sources */,
 				EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */,
+				EA20EEDD214B98AB003FA06D /* UserSearchViewController.swift in Sources */,
 				EA8F18A1214A247A005EBDFC /* PhotoSeletorCell.swift in Sources */,
 				EA8F189F2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift in Sources */,
 				EA8F18A5214A3294005EBDFC /* SharePhotoViewController.swift in Sources */,
 				EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */,
 				EA8F18702146A015005EBDFC /* Extensions.swift in Sources */,
+				EA8F18B5214B60E8005EBDFC /* HomeViewController.swift in Sources */,
 				EA8F18A3214A29DD005EBDFC /* PhotoSelectorHeader.swift in Sources */,
 				EA8F18B0214B482D005EBDFC /* UserProfilePhotoCell.swift in Sources */,
 				EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */,

@@ -162,12 +162,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
         attributedTitle.append(NSMutableAttributedString(string: "Login", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
+        print("pressed Already have account Btn")
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
     }()
     
     @objc func handleShowLogin(){
         _ = navigationController?.popViewController(animated: true)
+        print("called handleShowLogin")
     }
     
     //____________________________________________________________________________________

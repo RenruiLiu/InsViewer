@@ -25,9 +25,9 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     func setupViewControllers(){
         // home
-        let homeNavController = templateNavController(unselectedImg: #imageLiteral(resourceName: "home_unselected"), selectedImg: #imageLiteral(resourceName: "home_selected"), rootViewController: UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let homeNavController = templateNavController(unselectedImg: #imageLiteral(resourceName: "home_unselected"), selectedImg: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeViewController(collectionViewLayout: UICollectionViewFlowLayout()))
         // search
-        let searchNavController = templateNavController(unselectedImg: #imageLiteral(resourceName: "search_unselected"), selectedImg: #imageLiteral(resourceName: "search_selected"))
+        let searchNavController = templateNavController(unselectedImg: #imageLiteral(resourceName: "search_unselected"), selectedImg: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchViewController(collectionViewLayout: UICollectionViewFlowLayout()))
         // plus
         let plusNavController = templateNavController(unselectedImg: #imageLiteral(resourceName: "plus_unselected"), selectedImg: #imageLiteral(resourceName: "plus_unselected"))
         // like
@@ -55,6 +55,7 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    //____________________________________________________________________________________
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -75,6 +76,7 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
+    //____________________________________________________________________________________
     fileprivate func templateNavController(unselectedImg: UIImage, selectedImg: UIImage, rootViewController: UIViewController = UIViewController()) -> UINavigationController{
         let viewController = rootViewController
         let navController = UINavigationController(rootViewController: viewController)

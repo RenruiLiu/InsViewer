@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 extension UIColor{
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor{
@@ -29,3 +30,45 @@ extension UIView{
         if height != 0 {heightAnchor.constraint(equalToConstant: height).isActive = true}
     }
 }
+
+extension Database {
+    static func fetchUserWithUID(uid: String, completion: @escaping (UserProfile)->()){
+        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            // fetch user
+            //setup dictionary
+            guard let userDictionary = snapshot.value as? [String:Any] else {return}
+            let user = UserProfile(uid: uid, dict: userDictionary)
+            completion(user)
+        }) { (err) in
+            print("Failed to fetch user for posts: ", err)
+        }
+    }
+}
+
+extension Date{
+    func timeAgoDisplay() -> String{
+        let secondsAgo = Int(Date().timeIntervalSince(self))
+        
+        let min = 60
+        let hour = 60 * min
+        let day = 24 * hour
+        let week = 7 * day
+        let year = 365 * day
+        
+        if secondsAgo < 10{
+            return "Just now"
+        } else if secondsAgo < min {
+            return "\(secondsAgo) seconds ago"
+        } else if secondsAgo < hour {
+            return "\(secondsAgo / min) minutes ago"
+        } else if secondsAgo < day {
+            return "\(secondsAgo / hour) hours ago"
+        } else if secondsAgo < week {
+            return "\(secondsAgo / day) days ago"
+        } else if secondsAgo < year {
+            return "\(secondsAgo / week) weeks ago"
+        }
+        return "\(secondsAgo / year) years ago"
+    }
+}
+

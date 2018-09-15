@@ -12,6 +12,7 @@ import Firebase
 class UserProfileViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     //properities
     let cellId = "cellId"
+    var userId: String?
 
 
     //____________________________________________________________________________________
@@ -47,26 +48,6 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     }
 
     //____________________________________________________________________________________
-    var user: UserProfile? // a User object for passing around
-    fileprivate func fetchUser(){
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot.value ?? "")
-            
-            //setup dictionary
-            guard let dict = snapshot.value as? [String: Any] else {return}
-            self.user = UserProfile(dict: dict)
-            
-            //setup UI
-            self.navigationItem.title = self.user?.username
-            
-            //reload data when all data is fetched
-            self.collectionView?.reloadData()
-        }) { (err) in
-            print("Failed to fetch user: ", err)
-        }
-    }
-    
     // logout from navigation bar button
     fileprivate func setupLogoutBtn(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
@@ -95,7 +76,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .white
-        navigationItem.title = "User Profile"
+        // fetch user and posts
         fetchUser()
         
         //provide a custom collection header
@@ -103,23 +84,40 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         setupLogoutBtn()
         
-        // fetch post images
-        fetchOrderedPosts()
     }
     
     //____________________________________________________________________________________
+    var user: UserProfile? // a User object for passing around
+    
+    fileprivate func fetchUser(){
+        
+        // fetch the searched user or current user
+        let uid = userId ?? (Auth.auth().currentUser?.uid ?? "")
+        
+        Database.fetchUserWithUID(uid: uid) { (user) in
+            self.user = user
+            
+            //reload the  when all data is fetched
+            self.collectionView?.reloadData()
+            self.fetchOrderedPosts()
+        }
+    }
+    
     // fetch posts
     var posts = [Post]()
     
     fileprivate func fetchOrderedPosts(){
-        guard let uid = Auth.auth().currentUser?.uid else {return}
+        // fetch the user from fetchUser()
+        guard let uid = self.user?.uid else {return}
+        
         let ref = Database.database().reference().child("posts").child(uid)
         // gives post in right order // implement some pagination of data??
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-            
+            // construct post
             guard let dictionary = snapshot.value as? [String: Any] else {return}
-            let post = Post(dictionary: dictionary)
-            self.posts.append(post)
+            guard let user = self.user else{return}
+            let post = Post(user: user,dictionary: dictionary)
+            self.posts.insert(post,at:0)
             
             // reload the view every time a new item comes in
             self.collectionView?.reloadData()
