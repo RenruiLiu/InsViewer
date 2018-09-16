@@ -9,15 +9,17 @@
 import UIKit
 import Firebase
 
-class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, UIImagePickerControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let index = viewControllers?.index(of: viewController)
         if index == 2 {
+            // go to photo selection page
             let layout = UICollectionViewFlowLayout()
             let photoSelectorController = PhotoSelectorCollectionViewController(collectionViewLayout: layout)
             let navController = UINavigationController(rootViewController: photoSelectorController)
             present(navController, animated: true, completion: nil)
+
             return false
         }
         return true
