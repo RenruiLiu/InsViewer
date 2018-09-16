@@ -14,7 +14,7 @@
 import UIKit
 import Firebase
 
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
 
     let cellId = "cellId"
     //____________________________________________________________________________________
@@ -49,11 +49,15 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell // cast it to custom cell class to allow us to use methods in that class
         cell.post = posts[indexPath.item]
+        // by confirming the homePostCellDelegate, this allows every cell has the delegate to perform [comment]
+        cell.delegate = self
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // top bar + image + bottom tool bar + caption & comment
         var height: CGFloat = (40 + 8 + 8) + view.frame.width
@@ -86,7 +90,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 guard let dictionary = value as? [String: Any] else {return}
                 
                 // construct post with userprofile
-                let post = Post(user: user,dictionary: dictionary)
+                var post = Post(user: user,dictionary: dictionary)
+                post.id = key
                 self.posts.append(post)
             })
             self.posts.sort(by: { (p1, p2) -> Bool in
@@ -138,5 +143,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     @objc func handleUpdateFeed(){
         handleRefresh()
+    }
+    
+    //____________________________________________________________________________________
+    // comment
+    func didTapComment(post: Post) {
+        let commentsController = CommentsViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        commentsController.post = post
+        navigationController?.pushViewController(commentsController, animated: true)
     }
 }

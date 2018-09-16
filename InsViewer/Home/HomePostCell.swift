@@ -10,6 +10,8 @@ import UIKit
 
 class HomePostCell: UICollectionViewCell{
     
+    var delegate: HomePostCellDelegate?
+    
     var post: Post?{
         didSet{
             guard let postImgUrl = post?.imageUrl else {return}
@@ -54,9 +56,10 @@ class HomePostCell: UICollectionViewCell{
         btn.setImage(#imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
         return btn
     }()
-    let CommentBtn: UIButton = {
+    lazy var CommentBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "comment").withRenderingMode(.alwaysOriginal), for: .normal)
+        btn.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return btn
     }()
     let SendMsgBtn: UIButton = {
@@ -94,6 +97,12 @@ class HomePostCell: UICollectionViewCell{
         let timeAgo = post.creationData.timeAgoDisplay()
         attributedText.append(NSAttributedString(string: timeAgo, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
         captionLabel.attributedText = attributedText
+    }
+    //____________________________________________________________________________________
+
+    @objc func handleComment(){
+        guard let post = post else {return}
+        delegate?.didTapComment(post: post)
     }
  
     //____________________________________________________________________________________
