@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class UserProfileHeader: UICollectionViewCell {
+    
+    var delegate: UserProfileHeaderDelegate?
 
     // fetch user data
     var user: UserProfile?{
@@ -32,15 +34,17 @@ class UserProfileHeader: UICollectionViewCell {
         return imgview
     }()
     
-    let gridBtn: UIButton = {
+    lazy var gridBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "grid"), for: .normal)
+        btn.addTarget(self, action: #selector(handleGridView), for: .touchUpInside)
         return btn
     }()
-    let listBtn: UIButton = {
+    lazy var listBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         btn.tintColor = UIColor(white: 0, alpha: 0.2)
+        btn.addTarget(self, action: #selector(handleListView), for: .touchUpInside)
         return btn
     }()
     let bookMarkBtn: UIButton = {
@@ -165,7 +169,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     fileprivate func setupFollowStyle(){
         self.editProfileFollowBtn.setTitle("Follow", for: .normal)
-        self.editProfileFollowBtn.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+        self.editProfileFollowBtn.backgroundColor = .mainBlue()
         self.editProfileFollowBtn.setTitleColor(.white, for: .normal)
         self.editProfileFollowBtn.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
     }
@@ -193,6 +197,19 @@ class UserProfileHeader: UICollectionViewCell {
         stackView.distribution = .fillEqually
         addSubview(stackView)
         stackView.anchor(top: topAnchor, paddingTop: 12, bottom: nil, paddingBottom: 0, left: profileImageView.rightAnchor, paddingLeft: 12, right: rightAnchor, paddingRight: 12, width: 0, height: 50)
+    }
+    
+    @objc func handleListView(){
+        // change colors for buttons
+        listBtn.tintColor = .mainBlue()
+        gridBtn.tintColor = UIColor(white: 0, alpha: 0.2)
+        delegate?.didChangeToListView()
+    }
+    @objc func handleGridView(){
+        // change colors
+        listBtn.tintColor = UIColor(white: 0, alpha: 0.2)
+        gridBtn.tintColor = .mainBlue()
+        delegate?.didChangeToGridView()
     }
     
     

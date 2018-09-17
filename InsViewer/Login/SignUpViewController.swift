@@ -91,7 +91,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let isFormValid = emailTextField.text?.count ?? 0 > 0 && usernameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
         if isFormValid {
             signUpBtn.isEnabled = true
-            signUpBtn.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+            signUpBtn.backgroundColor = .mainBlue()
         } else {
             signUpBtn.isEnabled = false
             signUpBtn.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)

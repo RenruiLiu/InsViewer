@@ -21,6 +21,7 @@ class HomePostCell: UICollectionViewCell{
             guard  let profileImgUrl = post?.user.profileImgUrl else {return}
             userProfileImageView.loadImage(urlString: profileImgUrl)
             setupAttributedCaption()
+            likeBtn.setImage(post?.hasLiked == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal): #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
         }
     }
  
@@ -51,9 +52,10 @@ class HomePostCell: UICollectionViewCell{
         iv.backgroundColor = .white
         return iv
     }()
-    let likeBtn: UIButton = {
+    lazy var likeBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+        btn.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return btn
     }()
     lazy var CommentBtn: UIButton = {
@@ -127,5 +129,11 @@ class HomePostCell: UICollectionViewCell{
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //____________________________________________________________________________________
+    
+    @objc fileprivate func handleLike(){
+        delegate?.didLike(for: self)
     }
 }

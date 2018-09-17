@@ -6,9 +6,6 @@
 //  Copyright © 2018 Renrui Liu. All rights reserved.
 //
 
-// TODO:
-//1. home feed is not in right time order
-//2. post time
 //____________________________________________________________________________________
 
 import UIKit
@@ -92,14 +89,25 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 // construct post with userprofile
                 var post = Post(user: user,dictionary: dictionary)
                 post.id = key
-                self.posts.append(post)
+                guard let uid = Auth.auth().currentUser?.uid else {return}
+                // see if it is liked
+                // check [likes - postId - CurrentUserId], if has value 1, then set the post.hasLike = true
+                Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let value = snapshot.value as? Int, value == 1 {
+                        post.hasLiked = true
+                    } else {post.hasLiked = false}
+                    
+                    self.posts.append(post)
+                    self.posts.sort(by: { (p1, p2) -> Bool in
+                        return p1.creationData.compare(p2.creationData) == .orderedDescending
+                    })
+                    // finished and reload the view
+                    self.collectionView?.reloadData()
+                    
+                }, withCancel: { (err) in
+                    print("Failed to fetch like info for post:",err)
+                })
             })
-            self.posts.sort(by: { (p1, p2) -> Bool in
-                return p1.creationData.compare(p2.creationData) == .orderedDescending
-            })
-            
-            // finished and reload the view
-            self.collectionView?.reloadData()
         }) { (err) in
             print("Failed to fetch ordered posts:", err)
         }
@@ -152,4 +160,26 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         commentsController.post = post
         navigationController?.pushViewController(commentsController, animated: true)
     }
+    
+    // like
+    func didLike(for cell: HomePostCell) {
+        // get the indexpath of liked post and so can get the post
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        var post = self.posts[indexPath.item]
+        guard let postId = post.id else {return}
+        
+        // Firebase operation
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let values = [uid: post.hasLiked == true ? 0:1]
+        Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
+            if let err = err {
+                print("Failed to like post:",err)
+            }
+            print("Successfully liked post")
+            post.hasLiked = !post.hasLiked
+            self.posts[indexPath.item] = post
+            self.collectionView?.reloadItems(at: [indexPath])
+        }
+    }
+    
 }
