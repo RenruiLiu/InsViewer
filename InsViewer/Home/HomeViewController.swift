@@ -99,7 +99,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                     
                     self.posts.append(post)
                     self.posts.sort(by: { (p1, p2) -> Bool in
-                        return p1.creationData.compare(p2.creationData) == .orderedDescending
+                        return p1.creationDate.compare(p2.creationDate) == .orderedDescending
                     })
                     // finished and reload the view
                     self.collectionView?.reloadData()

@@ -25,6 +25,11 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     // set up the custom cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        // once the collectionView is rendering the last post in posts, fetch some more posts
+        if indexPath.item == self.posts.count - 1 && !isFinishedPaging {
+            paginatePosts()
+        }
+
         if isGridView{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
             cell.post = posts[indexPath.item]
@@ -121,33 +126,76 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             
             //reload the  when all data is fetched
             self.collectionView?.reloadData()
-            self.fetchOrderedPosts()
+            self.paginatePosts()
         }
     }
     
     // fetch posts
     var posts = [Post]()
+    var isFinishedPaging = false
     
-    fileprivate func fetchOrderedPosts(){
-        // fetch the user from fetchUser()
+    fileprivate func paginatePosts(){
         guard let uid = self.user?.uid else {return}
-        
         let ref = Database.database().reference().child("posts").child(uid)
-        // gives post in right order // implement some pagination of data??
-        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-            // construct post
-            guard let dictionary = snapshot.value as? [String: Any] else {return}
-            guard let user = self.user else{return}
-            var post = Post(user: user,dictionary: dictionary)
-            post.id = snapshot.key
-            self.posts.insert(post,at:0)
+        var query = ref.queryOrdered(byChild: "creationDate")
+        
+        if posts.count > 0 {
+            let value = posts.last?.creationDate.timeIntervalSince1970
+            // let the query starts at every fourth member
+            query = query.queryEnding(atValue: value)
+        }
+        
+        // query only 4 posts from the last of list
+        // observer every single node in posts - uid, the key is postId
+        query.queryLimited(toLast: 4).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let user = self.user else {return}
+            guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else {return}
+            allObjects.reverse() // reverse 4 posts like: [6,7,8,9] -> [9,8,7,6]
             
-            // reload the view every time a new item comes in
+            if allObjects.count < 4{
+                // if we can't fetch 4 posts from database, means that paging is finshed
+                self.isFinishedPaging = true
+            }
+            
+            if self.posts.count > 0 && allObjects.count > 0 {
+                // remove the first duplucated post in every 4 posts
+                allObjects.removeFirst()
+            }
+            
+            allObjects.forEach({ (snapshot) in
+                guard let dictionary = snapshot.value as? [String:Any] else {return}
+                var post = Post(user: user, dictionary: dictionary)
+                post.id = snapshot.key
+                self.posts.append(post)
+            })
+            // 4 posts are fetched, now reload the page
             self.collectionView?.reloadData()
+            
         }) { (err) in
-            print("Failed to fetch ordered posts:", err)
+            print("Failed to paginate for posts:",err)
         }
     }
+//
+//    fileprivate func fetchOrderedPosts(){
+//        // fetch the user from fetchUser()
+//        guard let uid = self.user?.uid else {return}
+//
+//        let ref = Database.database().reference().child("posts").child(uid)
+//        // gives post in right order // implement some pagination of data??
+//        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
+//            // construct post
+//            guard let dictionary = snapshot.value as? [String: Any] else {return}
+//            guard let user = self.user else{return}
+//            var post = Post(user: user,dictionary: dictionary)
+//            post.id = snapshot.key
+//            self.posts.insert(post,at:0)
+//
+//            // reload the view every time a new item comes in
+//            self.collectionView?.reloadData()
+//        }) { (err) in
+//            print("Failed to fetch ordered posts:", err)
+//        }
+//    }
     
     //____________________________________________________________________________________
     // change to grid / list view
@@ -166,9 +214,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     // and also a proper post structure
     func didTapComment(post: Post) {
         let commentsController = CommentsViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        print("tapcomment func")
         commentsController.post = post
-        print(post)
         navigationController?.pushViewController(commentsController, animated: true)
     }
     

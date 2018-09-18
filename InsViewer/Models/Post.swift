@@ -14,7 +14,7 @@ struct Post {
     let imageUrl: String
     let user: UserProfile
     let caption: String
-    let creationData: Date
+    let creationDate: Date
     var hasLiked = false
     
     init(user: UserProfile, dictionary: [String: Any]) {
@@ -23,6 +23,6 @@ struct Post {
         self.caption = dictionary["caption"] as? String ?? ""
         
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
-        self.creationData = Date(timeIntervalSince1970: secondsFrom1970)
+        self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
     }
 }

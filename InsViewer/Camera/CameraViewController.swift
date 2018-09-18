@@ -41,7 +41,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, UIV
         let previewImage = UIImage(data: imageData!)
         
         // set to view
-        let previewImageView = UIImageView(image: previewImage)
         let container = PreviewPhotoContainer()
         container.previewImageView.image = previewImage
         view.addSubview(container)

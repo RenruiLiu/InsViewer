@@ -96,7 +96,7 @@ class HomePostCell: UICollectionViewCell{
         let attributedText = NSMutableAttributedString(string: post.user.username,attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: " \(post.caption)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
-        let timeAgo = post.creationData.timeAgoDisplay()
+        let timeAgo = post.creationDate.timeAgoDisplay()
         attributedText.append(NSAttributedString(string: timeAgo, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
         captionLabel.attributedText = attributedText
     }
