@@ -156,9 +156,13 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         guard let commentId = comment.id else {return}
         
         let ref = Database.database().reference().child("comment").child(postId).child(commentId)
-        ref.removeValue()
-        self.comments.remove(at: cellId)
-        self.collectionView.reloadData()
+        ref.removeValue { (err, _) in
+            if let err = err {
+                print("Failed to Delete current comment",err)
+            }
+            self.comments.remove(at: cellId)
+            self.collectionView.reloadData()
+        }
     }
     
     
