@@ -12,6 +12,7 @@ import Firebase
 class UserProfileHeader: UICollectionViewCell {
     
     var delegate: UserProfileHeaderDelegate?
+    var following = 0 as Int
 
     // fetch user data
     var user: UserProfile?{
@@ -23,9 +24,24 @@ class UserProfileHeader: UICollectionViewCell {
             
             // change the follow / edit button
             setupEditFollowBtn()
+            getNumFollowing()
         }
     }
     
+    fileprivate func getNumFollowing(){
+        guard let uid = user?.uid else {return}
+        var count = "0"
+        let ref = Database.database().reference().child("following").child(uid)
+        ref.observe(.value, with: { (snapshot) in
+            count = String(snapshot.childrenCount)
+            let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+            attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            self.followingLabel.attributedText = attributedText
+        }) { (err) in
+            print("Failed to fetch following number",err)
+        }
+    }
+
     //____________________________________________________________________________________
     let profileImageView: CustomImageView = {
         let imgview = CustomImageView()
@@ -61,8 +77,8 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let postsLabel: UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         label.attributedText = attributedText
         label.numberOfLines = 0 //use any many as possible lines
         label.textAlignment = .center
@@ -70,8 +86,8 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let followersLabel: UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         label.attributedText = attributedText
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -79,9 +95,6 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let followingLabel: UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
-        label.attributedText = attributedText
         label.numberOfLines = 0
         label.textAlignment = .center
         return label

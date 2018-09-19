@@ -101,16 +101,14 @@ class LoginViewController: UIViewController {
     let DontHaveAccountBtn: UIButton = {
         let button = UIButton(type: .system)
         // set attributed title
-        let attributedTitle = NSMutableAttributedString(string: "Dont have an account? ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSMutableAttributedString(string: "Sign Up", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
+        let attributedTitle = NSMutableAttributedString(string: "Dont have an account? ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        attributedTitle.append(NSMutableAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
-        print("pressed Dont have account Btn")
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
     }()
     
     @objc func handleShowSignUp(){
-        print("called handleShowSignUp")
 
         let signUpVC = SignUpViewController()
         

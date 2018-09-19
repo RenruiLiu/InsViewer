@@ -52,7 +52,7 @@ class SharePhotoViewController: UIViewController {
         // unable to share if no caption
         guard let caption = textView.text, caption.count > 0 else {return}
         guard let image = selectedImg else {return}
-        guard let uploadData = UIImageJPEGRepresentation(image, 0.5) else {return}//compression image
+        guard let uploadData = image.jpegData(compressionQuality: 0.5) else {return}//compression image
         // disable the share button to prevent duplication
         navigationItem.rightBarButtonItem?.isEnabled = false
         

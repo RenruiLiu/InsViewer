@@ -101,16 +101,16 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .white
-        // fetch user and posts
-        fetchUser()
         
         //provide a custom collection header
-        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         // register two cells in one controller: grid and list
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: homePostCellId)
         setupLogoutBtn()
         
+        // fetch user and posts
+        fetchUser()
     }
     
     //____________________________________________________________________________________
@@ -168,6 +168,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
                 post.id = snapshot.key
                 self.posts.append(post)
             })
+            
             // 4 posts are fetched, now reload the page
             self.collectionView?.reloadData()
             

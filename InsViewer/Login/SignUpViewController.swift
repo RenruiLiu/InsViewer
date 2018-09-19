@@ -74,7 +74,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         present(imgpickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage{
             plusPhotoBtn.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
@@ -113,7 +116,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             // store user image
             guard let image = self.plusPhotoBtn.imageView?.image else {return}
-            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+            guard let uploadData = image.jpegData(compressionQuality: 0.3) else {return}
             let filename = NSUUID().uuidString
             Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
                 if let err = err {
@@ -159,17 +162,15 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let alreadyHaveAccountBtn: UIButton = {
         let button = UIButton(type: .system)
         // set attributed title
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSMutableAttributedString(string: "Login", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        attributedTitle.append(NSMutableAttributedString(string: "Login", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
-        print("pressed Already have account Btn")
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
     }()
     
     @objc func handleShowLogin(){
         _ = navigationController?.popViewController(animated: true)
-        print("called handleShowLogin")
     }
     
     //____________________________________________________________________________________
@@ -186,4 +187,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         view.addSubview(alreadyHaveAccountBtn)
         alreadyHaveAccountBtn.anchor(top: nil, paddingTop: 0, bottom: view.bottomAnchor, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 0, right: view.rightAnchor, paddingRight: 0, width: 0, height: 50)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
