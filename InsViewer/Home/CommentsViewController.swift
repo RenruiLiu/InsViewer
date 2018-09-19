@@ -9,7 +9,8 @@
 import UIKit
 import Firebase
 
-class CommentsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class CommentsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, CommentDelegate {
+
     
     var post:Post?
     let cellId = "cellId"
@@ -23,7 +24,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
         collectionView?.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
+        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
         
         fetchComments()
@@ -47,11 +48,13 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         ref.observe(.childAdded, with: { (snapshot) in
             guard let dictionary = snapshot.value as? [String:Any] else {return}
             guard let uid = dictionary["uid"] as? String else {return}
-            
+        
             Database.fetchUserWithUID(uid: uid, completion: { (user) in
                 
                 // cast comment data from firebase to Comment struct
-                let comment = Comment(user: user, dictionary: dictionary)
+                var comment = Comment(user: user, dictionary: dictionary)
+                comment.id = snapshot.key
+                comment.postId = postId
                 self.comments.append(comment)
                 
                 self.collectionView?.reloadData()
@@ -125,6 +128,8 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CommentCell
         cell.comment = self.comments[indexPath.item]
+        cell.delegate = self
+        cell.cellId = indexPath.item
         return cell
     }
     // size for each item
@@ -138,10 +143,23 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
         
         let height = max(40+8+8, estimatedSize.height) // the height of profileImage or the height of text
-        return CGSize(width: view.frame.width, height: height)
+        return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    //____________________________________________________________________________________
+    // Delete comment  //impletement you can't delete some else's comment
+    func didDeleteComment(comment: Comment, cellId: Int) {
+        guard let postId = post?.id else {return}
+        guard let commentId = comment.id else {return}
+        
+        let ref = Database.database().reference().child("comment").child(postId).child(commentId)
+        ref.removeValue()
+        self.comments.remove(at: cellId)
+        self.collectionView.reloadData()
+    }
+    
     
 }

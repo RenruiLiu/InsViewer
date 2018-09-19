@@ -18,3 +18,7 @@ protocol UserProfileHeaderDelegate {
     func didChangeToListView()
     func didChangeToGridView()
 }
+
+protocol CommentDelegate {
+    func didDeleteComment(comment: Comment, cellId: Int)
+}

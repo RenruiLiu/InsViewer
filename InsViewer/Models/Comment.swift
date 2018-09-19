@@ -9,9 +9,11 @@
 import Foundation
 
 struct Comment {
+    var id : String?
     let user: UserProfile
     let text: String
     let uid: String
+    var postId: String?
     
     init(user: UserProfile, dictionary:[String:Any]) {
         self.user = user
