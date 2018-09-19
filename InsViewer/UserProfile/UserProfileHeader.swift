@@ -24,13 +24,14 @@ class UserProfileHeader: UICollectionViewCell {
             
             // change the follow / edit button
             setupEditFollowBtn()
-            getNumFollowingFollower()
+            getheadNumbers()
         }
     }
     
-    fileprivate func getNumFollowingFollower(){
+    fileprivate func getheadNumbers(){
         guard let uid = user?.uid else {return}
         var count = "0"
+        // following
         let ref = Database.database().reference().child("following").child(uid)
         ref.observe(.value, with: { (snapshot) in
             count = String(snapshot.childrenCount)
@@ -40,6 +41,7 @@ class UserProfileHeader: UICollectionViewCell {
         }) { (err) in
             print("Failed to fetch following number",err)
         }
+        // follower
         let ref1 = Database.database().reference().child("followers").child(uid)
         ref1.observe(.value, with: { (snapshot) in
             count = String(snapshot.childrenCount)
@@ -48,6 +50,16 @@ class UserProfileHeader: UICollectionViewCell {
             self.followersLabel.attributedText = attributedText
         }) { (err) in
             print("Failed to fetch follower number",err)
+        }
+        // posts
+        let ref2 = Database.database().reference().child("posts").child(uid)
+        ref2.observe(.value, with: { (snapshot) in
+            count = String(snapshot.childrenCount)
+            let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+            attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            self.postsLabel.attributedText = attributedText
+        }) { (err) in
+            print("Failed to fetch posts number",err)
         }
     }
 
@@ -86,9 +98,6 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let postsLabel: UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "11\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        label.attributedText = attributedText
         label.numberOfLines = 0 //use any many as possible lines
         label.textAlignment = .center
         return label
@@ -129,16 +138,8 @@ class UserProfileHeader: UICollectionViewCell {
         // perform Unfollow
         if editProfileFollowBtn.titleLabel?.text == "Unfollow" {
             
-            Database.database().reference().child("following").child(currentUserId).child(userId).removeValue { (err, ref) in
-                if let err = err {
-                    print("Failed to unfollow user:", err)
-                    return
-                }
-                print("Successfully unfollowed user:", self.user?.username ?? "")
-                // change UI
-                self.setupFollowStyle()
-            }
-            
+            unfollow(currentUserId: currentUserId, targetUid: userId)
+            self.setupFollowStyle()
             
         } else {
             // perform Follow

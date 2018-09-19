@@ -14,6 +14,7 @@ import Firebase
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
 
     let cellId = "cellId"
+
     //____________________________________________________________________________________
 
     fileprivate func setupNavigationItems(){
@@ -48,10 +49,16 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell // cast it to custom cell class to allow us to use methods in that class
-        cell.post = posts[indexPath.item]
+        
         // by confirming the homePostCellDelegate, this allows every cell has the delegate to perform [comment]
         cell.delegate = self
+        
+        if indexPath.item < posts.count {
+            cell.post = posts[indexPath.item]
+        } else {return cell}
+
         return cell
     }
     
@@ -64,14 +71,39 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     //____________________________________________________________________________________
     
+    fileprivate func fetchAllPosts(){
+        fetchPosts()
+        fetchFollowingUserPosts()
+    }
+    
     var posts = [Post]()
     fileprivate func fetchPosts(){
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
         // fetch user's posts from the user id
         Database.fetchUserWithUID(uid: uid) { (user) in
+            
             self.fetchPostsWithUser(user: user)
         }
+    }
+    
+    fileprivate func fetchFollowingUserPosts(){
+        // fetch following users' ids
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
+            userIdsDictionary.forEach({ (key,value) in
+                
+                // and get their posts by using thier ids(key)
+                Database.fetchUserWithUID(uid: key, completion: { (user) in
+                    
+                    self.fetchPostsWithUser(user: user)
+                })
+            })
+        }) { (err) in
+            print("Failed to fetch following user ids :",err)
+        }
+        //
     }
     
     fileprivate func fetchPostsWithUser(user: UserProfile){
@@ -112,24 +144,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             print("Failed to fetch ordered posts:", err)
         }
     }
-    
-    fileprivate func fetchFollowingUserPosts(){
-        // fetch following users' ids
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
-            userIdsDictionary.forEach({ (key,value) in
-                
-                // and get their posts by using thier ids(key)
-                Database.fetchUserWithUID(uid: key, completion: { (user) in
-                    self.fetchPostsWithUser(user: user)
-                })
-            })
-        }) { (err) in
-            print("Failed to fetch following user ids :",err)
-        }
-        //
-    }
+
     
     //____________________________________________________________________________________
     // refresh
@@ -142,11 +157,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     @objc func handleRefresh(){
         posts.removeAll()
         fetchAllPosts()
-    }
-    
-    fileprivate func fetchAllPosts(){
-        fetchPosts()
-        fetchFollowingUserPosts()
     }
     
     @objc func handleUpdateFeed(){
@@ -182,4 +192,21 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
+    func didPressOption(post: Post) {
+        
+        guard let currentUserId = Auth.auth().currentUser?.uid else {return} // current logged in user
+        let targetUid =  post.user.uid
+        
+        // if it's user self, then skip
+        if currentUserId == targetUid {return}
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Unfollow", style: .destructive, handler: { (_) in
+            
+            unfollow(currentUserId: currentUserId, targetUid: targetUid)
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertController,animated: true, completion: nil)
+    }
+
 }

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 class UserProfileViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate, HomePostCellDelegate {
-    
+
     //properities
     let cellId = "cellId"
     let homePostCellId = "homePostCellId"
@@ -109,6 +109,9 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: homePostCellId)
         setupLogoutBtn()
         
+        //receive notification
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoViewController.updateFeedNotificationName, object: nil)
+        
         // fetch user and posts
         fetchUser()
     }
@@ -137,10 +140,10 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     fileprivate func paginatePosts(){
         guard let uid = self.user?.uid else {return}
         let ref = Database.database().reference().child("posts").child(uid)
-        var query = ref.queryOrdered(byChild: "creationDate")
+        var query = ref.queryOrderedByKey()
         
         if posts.count > 0 {
-            let value = posts.last?.creationDate.timeIntervalSince1970
+            let value = posts.last?.id
             // let the query starts at every fourth member
             query = query.queryEnding(atValue: value)
         }
@@ -148,6 +151,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         // query only 4 posts from the last of list
         // observer every single node in posts - uid, the key is postId
         query.queryLimited(toLast: 4).observeSingleEvent(of: .value, with: { (snapshot) in
+
             guard let user = self.user else {return}
             guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else {return}
             allObjects.reverse() // reverse 4 posts like: [6,7,8,9] -> [9,8,7,6]
@@ -176,27 +180,6 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             print("Failed to paginate for posts:",err)
         }
     }
-//
-//    fileprivate func fetchOrderedPosts(){
-//        // fetch the user from fetchUser()
-//        guard let uid = self.user?.uid else {return}
-//
-//        let ref = Database.database().reference().child("posts").child(uid)
-//        // gives post in right order // implement some pagination of data??
-//        ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-//            // construct post
-//            guard let dictionary = snapshot.value as? [String: Any] else {return}
-//            guard let user = self.user else{return}
-//            var post = Post(user: user,dictionary: dictionary)
-//            post.id = snapshot.key
-//            self.posts.insert(post,at:0)
-//
-//            // reload the view every time a new item comes in
-//            self.collectionView?.reloadData()
-//        }) { (err) in
-//            print("Failed to fetch ordered posts:", err)
-//        }
-//    }
     
     //____________________________________________________________________________________
     // change to grid / list view
@@ -239,6 +222,40 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             self.posts[indexPath.item] = post
             self.collectionView?.reloadItems(at: [indexPath])
         }
+    }
+    
+    func didPressOption(post: Post) {
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { (_) in
+            
+            //deletion
+            guard let uid = Auth.auth().currentUser?.uid else {return}
+            guard let postId = post.id else {return}
+            
+            
+            Database.database().reference().child("posts").child(uid).child(postId).removeValue(completionBlock: { (err, ref) in
+                if let err = err {
+                    print("Failed to remove this post",err)
+                }
+                // notify refresh
+                
+                NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
+            })
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertController,animated: true, completion: nil)
+    }
+    
+    
+    //____________________________________________________________________________________
+    // refresh
+    
+    @objc func handleUpdateFeed(){
+        
+        isFinishedPaging = false
+        posts.removeAll()
+        fetchUser()
     }
 }
 

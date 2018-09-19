@@ -11,7 +11,7 @@ import UIKit
 class HomePostCell: UICollectionViewCell{
     
     var delegate: HomePostCellDelegate?
-    
+
     var post: Post?{
         didSet{
             guard let postImgUrl = post?.imageUrl else {return}
@@ -39,10 +39,11 @@ class HomePostCell: UICollectionViewCell{
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
-    let optionsBtn: UIButton = {
+    lazy var optionsBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("•••", for: .normal)
         btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
         return btn
     }()
     let photoImgView: CustomImageView = {
@@ -135,5 +136,11 @@ class HomePostCell: UICollectionViewCell{
     
     @objc fileprivate func handleLike(){
         delegate?.didLike(for: self)
+    }
+
+    //____________________________________________________________________________________
+    @objc fileprivate func handleOptions(){
+        print("handleOptions")
+        delegate?.didPressOption(post: post!)
     }
 }

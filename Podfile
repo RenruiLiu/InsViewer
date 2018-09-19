@@ -10,4 +10,5 @@ pod 'Firebase/Core'
 pod 'Firebase/Storage'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
+pod 'SwipeToDeleteCollectionView'
 end
