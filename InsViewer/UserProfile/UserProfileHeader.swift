@@ -24,11 +24,11 @@ class UserProfileHeader: UICollectionViewCell {
             
             // change the follow / edit button
             setupEditFollowBtn()
-            getNumFollowing()
+            getNumFollowingFollower()
         }
     }
     
-    fileprivate func getNumFollowing(){
+    fileprivate func getNumFollowingFollower(){
         guard let uid = user?.uid else {return}
         var count = "0"
         let ref = Database.database().reference().child("following").child(uid)
@@ -39,6 +39,15 @@ class UserProfileHeader: UICollectionViewCell {
             self.followingLabel.attributedText = attributedText
         }) { (err) in
             print("Failed to fetch following number",err)
+        }
+        let ref1 = Database.database().reference().child("followers").child(uid)
+        ref1.observe(.value, with: { (snapshot) in
+            count = String(snapshot.childrenCount)
+            let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+            attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            self.followersLabel.attributedText = attributedText
+        }) { (err) in
+            print("Failed to fetch follower number",err)
         }
     }
 
@@ -86,9 +95,6 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let followersLabel: UILabel = {
         let label = UILabel()
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        label.attributedText = attributedText
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
@@ -138,23 +144,29 @@ class UserProfileHeader: UICollectionViewCell {
             // perform Follow
             
             // access firebase tree: following -> currentuser -> [[user1 : 1],...]
-            let ref = Database.database().reference().child("following").child(currentUserId)
-            
-            let values = [userId: 1]
-            ref.updateChildValues(values) { (err, ref) in
+            let followingRef = Database.database().reference().child("following").child(currentUserId)
+            let followingValue = [userId: 1]
+            followingRef.updateChildValues(followingValue) { (err, ref) in
                 if let err = err {
                     print("Failed to follow user: ", err)
                     return
                 }
-                print("Successfully followed user:", self.user?.username ?? "")
-                // change UI
-                self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
-                self.editProfileFollowBtn.backgroundColor = .white
-                self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
+                // save follower into db
+                let followerRef = Database.database().reference().child("followers").child(userId)
+                let followerValue = [currentUserId: 1]
+                followerRef.updateChildValues(followerValue) { (err, ref) in
+                    if let err = err {
+                        print("Failed to save follower to db:",err)
+                        return
+                    }
+                    print("Successfully followed user:", self.user?.username ?? "")
+                    // change UI
+                    self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
+                    self.editProfileFollowBtn.backgroundColor = .white
+                    self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
+                }
             }
-
         }
-        
     }
     
     fileprivate func setupEditFollowBtn(){
