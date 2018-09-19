@@ -10,4 +10,3 @@ TODO:
 9. Alerts  
 10. photo filters  
 11. following & follower list  
-12. post numb
