@@ -9,3 +9,4 @@ TODO:
 7. Delete Post  
 8. Edit profile  
 9. Alerts
+10. photo filters
