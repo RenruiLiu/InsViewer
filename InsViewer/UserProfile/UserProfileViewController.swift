@@ -16,11 +16,17 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     let homePostCellId = "homePostCellId"
     var userId: String?
     var isGridView = true
+    var isListView = false
 
     //____________________________________________________________________________________
     //set up collection view cells
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count //number of items in collection view section
+        if isGridView || isListView {
+            return posts.count //number of items in collection view section
+        } else {
+            return savedPosts.count
+        }
+        
     }
     // set up the custom cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -34,9 +40,14 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
             cell.post = posts[indexPath.item]
             return cell
-        } else {
+        } else if isListView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! HomePostCell
             cell.post = posts[indexPath.item]
+            cell.delegate = self
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! HomePostCell
+            cell.post = savedPosts[indexPath.item]
             cell.delegate = self
             return cell
         }
@@ -70,6 +81,16 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     // setup the size of the header of collection view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if isGridView{
+            // jump to post VC
+            let postController = PostViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            postController.post = posts[indexPath.item]
+            navigationController?.pushViewController(postController, animated: true)
+        }
     }
 
     //____________________________________________________________________________________
@@ -133,6 +154,70 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         }
     }
     
+    // fetch saved
+    var savedPosts = [Post]()
+    fileprivate func fetchSaved(){
+        var userIds = [String]()
+        var postIds = [String]()
+        
+        // gather userIds and postIds
+        guard let uid = self.user?.uid else {return}
+        let getIDsRef = Database.database().reference().child("save_post").child(uid)
+        let query = getIDsRef.queryOrderedByKey()
+        query.observeSingleEvent(of: .value) { (snapshot) in
+            let dictionary = snapshot.value as? [String:Any]
+            dictionary?.forEach({ (key,value) in
+                guard let dic = value as? [String:String] else {return}
+                postIds.append(key)
+                userIds.append(dic["userId"] ?? "")
+            })
+            
+            // use userID and postID to fetch saved posts
+            var i = 0
+            while i < userIds.count{
+                self.fetchPostsWithUserIDPostID(userID: userIds[i], postID: postIds[i])
+                i += 1
+            }
+        }
+        
+    }
+    
+    fileprivate func fetchPostsWithUserIDPostID(userID: String, postID: String){
+        
+        // get post
+        let getPostRef = Database.database().reference().child("posts")
+
+        getPostRef.child(userID).child(postID).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let dictionary = snapshot.value as? [String: Any] else {return}
+                
+                // get user
+                let ref = Database.database().reference().child("users").child(userID)
+                ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let dict = snapshot.value as? [String: Any] else {return}
+                    let user = UserProfile(uid: userID, dict: dict)
+                    var post = Post(user: user, dictionary: dictionary)
+                    post.id = postID
+                    
+                    // see if it is liked
+                    // check [likes - postId - CurrentUserId], if has value 1, then set the post.hasLike = true
+                    guard let currentUserUID = Auth.auth().currentUser?.uid else {return}
+                    Database.database().reference().child("likes").child(postID).child(currentUserUID).observeSingleEvent(of: .value, with: { (snapshot) in
+                        if let value = snapshot.value as? Int, value == 1 {
+                            post.hasLiked = true
+                        } else {post.hasLiked = false}
+                        
+                        post.hasSaved = true
+                        self.savedPosts.append(post)
+                        self.savedPosts.sort(by: { (p1, p2) -> Bool in
+                            return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                        })
+                        
+                        self.collectionView.reloadData()
+                    })
+                })
+            })
+    }
+    
     // fetch posts
     var posts = [Post]()
     var isFinishedPaging = false
@@ -186,11 +271,20 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     
     func didChangeToGridView() {
         isGridView = true
+        isListView = false
         collectionView?.reloadData()
     }
     func didChangeToListView() {
         isGridView = false
+        isListView = true
         collectionView?.reloadData()
+    }
+    func didChangeToSavedView() {
+        // fetch saved posts
+        self.fetchSaved()
+        isGridView = false
+        isListView = false
+        collectionView.reloadData()
     }
     
     //____________________________________________________________________________________
@@ -232,8 +326,6 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             //deletion
             guard let uid = Auth.auth().currentUser?.uid else {return}
             guard let postId = post.id else {return}
-            
-            
             Database.database().reference().child("posts").child(uid).child(postId).removeValue(completionBlock: { (err, ref) in
                 if let err = err {
                     print("Failed to remove this post",err)
@@ -256,6 +348,45 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         isFinishedPaging = false
         posts.removeAll()
         fetchUser()
+    }
+    
+    // save
+    func didSave(for cell: HomePostCell) {
+        
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        var post = self.posts[indexPath.item]
+        
+        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
+        let targetUID = post.user.uid
+        guard let postId = post.id else {return}
+        
+        let ref = Database.database().reference().child("save_post").child(currentUserId).child(postId)
+        
+        if post.hasSaved {
+            // unsave
+            ref.removeValue { (err, _) in
+                if let err = err {
+                    print("Failed to unsave: ",err)
+                }
+                post.hasSaved = false
+                self.posts[indexPath.item] = post
+                self.collectionView?.reloadItems(at: [indexPath])
+            }
+        } else {
+            // save
+            let values = ["userId": targetUID]
+            
+            ref.updateChildValues(values) { (err, ref) in
+                if let err = err {
+                    print("Failed to save this post:",err)
+                }
+                
+                post.hasSaved = true
+                self.posts[indexPath.item] = post
+                self.collectionView?.reloadItems(at: [indexPath])
+                print("Successfully save the post into database")
+            }
+        }
     }
 }
 

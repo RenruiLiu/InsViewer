@@ -13,6 +13,7 @@ import Firebase
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
 
+
     let cellId = "cellId"
 
     //____________________________________________________________________________________
@@ -69,6 +70,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return CGSize(width: view.frame.width, height: height)
     }
     
+
     //____________________________________________________________________________________
     
     fileprivate func fetchAllPosts(){
@@ -118,23 +120,32 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             dictionaries.forEach({ (key,value) in
                 guard let dictionary = value as? [String: Any] else {return}
                 
-                // construct post with userprofile
+                // construct post
                 var post = Post(user: user,dictionary: dictionary)
                 post.id = key
-                guard let uid = Auth.auth().currentUser?.uid else {return}
+                guard let currentUserUID = Auth.auth().currentUser?.uid else {return}
                 // see if it is liked
                 // check [likes - postId - CurrentUserId], if has value 1, then set the post.hasLike = true
-                Database.database().reference().child("likes").child(key).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                Database.database().reference().child("likes").child(key).child(currentUserUID).observeSingleEvent(of: .value, with: { (snapshot) in
                     if let value = snapshot.value as? Int, value == 1 {
                         post.hasLiked = true
                     } else {post.hasLiked = false}
                     
-                    self.posts.append(post)
-                    self.posts.sort(by: { (p1, p2) -> Bool in
-                        return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                    // check if it's saved
+                    let checkSavedRef = Database.database().reference().child("save_post").child(currentUserUID).child(key)
+                    checkSavedRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        let dic = snapshot.value as? [String:Any]
+                        if dic != nil {
+                            post.hasSaved = true
+                        }
+                        
+                        self.posts.append(post)
+                        self.posts.sort(by: { (p1, p2) -> Bool in
+                            return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+                        })
+                        // finished and reload the view
+                        self.collectionView?.reloadData()
                     })
-                    // finished and reload the view
-                    self.collectionView?.reloadData()
                     
                 }, withCancel: { (err) in
                     print("Failed to fetch like info for post:",err)
@@ -185,9 +196,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             if let err = err {
                 print("Failed to like post:",err)
             }
-            print("Successfully liked post")
             post.hasLiked = !post.hasLiked
             self.posts[indexPath.item] = post
+            print("Successfully liked post")
             self.collectionView?.reloadItems(at: [indexPath])
         }
     }
@@ -209,4 +220,42 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         present(alertController,animated: true, completion: nil)
     }
 
+    // save
+    func didSave(for cell: HomePostCell) {
+        
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        var post = self.posts[indexPath.item]
+
+        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
+        let targetUID = post.user.uid
+        guard let postId = post.id else {return}
+        
+        let ref = Database.database().reference().child("save_post").child(currentUserId).child(postId)
+        
+        if post.hasSaved {
+            // unsave
+            ref.removeValue { (err, _) in
+                if let err = err {
+                    print("Failed to unsave: ",err)
+                }
+                post.hasSaved = false
+                self.posts[indexPath.item] = post
+                self.collectionView?.reloadItems(at: [indexPath])
+            }
+        } else {
+            // save
+            let values = ["userId": targetUID]
+            
+            ref.updateChildValues(values) { (err, ref) in
+                if let err = err {
+                    print("Failed to save this post:",err)
+                }
+                
+                post.hasSaved = true
+                self.posts[indexPath.item] = post
+                self.collectionView?.reloadItems(at: [indexPath])
+                print("Successfully save the post into database")
+            }
+        }
+    }
 }

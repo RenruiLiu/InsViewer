@@ -22,6 +22,8 @@ class HomePostCell: UICollectionViewCell{
             userProfileImageView.loadImage(urlString: profileImgUrl)
             setupAttributedCaption()
             likeBtn.setImage(post?.hasLiked == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal): #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+            
+            BookmarkBtn.setImage(post?.hasSaved == true ? #imageLiteral(resourceName: "ribbonBlack").withRenderingMode(.alwaysOriginal): #imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysOriginal) , for: .normal)
         }
     }
  
@@ -70,9 +72,10 @@ class HomePostCell: UICollectionViewCell{
         btn.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
         return btn
     }()
-    let BookmarkBtn: UIButton = {
+    lazy var BookmarkBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysOriginal), for: .normal)
+        btn.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
         return btn
     }()
     let captionLabel: UILabel = {
@@ -137,10 +140,13 @@ class HomePostCell: UICollectionViewCell{
     @objc fileprivate func handleLike(){
         delegate?.didLike(for: self)
     }
+    
+    @objc fileprivate func handleSave(){
+        delegate?.didSave(for: self)
+    }
 
     //____________________________________________________________________________________
     @objc fileprivate func handleOptions(){
-        print("handleOptions")
         delegate?.didPressOption(post: post!)
     }
 }

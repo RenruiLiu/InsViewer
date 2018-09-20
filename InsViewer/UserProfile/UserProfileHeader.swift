@@ -84,10 +84,11 @@ class UserProfileHeader: UICollectionViewCell {
         btn.addTarget(self, action: #selector(handleListView), for: .touchUpInside)
         return btn
     }()
-    let bookMarkBtn: UIButton = {
+    lazy var bookMarkBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "ribbon"), for: .normal)
         btn.tintColor = UIColor(white: 0, alpha: 0.2)
+        btn.addTarget(self, action: #selector(handleSavedView), for: .touchUpInside)
         return btn
     }()
     let usernameLabel: UILabel = {
@@ -228,14 +229,22 @@ class UserProfileHeader: UICollectionViewCell {
     @objc func handleListView(){
         // change colors for buttons
         listBtn.tintColor = .mainBlue()
+        bookMarkBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         gridBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         delegate?.didChangeToListView()
     }
     @objc func handleGridView(){
         // change colors
+        bookMarkBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         listBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         gridBtn.tintColor = .mainBlue()
         delegate?.didChangeToGridView()
+    }
+    @objc func handleSavedView(){
+        listBtn.tintColor = UIColor(white: 0, alpha: 0.2)
+        gridBtn.tintColor = UIColor(white: 0, alpha: 0.2)
+        bookMarkBtn.tintColor = .mainBlue()
+        delegate?.didChangeToSavedView()
     }
     
     
