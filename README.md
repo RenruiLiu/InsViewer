@@ -8,5 +8,6 @@ TODO:
 8. Edit profile  
 9. Alerts  
 10. photo filters  
-11. following & follower list 
-12. comment with creationDate
+11. following & follower list  
+12. comment with creationDate  
+13. likes in cell
