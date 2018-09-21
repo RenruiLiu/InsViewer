@@ -13,12 +13,14 @@ protocol HomePostCellDelegate {
     func didLike(for cell: HomePostCell)
     func didPressOption(post: Post)
     func didSave(for cell: HomePostCell)
+    func didShare(for cell: HomePostCell)
 }
 
 protocol UserProfileHeaderDelegate {
     func didChangeToListView()
     func didChangeToGridView()
     func didChangeToSavedView()
+    func presentEditProfileVC(user: UserProfile)
 }
 
 protocol CommentDelegate {

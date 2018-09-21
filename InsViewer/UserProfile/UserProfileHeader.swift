@@ -142,7 +142,7 @@ class UserProfileHeader: UICollectionViewCell {
             unfollow(currentUserId: currentUserId, targetUid: userId)
             self.setupFollowStyle()
             
-        } else {
+        } else if editProfileFollowBtn.titleLabel?.text == "Follow" {
             // perform Follow
             
             // access firebase tree: following -> currentuser -> [[user1 : 1],...]
@@ -168,6 +168,10 @@ class UserProfileHeader: UICollectionViewCell {
                     self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
                 }
             }
+        } else {
+            // Edit profile
+            guard let user = user else {return}
+            delegate?.presentEditProfileVC(user: user)
         }
     }
     

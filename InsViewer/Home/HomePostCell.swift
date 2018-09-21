@@ -67,9 +67,10 @@ class HomePostCell: UICollectionViewCell{
         btn.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return btn
     }()
-    let SendMsgBtn: UIButton = {
+    lazy var SendMsgBtn: UIButton = {
         let btn = UIButton(type: .system)
         btn.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
+        btn.addTarget(self, action: #selector(handleShare), for: .touchUpInside)
         return btn
     }()
     lazy var BookmarkBtn: UIButton = {
@@ -148,5 +149,9 @@ class HomePostCell: UICollectionViewCell{
     //____________________________________________________________________________________
     @objc fileprivate func handleOptions(){
         delegate?.didPressOption(post: post!)
+    }
+    
+    @objc fileprivate func handleShare(){
+        delegate?.didShare(for: self)
     }
 }

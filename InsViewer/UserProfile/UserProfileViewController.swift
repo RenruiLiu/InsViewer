@@ -78,6 +78,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         header.delegate = self
         return header
     }
+    
     // setup the size of the header of collection view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
@@ -387,6 +388,23 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
                 print("Successfully save the post into database")
             }
         }
+    }
+    
+    //share
+    func didShare(for cell: HomePostCell) {
+        print("share")
+        let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        present(activityVC,animated: true,completion: nil)
+    }
+    
+    // edit profile vc
+    func presentEditProfileVC(user: UserProfile) {
+        
+        let editProfileController = EditProfileViewController()
+        editProfileController.user = user
+        let navController = UINavigationController(rootViewController: editProfileController)
+        present(navController, animated: true, completion: nil)
     }
 }
 

@@ -13,7 +13,6 @@ import Firebase
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate {
 
-
     let cellId = "cellId"
 
     //____________________________________________________________________________________
@@ -258,4 +257,14 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }
     }
+    
+    //share
+    func didShare(for cell: HomePostCell) {
+        print("share")
+        let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        present(activityVC,animated: true,completion: nil)
+    }
+    
+
 }

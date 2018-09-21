@@ -11,8 +11,6 @@ import Firebase
 
 class PostViewController: UICollectionViewController, HomePostCellDelegate, UICollectionViewDelegateFlowLayout {
 
-    
-
     let cellId = "cellId"
     
     var post: Post?
@@ -25,6 +23,8 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
     }
     
+    //____________________________________________________________________________________
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
@@ -135,6 +135,14 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
                 print("Successfully save the post into database")
             }
         }
+    }
+    
+    // share
+    func didShare(for cell: HomePostCell) {
+        print("share")
+        let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        present(activityVC,animated: true,completion: nil)
     }
 
 }

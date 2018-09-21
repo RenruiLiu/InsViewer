@@ -75,8 +75,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage{
             plusPhotoBtn.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
