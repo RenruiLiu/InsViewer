@@ -70,6 +70,9 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
         let values = [uid: post!.hasLiked == true ? 0:1]
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to like post", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to like post:",err)
             }
             print("Successfully liked post")
@@ -90,6 +93,9 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
             
             Database.database().reference().child("posts").child(uid).child(postId).removeValue(completionBlock: { (err, ref) in
                 if let err = err {
+                    
+                    let alert = showAlert(title: "Failed to remove the post", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to remove this post",err)
                 }
                 // notify refresh
@@ -116,6 +122,8 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
             // unsave
             ref.removeValue { (err, _) in
                 if let err = err {
+                    let alert = showAlert(title: "Failed to unsave the post", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to unsave: ",err)
                 }
                 post.hasSaved = false
@@ -127,6 +135,8 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
             
             ref.updateChildValues(values) { (err, ref) in
                 if let err = err {
+                    let alert = showAlert(title: "Failed to save the post", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to save this post:",err)
                 }
                 
@@ -139,7 +149,6 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
     
     // share
     func didShare(for cell: HomePostCell) {
-        print("share")
         let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         present(activityVC,animated: true,completion: nil)

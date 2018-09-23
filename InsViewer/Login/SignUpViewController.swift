@@ -109,6 +109,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         // create user
         Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
             if let error = error {
+                
+                let alert = showAlert(title: "Failed to create a new user", text: "Please check your email")
+                self.present(alert, animated: true, completion: nil)
+                
                 print("Failed to create a new user: ", error)
                 return
             }
@@ -120,6 +124,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             let filename = NSUUID().uuidString
             Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
                 if let err = err {
+                    let alert = showAlert(title: "Failed to upload profile image", text: "Please check your network")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to upload profile image: ",err)
                     return
                 }
@@ -132,6 +138,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 let values = [uid: dictionaryValues]
                 Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
                     if let err = err {
+                        let alert = showAlert(title: "Failed to save user info", text: "Please check your network")
+                        self.present(alert, animated: true, completion: nil)
                         print("Failed to save user info into db: ", err)
                         return
                     }
@@ -186,6 +194,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         view.addSubview(alreadyHaveAccountBtn)
         alreadyHaveAccountBtn.anchor(top: nil, paddingTop: 0, bottom: view.bottomAnchor, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 0, right: view.rightAnchor, paddingRight: 0, width: 0, height: 50)
+        
     }
 }
 

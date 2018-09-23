@@ -84,6 +84,10 @@ class LoginViewController: UIViewController {
         guard let password = passwordTextField.text else {return}
         Auth.auth().signIn(withEmail: email, password: password) { (user, err) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to login", text: "Please check your email and password")
+                self.present(alert, animated: true, completion: nil)
+                
                 print("Failed to login with email: ", err)
                 return
             }
@@ -133,6 +137,7 @@ class LoginViewController: UIViewController {
         
         view.addSubview(DontHaveAccountBtn)
         DontHaveAccountBtn.anchor(top: nil, paddingTop: 0, bottom: view.bottomAnchor, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 0, right: view.rightAnchor, paddingRight: 0, width: 0, height: 50)
+        
     }
 
 }

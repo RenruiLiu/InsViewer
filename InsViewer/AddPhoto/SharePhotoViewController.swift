@@ -61,6 +61,9 @@ class SharePhotoViewController: UIViewController {
             if let err = err {
                 // enable the share button when a error occurs so the user can re-share it
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
+                
+                let alert = showAlert(title: "Failed to share photo", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to upload data: ", err )
                 return
             }
@@ -85,6 +88,10 @@ class SharePhotoViewController: UIViewController {
         ref.updateChildValues(values) { (err, ref) in
             if let err = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
+                
+                
+                let alert = showAlert(title: "Failed to save your post", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to save post to Database", err)
                 return
             }

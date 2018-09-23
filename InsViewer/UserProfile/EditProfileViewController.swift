@@ -176,7 +176,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             checkPassword(password: passwordTextField.text ?? "", newPassword: newPasswordTextField.text ?? "")
             return
         }
-        print("if change password cant reach this")
         dismiss(animated: true, completion: nil)
     }
     
@@ -209,6 +208,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                 print("Failed to update user profile",err)
                 return
             }
+            
+            let alert = showAlert(title: "Successfully edited user profile", text: "please re-login to see update")
+            self.present(alert, animated: true, completion: nil)
             print("Successfully edited user profile, please re-login to see update")
         })
     }
@@ -219,11 +221,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         user?.reauthenticate(with: credential, completion: { (err) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to verify your password", text: "please check your password again")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to verify your password:",err)
                 return
             }
             user?.updatePassword(to: newPassword, completion: { (err) in
                 if let err = err {
+                    let alert = showAlert(title: "Failed to setup new password", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to setup new password:",err)
                     return
                 }

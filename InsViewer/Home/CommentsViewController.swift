@@ -111,6 +111,9 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         // which means every comment is a new node containing its text, sender, creationDate etc.
         Database.database().reference().child("comment").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to comment", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to insert comment into database",err)
             }
             print("Successfully inserted comment")
@@ -158,6 +161,9 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         let ref = Database.database().reference().child("comment").child(postId).child(commentId)
         ref.removeValue { (err, _) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to delete the comment", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to Delete current comment",err)
             }
             self.comments.remove(at: cellId)

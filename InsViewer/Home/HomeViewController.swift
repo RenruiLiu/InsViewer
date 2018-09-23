@@ -193,6 +193,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let values = [uid: post.hasLiked == true ? 0:1]
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
             if let err = err {
+                
+                let alert = showAlert(title: "Failed to like post", text: "please try again later")
+                self.present(alert, animated: true, completion: nil)
                 print("Failed to like post:",err)
             }
             post.hasLiked = !post.hasLiked
@@ -235,6 +238,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             // unsave
             ref.removeValue { (err, _) in
                 if let err = err {
+                    
+                    let alert = showAlert(title: "Failed to unsave the post", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to unsave: ",err)
                 }
                 post.hasSaved = false
@@ -247,6 +253,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             
             ref.updateChildValues(values) { (err, ref) in
                 if let err = err {
+                    let alert = showAlert(title: "Failed to save the post", text: "please try again later")
+                    self.present(alert, animated: true, completion: nil)
                     print("Failed to save this post:",err)
                 }
                 
@@ -260,7 +268,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     //share
     func didShare(for cell: HomePostCell) {
-        print("share")
         let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         present(activityVC,animated: true,completion: nil)

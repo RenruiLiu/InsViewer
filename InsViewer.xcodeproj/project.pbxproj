@@ -23,6 +23,7 @@
 		EA8DABBE215249E000D6C92D /* PZSwipedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */; };
 		EA8DABC021533DFA00D6C92D /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBF21533DFA00D6C92D /* PostViewController.swift */; };
 		EA8DABC42154CA7600D6C92D /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABC32154CA7600D6C92D /* EditProfileViewController.swift */; };
+		EA8DABC6215789A300D6C92D /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABC5215789A300D6C92D /* Alert.swift */; };
 		EA8F186D21461403005EBDFC /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186C21461403005EBDFC /* UserProfileViewController.swift */; };
 		EA8F18702146A015005EBDFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F186F2146A015005EBDFC /* Extensions.swift */; };
 		EA8F187221475632005EBDFC /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8F187121475632005EBDFC /* MainTabBarViewController.swift */; };
@@ -62,6 +63,7 @@
 		EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PZSwipedCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA8DABBF21533DFA00D6C92D /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		EA8DABC32154CA7600D6C92D /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		EA8DABC5215789A300D6C92D /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		EA8F186C21461403005EBDFC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EA8F186F2146A015005EBDFC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EA8F187121475632005EBDFC /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				EA8F18B1214B523F005EBDFC /* CustomImageView.swift */,
 				EA20EEE7214E74A2003FA06D /* Delegates.swift */,
 				EA8DABBB215242A500D6C92D /* Unfollow.swift */,
+				EA8DABC5215789A300D6C92D /* Alert.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				EA20EEE4214E599F003FA06D /* PreviewPhotoContainer.swift in Sources */,
 				EA8F18B0214B482D005EBDFC /* UserProfilePhotoCell.swift in Sources */,
 				EA20EEEE214F6382003FA06D /* Comment.swift in Sources */,
+				EA8DABC6215789A300D6C92D /* Alert.swift in Sources */,
 				EA20EEEA214E772F003FA06D /* CommentsViewController.swift in Sources */,
 				EAE93C042144279F00EBC0A8 /* AppDelegate.swift in Sources */,
 				EA8F18AA214B4568005EBDFC /* UserProfile.swift in Sources */,
