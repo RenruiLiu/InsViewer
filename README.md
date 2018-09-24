@@ -8,4 +8,3 @@ TODO:
 12. comment with creationDate  
 13. likes in cell
 14. show like and save in postview & profile view  
-15. verify emails when register
