@@ -55,9 +55,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
+        button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.white, for: .normal)
         
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
         button.isEnabled = false
@@ -102,8 +102,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     @objc func handleSignUp(){
+        enableSignupBtn(bool: false)
+        
         guard let email = emailTextField.text, email.count > 0 else {return}
-        guard let username = usernameTextField.text, username.count > 0 else {return}
         guard let password = passwordTextField.text, password.count > 0 else {return}
         
         // create user
@@ -118,39 +119,21 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
             print("Successfully created user: ", user?.uid ?? "")
             
-            // store user image
-            guard let image = self.plusPhotoBtn.imageView?.image else {return}
-            guard let uploadData = image.jpegData(compressionQuality: 0.3) else {return}
-            let filename = NSUUID().uuidString
-            Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
-                if let err = err {
-                    let alert = showAlert(title: "Failed to upload profile image", text: "Please check your network")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to upload profile image: ",err)
-                    return
-                }
-                guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else {return}
-                print("successfully uploaded profile image", profileImageUrl)
+            user?.sendEmailVerification(completion: { (err) in
                 
-                // store user info
-                guard let uid = user?.uid else {return}
-                let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
-                let values = [uid: dictionaryValues]
-                Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
-                    if let err = err {
-                        let alert = showAlert(title: "Failed to save user info", text: "Please check your network")
-                        self.present(alert, animated: true, completion: nil)
-                        print("Failed to save user info into db: ", err)
-                        return
-                    }
-                    print("Successfully saved user info into db")
+                if let _ = err {
+                    let alert = showAlert(title: "Failed to send verification email", text: "Please try again later")
+                    self.present(alert, animated: true, completion: nil)
+                }
+                
+                let title = "Verify email sent"
+                let text = "Have you verified your email?"
+                let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: { (_) in
                     
-                    // entire app -> get app -> initialVC
-                    guard let mainTabBarVC =  UIApplication.shared.keyWindow?.rootViewController as? MainTabBarViewController else {return}
-                    // get a reference of main VC and call setupViewControllers function to update the View
-                    mainTabBarVC.setupViewControllers()
-                    self.dismiss(animated: true, completion: nil)
-                })
+                    self.checkVerify(user: user)
+                }))
+                self.present(alert, animated: true, completion: nil)
             })
         }
     }
@@ -196,9 +179,81 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         alreadyHaveAccountBtn.anchor(top: nil, paddingTop: 0, bottom: view.bottomAnchor, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 0, right: view.rightAnchor, paddingRight: 0, width: 0, height: 50)
         
     }
+    
+    
+    fileprivate func checkVerify(user: User?) {
+        print("called checkverify now")
+        user?.reload(completion: { (_) in
+            guard let isEmailVerified = user?.isEmailVerified else {return}
+            if isEmailVerified {
+                self.storeUserProfile()
+            } else {
+                user?.delete(completion: nil)
+                
+                let alert = showAlert(title: "Your email isn't verified yet", text: "Please signup again")
+                self.present(alert, animated: true, completion: nil)
+                
+                self.enableSignupBtn(bool: true)
+            }
+        })
+    }
+    
+    fileprivate func storeUserProfile(){
+        // store user image
+
+        guard let image = plusPhotoBtn.imageView?.image else {return}
+        guard let uploadData = image.jpegData(compressionQuality: 0.3) else {return}
+        let filename = NSUUID().uuidString
+        Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
+            if let err = err {
+                let alert = showAlert(title: "Failed to upload profile image", text: "Please check your network")
+                self.present(alert, animated: true, completion: nil)
+                print("Failed to upload profile image: ",err)
+                return
+            }
+            guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else {return}
+            print("successfully uploaded profile image", profileImageUrl)
+            
+            // store user info
+            guard let user = Auth.auth().currentUser else {return}
+            let uid = user.uid
+            guard let username = self.usernameTextField.text, username.count > 0 else {return}
+
+            let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
+            let values = [uid: dictionaryValues]
+            Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
+                if let err = err {
+                    let alert = showAlert(title: "Failed to save user info", text: "Please check your network")
+                    self.present(alert, animated: true, completion: nil)
+                    print("Failed to save user info into db: ", err)
+                    return
+                }
+                print("Successfully saved user info into db")
+                
+                // entire app -> get app -> initialVC
+                guard let mainTabBarVC =  UIApplication.shared.keyWindow?.rootViewController as? MainTabBarViewController else {return}
+                // get a reference of main VC and call setupViewControllers function to update the View
+                mainTabBarVC.setupViewControllers()
+                self.dismiss(animated: true, completion: nil)
+            })
+        })
+    }
+    
+    fileprivate func enableSignupBtn(bool: Bool){
+        let button = self.signUpBtn
+        if bool {
+            button.backgroundColor = .mainBlue()
+            button.isEnabled = true
+        } else {
+            button.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
+            button.isEnabled = false
+        }
+    }
+    
 }
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
+
