@@ -281,6 +281,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         collectionView?.reloadData()
     }
     func didChangeToSavedView() {
+        
         // fetch saved posts
         self.fetchSaved()
         isGridView = false
@@ -323,7 +324,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     }
     
     func didPressOption(post: Post) {
-        
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { (_) in
             

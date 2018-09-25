@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class HomePostCell: UICollectionViewCell{
     
@@ -148,6 +149,9 @@ class HomePostCell: UICollectionViewCell{
 
     //____________________________________________________________________________________
     @objc fileprivate func handleOptions(){
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        if currentUserID != post?.user.uid {return}
+
         delegate?.didPressOption(post: post!)
     }
     

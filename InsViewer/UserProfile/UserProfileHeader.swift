@@ -245,6 +245,11 @@ class UserProfileHeader: UICollectionViewCell {
         delegate?.didChangeToGridView()
     }
     @objc func handleSavedView(){
+        
+        //the user can only delete his own posts
+        guard let currentUserId = Auth.auth().currentUser?.uid else {return}
+        if currentUserId != user?.uid {return}
+        
         listBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         gridBtn.tintColor = UIColor(white: 0, alpha: 0.2)
         bookMarkBtn.tintColor = .mainBlue()
