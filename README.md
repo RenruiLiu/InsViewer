@@ -6,5 +6,6 @@ TODO:
 10. photo filters  
 11. following & follower list  
 12. comment with creationDate  
-13. likes in cell
+13. likes in cell  
 14. show like and save in postview & profile view  
+15. comment to notification
