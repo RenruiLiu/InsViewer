@@ -11,7 +11,6 @@ import Firebase
 
 class CommentsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, CommentDelegate {
 
-    
     var post:Post?
     let cellId = "cellId"
     //____________________________________________________________________________________
@@ -121,6 +120,8 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
             self.commentTextField.resignFirstResponder()
             self.commentTextField.text = ""
         }
+        
+        Database.database().reference().child("comment").child(postId).updateChildValues(["postOwnerID":post?.user.uid])
     }
     
     //____________________________________________________________________________________

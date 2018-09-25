@@ -92,12 +92,26 @@ class LoginViewController: UIViewController {
                 return
             }
             print("Login Successfully with user: ", user?.uid ?? "")
-            // entire app -> get app -> initialVC
-            guard let mainTabBarVC =  UIApplication.shared.keyWindow?.rootViewController as? MainTabBarViewController else {return}
-            // get a reference of main VC and call setupViewControllers function to update the View
-            mainTabBarVC.setupViewControllers()
-            self.dismiss(animated: true, completion: nil)
             
+            // store user info
+            guard let user = Auth.auth().currentUser else {return}
+            let uid = user.uid
+            guard let fcmToken = Messaging.messaging().fcmToken else {return}
+            
+            let values = ["fcmToken": fcmToken]
+            Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
+                if let err = err {
+                    print("Failed to save user info into db: ", err)
+                    return
+                }
+                print("Successfully saved user info into db")
+                
+                // entire app -> get app -> initialVC
+                guard let mainTabBarVC =  UIApplication.shared.keyWindow?.rootViewController as? MainTabBarViewController else {return}
+                // get a reference of main VC and call setupViewControllers function to update the View
+                mainTabBarVC.setupViewControllers()
+                self.dismiss(animated: true, completion: nil)
+            })
         }
     }
 

@@ -13,7 +13,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.sendPushNotifications = functions.https.onRequest((request,response) => {
     response.send("Attempting to send push notification... by yuiso")
-    var uid = 'hsQGgUoDKPgUrlcoQuYzKJpjBFK2';
+    var uid = 'U1wQ4cIvdegBYIx0pSvccfoqqmG2';
 
     return admin.database().ref('/users/' + uid).once('value', snapshot => {
         var user = snapshot.val();
@@ -89,36 +89,45 @@ exports.observeCommenting = functions.database.ref('/comment/{postID}/{commentID
         console.log('post ' + postID + 'has a new comment: ' + commentID);
 
         // find userB's ID
-        // find userA's ID
-        // data including comment text
+        return admin.database().ref('/comment/' + postID + '/postOwnerID').once('value', snapshot => {
+            var userBID = snapshot.val();
+                
+            return admin.database().ref('/comment/' + postID + '/' + commentID).once('value', snapshot => {
+                
+                // find userA's ID
+                var comment = snapshot.val();
+                var userAID = comment.uid;
+                var text = comment.text;
 
-        
-        // return admin.database().ref('/users/' + userBID).once('value', snapshot => {
-        //     var userB = snapshot.val();
+                return admin.database().ref('/users/' + userBID).once('value', snapshot => {
+                    var userB = snapshot.val();
 
-        //     return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
-        //         var userA = snapshot.val();
+                    return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
+                        var userA = snapshot.val();
 
-        //         // send message to the user who got followed
-        //         var message = {
-        //             notification: {
-        //                 title: "You have a new follower",
-        //                 body: userA.username + " is now following you"
-        //             },
-        //             data: {
-        //                 followerID: userAID 
-        //             },
-        //             token: userB.fcmToken
-        //         };
-        //         admin.messaging().send(message)
-        //           .then((response) => {
-        //             // Response is a message ID string.
-        //             console.log('Successfully sent message:', response);
-        //             return response
-        //           })
-        //           .catch((error) => {
-        //             console.log('Error sending message:', error);
-        //           });
-        //     })
-        // })
+                        // send message to the user who got followed
+                        var message = {
+                            notification: {
+                                title: "You got a new comment from " + userA.username,
+                                body: text
+                            },
+                            
+                            data: {
+                                // not used yet
+                            },
+                            token: userB.fcmToken
+                        };
+                        admin.messaging().send(message)
+                          .then((response) => {
+                            // Response is a message ID string.
+                            console.log('Successfully sent message:', response);
+                            return response
+                          })
+                          .catch((error) => {
+                            console.log('Error sending message:', error);
+                          });
+                    })
+                })
+            })
+        })
     })

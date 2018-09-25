@@ -64,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, err) in
             if let err = err {
                 print("Failed to request auth:",err)
+                return
             }
             if granted{
                 print("Auth granted")
@@ -82,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     //FCM: Firebase Cloud Messaging
     // get current device fcm token
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print("fcmToken: ",fcmToken)
+        print("Registered with FCM with token:", fcmToken)
     }
     
     // listen for user notifications // show notification alert when app is in foreground

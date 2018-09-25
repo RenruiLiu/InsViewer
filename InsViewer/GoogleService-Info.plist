@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>723634598200-0mijiioc2oa8vmja5oo562e9c5k11t3a.apps.googleusercontent.com</string>
+	<string>723634598200-76ghg9tlmjfumion638rsv73s0q8mtud.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.723634598200-0mijiioc2oa8vmja5oo562e9c5k11t3a</string>
+	<string>com.googleusercontent.apps.723634598200-76ghg9tlmjfumion638rsv73s0q8mtud</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCBlGFNIuhB-vgMsTc9T-LZnbm46ni23rI</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,23 +17,23 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>RenruiLiu.InsViewer</string>
+	<string>RenruiLiu.InsViewerPush</string>
 	<key>PROJECT_ID</key>
 	<string>insviewer-68b24</string>
 	<key>STORAGE_BUCKET</key>
 	<string>insviewer-68b24.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:723634598200:ios:cdb9808051793a60</string>
+	<string>1:723634598200:ios:0add99720981325c</string>
 	<key>DATABASE_URL</key>
 	<string>https://insviewer-68b24.firebaseio.com</string>
 </dict>
