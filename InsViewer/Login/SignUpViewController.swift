@@ -127,7 +127,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 }
                 
                 let title = "Verify email sent"
-                let text = "Have you verified your email?"
+                let text = "Please go verify your email now 'BEFORE' press yes"
                 let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: { (_) in
                     
@@ -218,8 +218,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             guard let user = Auth.auth().currentUser else {return}
             let uid = user.uid
             guard let username = self.usernameTextField.text, username.count > 0 else {return}
-
-            let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
+            guard let fcmToken = Messaging.messaging().fcmToken else {return}
+            
+            let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken]
             let values = [uid: dictionaryValues]
             Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
                 if let err = err {

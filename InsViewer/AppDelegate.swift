@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -21,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.rootViewController = MainTabBarViewController()
+        
+        attemptRegisterForNotifications(application: application)
+        
         return true
     }
 
@@ -46,6 +50,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    //_______________Notification________________
+    private func attemptRegisterForNotifications(application: UIApplication){
+        // APNS: Apple push notification Services
+        
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+        
+        // send notification with alert badge and sound
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        // ask user for authorization via a popup alert
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { (granted, err) in
+            if let err = err {
+                print("Failed to request auth:",err)
+            }
+            if granted{
+                print("Auth granted")
+            } else {
+                print("Auth denied")
+            }
+        }
+        
+        application.registerForRemoteNotifications()
+    }
 
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("Registered for notifications:", deviceToken)
+    }
+    
+    //FCM: Firebase Cloud Messaging
+    // get current device fcm token
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        print("fcmToken: ",fcmToken)
+    }
+    
+    // listen for user notifications // show notification alert when app is in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
+    }
+    
+    // tap on the notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        // get the followerID from userInfo dictionary
+        if let followerId = userInfo["followerID"] as? String {
+            // push to the userprofile for the follower
+            let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileVC.userId = followerId
+            
+            // access main UI from AppDelegate
+            if let mainTabBarController = window?.rootViewController as? MainTabBarViewController {
+                
+                // jump to home
+                mainTabBarController.selectedIndex = 0
+                mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+                
+                if let homeNavigationController = mainTabBarController.viewControllers?.first as? UINavigationController {
+                    homeNavigationController.pushViewController(userProfileVC, animated: true)
+                }
+            }
+        }
+    }
+    
 }
 

@@ -64,6 +64,7 @@
 		EA8DABBF21533DFA00D6C92D /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		EA8DABC32154CA7600D6C92D /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		EA8DABC5215789A300D6C92D /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		EA8DABC72159BC7900D6C92D /* InsViewer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InsViewer.entitlements; sourceTree = "<group>"; };
 		EA8F186C21461403005EBDFC /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		EA8F186F2146A015005EBDFC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EA8F187121475632005EBDFC /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 		EAE93C022144279F00EBC0A8 /* InsViewer */ = {
 			isa = PBXGroup;
 			children = (
+				EA8DABC72159BC7900D6C92D /* InsViewer.entitlements */,
 				EA20EEE0214E3D35003FA06D /* Camera */,
 				EA20EEDB214B9895003FA06D /* Search */,
 				EA8F18B3214B60D7005EBDFC /* Home */,
@@ -287,7 +289,7 @@
 						LastSwiftMigration = 1000;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -353,12 +355,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-InsViewer/Pods-InsViewer-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -548,8 +552,9 @@
 			baseConfigurationReference = 62690D5B6754981165134A4F /* Pods-InsViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InsViewer/InsViewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 24SM6522LU;
+				DEVELOPMENT_TEAM = BD4MBSH943;
 				INFOPLIST_FILE = InsViewer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -567,8 +572,9 @@
 			baseConfigurationReference = FB4B06808686F7CF7C2D4E31 /* Pods-InsViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InsViewer/InsViewer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 24SM6522LU;
+				DEVELOPMENT_TEAM = BD4MBSH943;
 				INFOPLIST_FILE = InsViewer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
