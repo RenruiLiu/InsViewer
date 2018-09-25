@@ -8,4 +8,5 @@ TODO:
 12. comment with creationDate  
 13. likes in cell  
 14. show like and save in postview & profile view  
-15. comment to notification
+15. comment to notification  
+16. disable to view other users' saved posts
