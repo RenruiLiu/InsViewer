@@ -13,7 +13,7 @@ class LoginViewController: UIViewController {
     
     let logoContainerView: UIView = {
         let view = UIView()
-        let logoImgView = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
+        let logoImgView = UIImageView(image: #imageLiteral(resourceName: "picture2-2-"))
         logoImgView.contentMode = .scaleAspectFit
         view.addSubview(logoImgView)
         logoImgView.anchor(top: nil, paddingTop: 0, bottom: nil, paddingBottom: 0, left: nil, paddingLeft: 0, right: nil, paddingRight: 0, width: 200, height: 50)
