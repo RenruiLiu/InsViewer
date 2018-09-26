@@ -13,7 +13,7 @@ protocol CommentInputAccessoryViewDelegate {
     func didSubmit(for comment: String)
 }
 
-class CommentInputAccessoryView: UIView {
+class CommentInputAccessoryView: UIView, UITextViewDelegate {
     
     var delegate: CommentInputAccessoryViewDelegate?
     
@@ -25,10 +25,11 @@ class CommentInputAccessoryView: UIView {
         return submitBtn
     }()
     
-    fileprivate let commentTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Enter Comment"
-        return textField
+    fileprivate let commentextView: CommentInputTextView = {
+        let tv = CommentInputTextView()
+        tv.isScrollEnabled = false
+        tv.font = UIFont.systemFont(ofSize: 18)
+        return tv
     }()
     
     fileprivate func setuplineSeparatorView(){
@@ -41,11 +42,15 @@ class CommentInputAccessoryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        autoresizingMask = .flexibleHeight
+        backgroundColor = .white
         
         addSubview(submitBtn)
-        addSubview(commentTextField)
-        commentTextField.anchor(top: topAnchor, paddingTop: 0, bottom: bottomAnchor, paddingBottom: 0, left: leftAnchor, paddingLeft: 12, right: submitBtn.leftAnchor, paddingRight: 0, width: 0, height: 0)
-        submitBtn.anchor(top: topAnchor, paddingTop: 0, bottom: bottomAnchor, paddingBottom: 0, left: nil, paddingLeft: 0, right: rightAnchor, paddingRight: 12, width: 50, height: 0)
+        addSubview(commentextView)
+        submitBtn.anchor(top: topAnchor, paddingTop: 0, bottom: nil, paddingBottom: 0, left: nil, paddingLeft: 0, right: rightAnchor, paddingRight: 12, width: 50, height: 50)
+        commentextView.delegate = self
+        commentextView.anchor(top: topAnchor, paddingTop: 8, bottom: safeAreaLayoutGuide.bottomAnchor, paddingBottom: 8, left: leftAnchor, paddingLeft: 12, right: submitBtn.leftAnchor, paddingRight: 0, width: 0, height: 0)
+
         setuplineSeparatorView()
     }
     
@@ -55,13 +60,24 @@ class CommentInputAccessoryView: UIView {
     
     // submit comment
     @objc fileprivate func handleSubmit(){
-        guard let commentText = commentTextField.text else {return}
+        guard let commentText = commentextView.text else {return}
         delegate?.didSubmit(for: commentText)
     }
     
-    func clearCommentTextfield(){
+    func clearCommentTextView(){
         // dismiss keyboard and clean the textfield
-        commentTextField.resignFirstResponder()
-        commentTextField.text = ""
+        commentextView.resignFirstResponder()
+        commentextView.text = ""
+        commentextView.showPlaceholderLabel(show: true)
+    }
+    
+    override var intrinsicContentSize: CGSize {return .zero}
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.isEmpty{
+            commentextView.showPlaceholderLabel(show: true)
+        } else {
+            commentextView.showPlaceholderLabel(show: false)
+        }
     }
 }

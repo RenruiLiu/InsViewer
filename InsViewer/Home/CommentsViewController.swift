@@ -89,7 +89,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
                 print("Failed to insert comment into database",err)
             }
             print("Successfully inserted comment")
-            self.containerView.clearCommentTextfield()
+            self.containerView.clearCommentTextView()
         }
         
         Database.database().reference().child("comment").child(postId).updateChildValues(["postOwnerID":post?.user.uid])
