@@ -8,11 +8,12 @@
 
 import UIKit
 import Photos
+import Sharaku
 
 private let reuseIdentifier = "Cell"
 private let headerId = "headerId"
 
-class PhotoSelectorCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class PhotoSelectorCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SHViewControllerDelegate {
 
     //____________________________________________________________________________________
     // navigation bar buttons
@@ -22,13 +23,26 @@ class PhotoSelectorCollectionViewController: UICollectionViewController, UIColle
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNext))
     }
     
-    // move to next: share photo
+    // filter photo
     @objc func handleNext(){
+        guard let imgTobeFiltered = header?.photoImgView.image else {return}
+        let filterVC = SHViewController(image: imgTobeFiltered)
+        filterVC.delegate = self
+        self.present(filterVC, animated: true)
+    }
+    
+    //move to next: share photo
+    func shViewControllerImageDidFilter(image: UIImage) {
+
         let sharePhotoVC = SharePhotoViewController()
-        // pass the selected image to share photo page 
-        sharePhotoVC.selectedImg = header?.photoImgView.image
+        // pass the selected image to share photo page
+        sharePhotoVC.selectedImg = image
         navigationController?.pushViewController(sharePhotoVC, animated: true)
     }
+    
+    func shViewControllerDidCancel() {}
+    
+    
     @objc func handleCancel(){
         dismiss(animated: true, completion: nil)
     }

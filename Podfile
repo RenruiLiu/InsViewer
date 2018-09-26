@@ -11,5 +11,6 @@ pod 'Firebase/Storage'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Messaging'
+pod 'Sharaku'
 
 end
