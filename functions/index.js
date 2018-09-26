@@ -99,35 +99,39 @@ exports.observeCommenting = functions.database.ref('/comment/{postID}/{commentID
                 var userAID = comment.uid;
                 var text = comment.text;
 
-                return admin.database().ref('/users/' + userBID).once('value', snapshot => {
-                    var userB = snapshot.val();
+                // don't push notification if the user comment on his own post
+                if (userAID !== userBID) {
 
-                    return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
-                        var userA = snapshot.val();
+                    return admin.database().ref('/users/' + userBID).once('value', snapshot => {
+                        var userB = snapshot.val();
 
-                        // send message to the user who got followed
-                        var message = {
-                            notification: {
-                                title: "You got a new comment from " + userA.username,
-                                body: text
-                            },
-                            
-                            data: {
-                                // not used yet
-                            },
-                            token: userB.fcmToken
-                        };
-                        admin.messaging().send(message)
-                          .then((response) => {
-                            // Response is a message ID string.
-                            console.log('Successfully sent message:', response);
-                            return response
-                          })
-                          .catch((error) => {
-                            console.log('Error sending message:', error);
-                          });
+                        return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
+                            var userA = snapshot.val();
+
+                            // send message to the user who got followed
+                            var message = {
+                                notification: {
+                                    title: "You got a new comment from " + userA.username,
+                                    body: text
+                                },
+                                
+                                data: {
+                                    // not used yet
+                                },
+                                token: userB.fcmToken
+                            };
+                            admin.messaging().send(message)
+                              .then((response) => {
+                                // Response is a message ID string.
+                                console.log('Successfully sent message:', response);
+                                return response
+                              })
+                              .catch((error) => {
+                                console.log('Error sending message:', error);
+                              });
+                        })
                     })
-                })
+                }
             })
         })
     })
