@@ -207,20 +207,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func didPressOption(post: Post) {
-        
-        guard let currentUserId = Auth.auth().currentUser?.uid else {return} // current logged in user
-        let targetUid =  post.user.uid
-        
-        // if it's user self, then skip
-        if currentUserId == targetUid {return}
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Unfollow", style: .destructive, handler: { (_) in
-            
-            unfollow(currentUserId: currentUserId, targetUid: targetUid)
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alertController,animated: true, completion: nil)
+        showOptions(post: post)
     }
 
     // save
@@ -269,9 +256,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     //share
     func didShare(for cell: HomePostCell) {
-        let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        present(activityVC,animated: true,completion: nil)
+        sharePost(for: cell)
     }
     
 

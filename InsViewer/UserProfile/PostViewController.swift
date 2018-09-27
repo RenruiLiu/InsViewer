@@ -82,29 +82,7 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
     }
     
     func didPressOption(post: Post) {
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { (_) in
-            
-            //deletion
-            guard let uid = Auth.auth().currentUser?.uid else {return}
-            guard let postId = post.id else {return}
-            
-            
-            Database.database().reference().child("posts").child(uid).child(postId).removeValue(completionBlock: { (err, ref) in
-                if let err = err {
-                    
-                    let alert = showAlert(title: "Failed to remove the post", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to remove this post",err)
-                }
-                // notify refresh
-                
-                NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
-            })
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alertController,animated: true, completion: nil)
+        showOptions(post: post)
     }
     
     // save
@@ -149,9 +127,7 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
     
     // share
     func didShare(for cell: HomePostCell) {
-        let activityVC = UIActivityViewController(activityItems: [cell.captionLabel.text,cell.photoImgView.image], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = self.view
-        present(activityVC,animated: true,completion: nil)
+        sharePost(for: cell)
     }
 
 }
