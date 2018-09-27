@@ -58,6 +58,7 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.6.1)
+  - SCLAlertView (0.8)
   - Sharaku (1.0.2)
 
 DEPENDENCIES:
@@ -66,6 +67,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
+  - SCLAlertView
   - Sharaku
 
 SPEC REPOS:
@@ -82,6 +84,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - Protobuf
+    - SCLAlertView
     - Sharaku
 
 SPEC CHECKSUMS:
@@ -97,8 +100,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   Sharaku: c18de569fc99f6e936f46ca812b571826cc658a7
 
-PODFILE CHECKSUM: 9c068efbc0ed3f2cd6b97c88e975de7f884be630
+PODFILE CHECKSUM: 9dcdac0e106e827d2e03510eb9b83f3818fa523f
 
 COCOAPODS: 1.5.3

@@ -12,5 +12,6 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Messaging'
 pod 'Sharaku'
+pod 'SCLAlertView'
 
 end

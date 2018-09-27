@@ -8,6 +8,8 @@
 
 import Foundation
 import Firebase
+import SCLAlertView
+
 
 func showOptions(post: Post){
     guard let currentUserId = Auth.auth().currentUser?.uid else {return} // current logged in user
@@ -37,7 +39,18 @@ func showOptions(post: Post){
         }))
         
         alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
-            print("report")
+            
+            // report alert
+            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+            let alertView = SCLAlertView(appearance: appearance)
+            let textView = alertView.addTextView()
+            alertView.addButton("Report", action: {
+                var reason = "None"
+                if textView.text != "" {reason = textView.text}
+                reportPost(post: post, reason: reason)
+            })
+            alertView.addButton("Cancel", action: {})
+            alertView.showEdit("Reason", subTitle: "")
         }))
         
         alertController.addAction(UIAlertAction(title: "Block this user", style: .destructive, handler: { (_) in

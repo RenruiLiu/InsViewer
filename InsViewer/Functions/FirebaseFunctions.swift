@@ -51,6 +51,18 @@ func hidePost(post: Post) {
         print("Successfully hided the post")
         NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
     }
-    
+}
+
+func reportPost(post: Post, reason: String) {
+    guard let uid = Auth.auth().currentUser?.uid else {return}
+    guard let postID = post.id else {return}
+    let values = ["reporterID": uid, "reportReason":reason]
+    Database.database().reference().child("report").child(postID).updateChildValues(values) { (err, _) in
+        if let err = err {
+            print("Failed to report the post:",err)
+            return
+        }
+        print("Successfully reported the post")
+    }
 }
 
