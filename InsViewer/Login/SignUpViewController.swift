@@ -132,7 +132,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @objc func handleTextInputChange(){
         let isFormValid = emailTextField.text?.count ?? 0 > 0 && usernameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
-        print(checkBox.currentTitle!)
         if isFormValid && checkBox.currentTitle! == "1"{
             signUpBtn.isEnabled = true
             signUpBtn.backgroundColor = .mainBlue()

@@ -15,6 +15,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     let cellId = "cellId"
     let homePostCellId = "homePostCellId"
     var userId: String?
+    var user: UserProfile? // a User object for passing around
     var isGridView = true
     var isListView = false
 
@@ -96,24 +97,53 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
 
     //____________________________________________________________________________________
     // logout from navigation bar button
-    fileprivate func setupLogoutBtn(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
+    fileprivate func setupTopRightBtn(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleTopRightBtn))
     }
     
-    @objc func handleLogOut(){
+    @objc func handleTopRightBtn(){
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
-            do{
-                try Auth.auth().signOut()
-                // present login controller after the user logged out
-                let loginVC = LoginViewController()
-                let navController = UINavigationController(rootViewController: loginVC)
-                self.present(navController, animated: true, completion: nil)
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else {return}
+        
+        if user?.uid == currentUserID {
+            alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
+                do{
+                    try Auth.auth().signOut()
+                    // present login controller after the user logged out
+                    let loginVC = LoginViewController()
+                    let navController = UINavigationController(rootViewController: loginVC)
+                    self.present(navController, animated: true, completion: nil)
+                    
+                } catch let signOutError {
+                    print("Failed to logout:",signOutError)
+                }
+            }))
+        } else {
+            // block and unblock
+            var blockList = [String]()
+            Database.database().reference().child("block").child(user?.uid ?? "").observeSingleEvent(of: .value) { (snapshot) in
                 
-            } catch let signOutError {
-                print("Failed to logout:",signOutError)
+                // get list of users who blocked the profile's user
+                let dict = snapshot.value as? [String:Any]
+                if dict?.keys != nil { for key in (dict?.keys)! { blockList.append(key) } }
+                
+                // if the current is blocked, then show unblock
+                if blockList.contains(currentUserID) {
+                    alertController.addAction(UIAlertAction(title: "Unblock", style: .default, handler: { (_) in
+                        unblock(userA: currentUserID, userB: self.user?.uid ?? "")
+                    }))
+                    
+                } else {
+                    // show block
+                    alertController.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { (_) in
+                        block(userA: currentUserID, userB: self.user?.uid ?? "")
+                    }))
+                }
             }
-        }))
+        }
+        
+        
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alertController,animated: true, completion: nil)
     }
@@ -129,7 +159,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         // register two cells in one controller: grid and list
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: homePostCellId)
-        setupLogoutBtn()
+        setupTopRightBtn()
         
         //receive notification
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoViewController.updateFeedNotificationName, object: nil)
@@ -139,7 +169,6 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     }
     
     //____________________________________________________________________________________
-    var user: UserProfile? // a User object for passing around
     
     fileprivate func fetchUser(){
         
@@ -322,13 +351,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
     }
     
     func didPressOption(post: Post) {
-
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { (_) in
-            deleteFromFirebase(post: post)
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alertController,animated: true, completion: nil)
+        showOptions(post: post)
     }
     
     

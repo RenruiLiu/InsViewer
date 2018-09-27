@@ -143,29 +143,49 @@ class UserProfileHeader: UICollectionViewCell {
             self.setupFollowStyle()
             
         } else if editProfileFollowBtn.titleLabel?.text == "Follow" {
-            // perform Follow
             
-            // access firebase tree: following -> currentuser -> [[user1 : 1],...]
-            let followingRef = Database.database().reference().child("following").child(currentUserId)
-            let followingValue = [userId: 1]
-            followingRef.updateChildValues(followingValue) { (err, ref) in
-                if let err = err {
-                    print("Failed to follow user: ", err)
-                    return
+            // get list of users who blocked the current user
+            var blockList = [String]()
+            Database.database().reference().child("block").child(currentUserId).observeSingleEvent(of: .value) { (snapshot) in
+                guard let dict = snapshot.value as? [String:Any] else {
+                    print("return1")
+                    return}
+                for key in Array(dict.keys) {
+                    blockList.append(key)
                 }
-                // save follower into db
-                let followerRef = Database.database().reference().child("followers").child(userId)
-                let followerValue = [currentUserId: 1]
-                followerRef.updateChildValues(followerValue) { (err, ref) in
-                    if let err = err {
-                        print("Failed to save follower to db:",err)
+                
+                // check if the current user blocked the profile user
+                var blockList1 = [String]()
+                Database.database().reference().child("block").child(userId).observeSingleEvent(of: .value) { (snapshot) in
+                    guard let dict = snapshot.value as? [String:Any] else {
+                        print("return2")
+                        return}
+                    for key in Array(dict.keys) {
+                        blockList1.append(key)
+                    }
+                    
+                    // if the profile user is blocked by the current user
+                    if blockList1.contains(currentUserId) {
+                        showWarning(info: "Connot follow", subInfo: "Please unblock the user before you follow")
                         return
                     }
-                    print("Successfully followed user:", self.user?.username ?? "")
-                    // change UI
-                    self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
-                    self.editProfileFollowBtn.backgroundColor = .white
-                    self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
+        
+                    // if the current user is blocked by the profile user
+                    if blockList.contains(userId) {
+                        showErr(info: "Cannot follow", subInfo: "You're blocked by the user")
+                        return
+                    }
+                
+                    // perform Follow
+                    follow(userA: currentUserId, userB: userId) {(result) in
+                        if result {
+                            print("Successfully followed user:", self.user?.username ?? "")
+                            // change UI
+                            self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
+                            self.editProfileFollowBtn.backgroundColor = .white
+                            self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
+                        }
+                    }
                 }
             }
         } else {

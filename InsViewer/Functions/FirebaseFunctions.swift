@@ -35,8 +35,6 @@ func unfollow(currentUserId: String, targetUid: String){
             showErr(info: "Failed to unfollow user", subInfo: tryLater)
             return
         }
-        showSuccess(info: "Successfully unfollowed user", subInfo: "")
-        
         NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
     }
 }
@@ -69,3 +67,56 @@ func reportPost(post: Post, reason: String) {
     }
 }
 
+func follow(userA: String, userB: String, completion: @escaping (Bool)->Void){
+    // access firebase tree: following -> currentuser -> [[user1 : 1],...]
+    let followingRef = Database.database().reference().child("following").child(userA)
+    let followingValue = [userB: 1]
+    followingRef.updateChildValues(followingValue) { (err, ref) in
+        if let err = err {
+            print("Failed to follow user: ", err)
+            return
+        }
+        // save follower into db
+        let followerRef = Database.database().reference().child("followers").child(userB)
+        let followerValue = [userA: 1]
+        followerRef.updateChildValues(followerValue) { (err, ref) in
+            if let err = err {
+                print("Failed to save follower to db:",err)
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+}
+
+// userA blocks userB
+func block(userA: String, userB: String){
+    // block user // unblock in rightbar item
+    let alertView = SCLAlertView()
+    alertView.addButton("Yes", action: {
+        // block = unfollow + no comment + unable to follow
+        // unblock = follow + cancel block
+        let values = [userA: "1"]
+        Database.database().reference().child("block").child(userB).updateChildValues(values, withCompletionBlock: { (err, _) in
+            if let _ = err {
+                showErr(info: "Failed to block the user", subInfo: tryLater)
+                return
+            }
+            unfollow(currentUserId: userB, targetUid: userA)
+            unfollow(currentUserId: userA, targetUid: userB)
+            showSuccess(info: "Successfully blocked the user", subInfo: "")
+        })
+    })
+    alertView.showWarning("Are you sure to block the user?", subTitle: "You will unfollow this user and he/she won't be able to follow or comment you", closeButtonTitle: "Cancel")
+}
+
+// userA blocks userB
+func unblock(userA: String, userB: String){
+    Database.database().reference().child("block").child(userB).child(userA).removeValue { (err, _) in
+        if let _ = err {
+            showErr(info: "Failed to unblock the user", subInfo: tryLater)
+            return
+        }
+    }
+}

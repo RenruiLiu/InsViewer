@@ -16,6 +16,7 @@ func showOptions(post: Post){
     let targetUid =  post.user.uid
     
     // if it's user self, then can delete the post
+    
     if currentUserId == targetUid {
         //delete
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -34,8 +35,12 @@ func showOptions(post: Post){
             unfollow(currentUserId: currentUserId, targetUid: targetUid)
         }))
         
-        alertController.addAction(UIAlertAction(title: "Hide", style: .default, handler: { (_) in
-            hidePost(post: post)
+        alertController.addAction(UIAlertAction(title: "Hide", style: .destructive, handler: { (_) in
+            let alertView = SCLAlertView()
+            alertView.addButton("Yes", action: {
+                hidePost(post: post)
+            })
+            alertView.showWarning("Are you sure to hide this post?", subTitle: "", closeButtonTitle: "Cancel")
         }))
         
         alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
@@ -52,7 +57,7 @@ func showOptions(post: Post){
         }))
         
         alertController.addAction(UIAlertAction(title: "Block this user", style: .destructive, handler: { (_) in
-            print("block")
+            block(userA: currentUserId, userB: post.user.uid)
         }))
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

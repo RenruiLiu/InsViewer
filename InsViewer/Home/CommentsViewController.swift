@@ -77,19 +77,35 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
     func didSubmit(for comment: String) {
         guard let postId = post?.id else {return}
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        let values = ["text": comment, "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String : Any]
         
-        // childByAutoId() creates a random id for creating a new node in comment tree
-        // which means every comment is a new node containing its text, sender, creationDate etc.
-        Database.database().reference().child("comment").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
-            if let _ = err {
-                showErr(info: "Failed to comment", subInfo: tryLater)
+        // get list of users who blocked the current user
+        var blockList = [String]()
+        Database.database().reference().child("block").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String:Any] else {return}
+            for key in Array(dict.keys) {
+                blockList.append(key)
+            }
+            
+            // if the current is blocked, then cannot comment
+            if blockList.contains(self.post?.user.uid ?? "") {
+                showErr(info: "Cannot comment", subInfo: "You're blocked by the user")
                 return
             }
-            self.containerView.clearCommentTextView()
+            
+            let values = ["text": comment, "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String : Any]
+            
+            // childByAutoId() creates a random id for creating a new node in comment tree
+            // which means every comment is a new node containing its text, sender, creationDate etc.
+            Database.database().reference().child("comment").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
+                if let _ = err {
+                    showErr(info: "Failed to comment", subInfo: tryLater)
+                    return
+                }
+                self.containerView.clearCommentTextView()
+            }
+            
+            Database.database().reference().child("comment").child(postId).updateChildValues(["postOwnerID":self.post?.user.uid])
         }
-        
-        Database.database().reference().child("comment").child(postId).updateChildValues(["postOwnerID":post?.user.uid])
     }
 
     // This inputAccessoryView will hold a input bar in the bottom

@@ -254,7 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				EA858000215C96D600EDB26D /* Functions */,
-				EA8DABC72159BC7900D6C92D /* InsViewer.entitlements */,
 				EA20EEE0214E3D35003FA06D /* Camera */,
 				EA20EEDB214B9895003FA06D /* Search */,
 				EA8F18B3214B60D7005EBDFC /* Home */,
@@ -265,6 +264,7 @@
 				EA8F18A6214B451E005EBDFC /* Models */,
 				EA8F186E2146A003005EBDFC /* Utils */,
 				EAE93C032144279F00EBC0A8 /* AppDelegate.swift */,
+				EA8DABC72159BC7900D6C92D /* InsViewer.entitlements */,
 				EA7DE935215A705F0010ABFE /* GoogleService-Info.plist */,
 				EA857FFE215C8DFE00EDB26D /* EULA.txt */,
 				EAE93C072144279F00EBC0A8 /* Main.storyboard */,
