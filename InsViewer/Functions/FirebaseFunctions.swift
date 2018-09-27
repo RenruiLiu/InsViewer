@@ -39,7 +39,18 @@ func unfollow(currentUserId: String, targetUid: String){
     }
 }
 
-func hidePost(post: Post){
+func hidePost(post: Post) {
+    guard let uid = Auth.auth().currentUser?.uid else {return}
+    guard let postID = post.id else {return}
+    let values = ["userId": post.user.uid]
+    Database.database().reference().child("hide").child(uid).child(postID).updateChildValues(values) { (err, _) in
+        if let err = err {
+            print("Failed to hide the post:",err)
+            return
+        }
+        print("Successfully hided the post")
+        NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
+    }
     
 }
 

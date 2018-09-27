@@ -84,7 +84,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         // fetch user's posts from the user id
         Database.fetchUserWithUID(uid: uid) { (user) in
-            
             self.fetchPostsWithUser(user: user)
         }
     }
@@ -92,23 +91,33 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     fileprivate func fetchFollowingUserPosts(){
         // fetch following users' ids
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
-            userIdsDictionary.forEach({ (key,value) in
-                
-                // and get their posts by using thier ids(key)
-                Database.fetchUserWithUID(uid: key, completion: { (user) in
+        
+        var hidePosts = [String]()
+        
+        Database.database().reference().child("hide").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String:Any] else {return}
+            for key in Array(dict.keys) {
+                hidePosts.append(key)
+            }
+        
+            Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
+                userIdsDictionary.forEach({ (key,value) in
                     
-                    self.fetchPostsWithUser(user: user)
+                    // and get their posts by using thier ids(key)
+                    Database.fetchUserWithUID(uid: key, completion: { (user) in
+                        
+                        self.fetchPostsWithUser(user: user, hide: hidePosts)
+                    })
                 })
-            })
-        }) { (err) in
-            print("Failed to fetch following user ids :",err)
+            }) { (err) in
+                print("Failed to fetch following user ids :",err)
+            }
         }
-        //
     }
     
-    fileprivate func fetchPostsWithUser(user: UserProfile){
+    fileprivate func fetchPostsWithUser(user: UserProfile, hide: [String] = []){
+        
         let ref = Database.database().reference().child("posts").child(user.uid)
         
         // fetch post in right order // implement some pagination of data??
@@ -118,6 +127,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
             dictionaries.forEach({ (key,value) in
+                
+                //donot fetch hided posts
+                if hide.contains(key) {return}
+                
                 guard let dictionary = value as? [String: Any] else {return}
                 
                 // construct post
