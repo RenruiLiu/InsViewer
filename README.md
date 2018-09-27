@@ -17,4 +17,5 @@ TODO:
 2. hide this post
 3. EULA in register
 4. block user (no following no commenting)
+5. 3 report to a user send a sms to developer
 ]
