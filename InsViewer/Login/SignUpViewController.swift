@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SCLAlertView
 
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -149,12 +150,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         // create user
         Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
-            if let error = error {
+            if let _ = error {
                 
-                let alert = showAlert(title: "Failed to create a new user", text: "Please check your email")
-                self.present(alert, animated: true, completion: nil)
-                
-                print("Failed to create a new user: ", error)
+                showErr(info: "Failed to create a new user", subInfo: "Please check your email")
                 return
             }
             print("Successfully created user: ", user?.uid ?? "")
@@ -162,18 +160,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             user?.sendEmailVerification(completion: { (err) in
                 
                 if let _ = err {
-                    let alert = showAlert(title: "Failed to send verification email", text: "Please try again later")
-                    self.present(alert, animated: true, completion: nil)
+                    showErr(info: "Failed to send verification email", subInfo: "Please try to signup again later")
                 }
                 
-                let title = "Verify email sent"
-                let text = "Please go verify your email now 'BEFORE' press yes"
-                let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Yes", style: .cancel, handler: { (_) in
-                    
+                let alert = SCLAlertView()
+                alert.addButton("Yes", action: {
                     self.checkVerify(user: user)
-                }))
-                self.present(alert, animated: true, completion: nil)
+                })
+                alert.showNotice("Email sent", subTitle: "Please go verify your email now 'BEFORE' press Yes",closeButtonTitle: "Cancel")
             })
         }
     }
@@ -228,7 +222,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     
     fileprivate func checkVerify(user: User?) {
-        print("called checkverify now")
         user?.reload(completion: { (_) in
             guard let isEmailVerified = user?.isEmailVerified else {return}
             if isEmailVerified {
@@ -236,9 +229,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             } else {
                 user?.delete(completion: nil)
                 
-                let alert = showAlert(title: "Your email isn't verified yet", text: "Please signup again")
-                self.present(alert, animated: true, completion: nil)
-                
+                showErr(info: "Your email isn't verified yet", subInfo: "Please signup again")
                 self.enableSignupBtn(bool: true)
             }
         })
@@ -251,10 +242,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         guard let uploadData = image.jpegData(compressionQuality: 0.3) else {return}
         let filename = NSUUID().uuidString
         Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
-            if let err = err {
-                let alert = showAlert(title: "Failed to upload profile image", text: "Please check your network")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to upload profile image: ",err)
+            if let _ = err {
+                showErr(info: "Failed to upload profile image", subInfo: tryLater)
                 return
             }
             guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else {return}
@@ -269,10 +258,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken]
             let values = [uid: dictionaryValues]
             Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
-                if let err = err {
-                    let alert = showAlert(title: "Failed to save user info", text: "Please check your network")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to save user info into db: ", err)
+                if let _ = err {
+                    showErr(info: "Failed to save user info", subInfo: tryLater)
                     return
                 }
                 print("Successfully saved user info into db")

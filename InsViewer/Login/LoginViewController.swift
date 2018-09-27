@@ -83,12 +83,9 @@ class LoginViewController: UIViewController {
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         Auth.auth().signIn(withEmail: email, password: password) { (user, err) in
-            if let err = err {
+            if let _ = err {
                 
-                let alert = showAlert(title: "Failed to login", text: "Please check your email and password")
-                self.present(alert, animated: true, completion: nil)
-                
-                print("Failed to login with email: ", err)
+                showErr(info: "Failed to login", subInfo: "Please check your email and password")
                 return
             }
             print("Login Successfully with user: ", user?.uid ?? "")

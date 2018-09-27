@@ -35,8 +35,8 @@ class PreviewPhotoContainer: UIView {
         library.performChanges({
             PHAssetChangeRequest.creationRequestForAsset(from: previewImage)
         }) { (success, err) in
-            if let err = err {
-                print("Failed to save image to photo library",err)
+            if let _ = err {
+                showErr(info: "Failed to save image to photo library", subInfo: tryLater)
                 return
             }
             

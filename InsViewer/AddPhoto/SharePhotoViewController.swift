@@ -58,13 +58,11 @@ class SharePhotoViewController: UIViewController {
         
         let filename = NSUUID().uuidString
         Storage.storage().reference().child("posts").child(filename).putData(uploadData, metadata: nil) { (metadata, err) in
-            if let err = err {
+            if let _ = err {
                 // enable the share button when a error occurs so the user can re-share it
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 
-                let alert = showAlert(title: "Failed to share photo", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to upload data: ", err )
+                showErr(info: "Failed to upload data", subInfo: tryLater)
                 return
             }
             guard let imageUrl = metadata?.downloadURL()?.absoluteString else {return}
@@ -86,13 +84,10 @@ class SharePhotoViewController: UIViewController {
         // imgUrl - caption - imgWidth - imgHeight - creationDate
         let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImg.size.width, "imageHeight": postImg.size.height, "creationDate": Date().timeIntervalSince1970] as [String: Any]
         ref.updateChildValues(values) { (err, ref) in
-            if let err = err {
+            if let _ = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 
-                
-                let alert = showAlert(title: "Failed to save your post", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to save post to Database", err)
+                showErr(info: "Failed to save your post", subInfo: tryLater)
                 return
             }
             print("Successfully saved post to database")

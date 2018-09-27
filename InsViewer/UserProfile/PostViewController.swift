@@ -69,11 +69,9 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
         guard let uid = Auth.auth().currentUser?.uid else {return}
         let values = [uid: post!.hasLiked == true ? 0:1]
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
-            if let err = err {
+            if let _ = err {
                 
-                let alert = showAlert(title: "Failed to like post", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to like post:",err)
+                showErr(info: "Failed to like post", subInfo: tryLater)
             }
             print("Successfully liked post")
             self.post!.hasLiked = !self.post!.hasLiked
@@ -100,9 +98,7 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
             // unsave
             ref.removeValue { (err, _) in
                 if let err = err {
-                    let alert = showAlert(title: "Failed to unsave the post", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to unsave: ",err)
+                    showErr(info: "Failed to unsave post", subInfo: tryLater)
                 }
                 post.hasSaved = false
                 self.collectionView?.reloadData()
@@ -112,10 +108,8 @@ class PostViewController: UICollectionViewController, HomePostCellDelegate, UICo
             let values = ["userId": targetUID]
             
             ref.updateChildValues(values) { (err, ref) in
-                if let err = err {
-                    let alert = showAlert(title: "Failed to save the post", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to save this post:",err)
+                if let _ = err {
+                    showErr(info: "Failed to save post", subInfo: tryLater)
                 }
                 
                 post.hasSaved = true

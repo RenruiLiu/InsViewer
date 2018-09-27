@@ -150,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				EA858001215C96EC00EDB26D /* FirebaseFunctions.swift */,
+				EA8DABC5215789A300D6C92D /* Alert.swift */,
 				EA858003215C99A000EDB26D /* Functions.swift */,
 			);
 			path = Functions;
@@ -163,7 +164,6 @@
 				EA8F186F2146A015005EBDFC /* Extensions.swift */,
 				EA8F18B1214B523F005EBDFC /* CustomImageView.swift */,
 				EA20EEE7214E74A2003FA06D /* Delegates.swift */,
-				EA8DABC5215789A300D6C92D /* Alert.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

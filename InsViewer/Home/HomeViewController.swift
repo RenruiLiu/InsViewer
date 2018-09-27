@@ -206,11 +206,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         guard let uid = Auth.auth().currentUser?.uid else {return}
         let values = [uid: post.hasLiked == true ? 0:1]
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
-            if let err = err {
-                
-                let alert = showAlert(title: "Failed to like post", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to like post:",err)
+            if let _ = err {
+                showErr(info: "Failed to like post", subInfo: tryLater)
+                return
             }
             post.hasLiked = !post.hasLiked
             self.posts[indexPath.item] = post
@@ -238,11 +236,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         if post.hasSaved {
             // unsave
             ref.removeValue { (err, _) in
-                if let err = err {
-                    
-                    let alert = showAlert(title: "Failed to unsave the post", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to unsave: ",err)
+                if let _ = err {
+                    showErr(info: "Failed to unsave the post", subInfo: tryLater)
+                    return
                 }
                 post.hasSaved = false
                 self.posts[indexPath.item] = post
@@ -253,16 +249,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             let values = ["userId": targetUID]
             
             ref.updateChildValues(values) { (err, ref) in
-                if let err = err {
-                    let alert = showAlert(title: "Failed to save the post", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to save this post:",err)
+                if let _ = err {
+                    showErr(info: "Failed to save the post", subInfo: tryLater)
                 }
                 
                 post.hasSaved = true
                 self.posts[indexPath.item] = post
                 self.collectionView?.reloadItems(at: [indexPath])
-                print("Successfully save the post into database")
             }
         }
     }

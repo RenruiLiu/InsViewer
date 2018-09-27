@@ -82,13 +82,10 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         // childByAutoId() creates a random id for creating a new node in comment tree
         // which means every comment is a new node containing its text, sender, creationDate etc.
         Database.database().reference().child("comment").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
-            if let err = err {
-                
-                let alert = showAlert(title: "Failed to comment", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to insert comment into database",err)
+            if let _ = err {
+                showErr(info: "Failed to comment", subInfo: tryLater)
+                return
             }
-            print("Successfully inserted comment")
             self.containerView.clearCommentTextView()
         }
         
@@ -141,10 +138,8 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         let ref = Database.database().reference().child("comment").child(postId).child(commentId)
         ref.removeValue { (err, _) in
             if let err = err {
-                
-                let alert = showAlert(title: "Failed to delete the comment", text: "please try again later")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to Delete current comment",err)
+                showErr(info: "Failed to delete the comment", subInfo: tryLater)
+                return
             }
             self.comments.remove(at: cellId)
             self.collectionView.reloadData()

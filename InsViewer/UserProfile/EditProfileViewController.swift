@@ -204,14 +204,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         let values = ["username": username, "profileImageUrl": profileImageURL]
         guard let uid = self.user?.uid else {return}
         Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
-            if let err = err {
-                print("Failed to update user profile",err)
+            if let _ = err {
+                showErr(info: "Failed to update user profile", subInfo: tryLater)
                 return
             }
             
-            let alert = showAlert(title: "Successfully edited user profile", text: "please re-login to see update")
-            self.present(alert, animated: true, completion: nil)
-            print("Successfully edited user profile, please re-login to see update")
+            showSuccess(info: "Successfully edited user profile", subInfo: "please re-login to see update")
         })
     }
     
@@ -220,18 +218,14 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         guard let email = user?.email else {return}
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         user?.reauthenticate(with: credential, completion: { (err) in
-            if let err = err {
+            if let _ = err {
                 
-                let alert = showAlert(title: "Failed to verify your password", text: "please check your password again")
-                self.present(alert, animated: true, completion: nil)
-                print("Failed to verify your password:",err)
+                showErr(info: "Failed to verify your password", subInfo: "please check your password again")
                 return
             }
             user?.updatePassword(to: newPassword, completion: { (err) in
-                if let err = err {
-                    let alert = showAlert(title: "Failed to setup new password", text: "please try again later")
-                    self.present(alert, animated: true, completion: nil)
-                    print("Failed to setup new password:",err)
+                if let _ = err {
+                    showErr(info: "Failed to setup new password", subInfo: tryLater)
                     return
                 }
                 print("Successfully changed your password, please login again")

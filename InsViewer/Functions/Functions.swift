@@ -41,16 +41,14 @@ func showOptions(post: Post){
         alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
             
             // report alert
-            let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
-            let alertView = SCLAlertView(appearance: appearance)
+            let alertView = SCLAlertView()
             let textView = alertView.addTextView()
             alertView.addButton("Report", action: {
                 var reason = "None"
                 if textView.text != "" {reason = textView.text}
                 reportPost(post: post, reason: reason)
             })
-            alertView.addButton("Cancel", action: {})
-            alertView.showEdit("Reason", subTitle: "")
+            alertView.showEdit("Reason", subTitle: "",closeButtonTitle: "Cancel")
         }))
         
         alertController.addAction(UIAlertAction(title: "Block this user", style: .destructive, handler: { (_) in
