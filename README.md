@@ -11,3 +11,10 @@ TODO:
 -17. enable change language
 19. number of cells in addPhoto 
 20. number of users in search
+
+[
+1. report this post
+2. hide this post
+3. EULA in register
+4. block user (no following no commenting)
+]
