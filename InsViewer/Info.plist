@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We'd like to access the camera to take photos</string>
+	<string>We&apos;d like to access the camera to take photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We have to access your photo library to choose one image</string>
 	<key>UILaunchStoryboardName</key>

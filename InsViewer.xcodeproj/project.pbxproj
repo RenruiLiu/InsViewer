@@ -20,6 +20,8 @@
 		EA20EEEE214F6382003FA06D /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA20EEED214F6382003FA06D /* Comment.swift */; };
 		EA4A4DE721454B8E00B17ECB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */; };
 		EA7DE936215A705F0010ABFE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA7DE935215A705F0010ABFE /* GoogleService-Info.plist */; };
+		EA857FFD215C86BE00EDB26D /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA857FFC215C86BE00EDB26D /* EULAViewController.swift */; };
+		EA857FFF215C8DFE00EDB26D /* EULA.txt in Resources */ = {isa = PBXBuildFile; fileRef = EA857FFE215C8DFE00EDB26D /* EULA.txt */; };
 		EA8DABBC215242A500D6C92D /* Unfollow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBB215242A500D6C92D /* Unfollow.swift */; };
 		EA8DABBE215249E000D6C92D /* PZSwipedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */; };
 		EA8DABC021533DFA00D6C92D /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBF21533DFA00D6C92D /* PostViewController.swift */; };
@@ -62,6 +64,8 @@
 		EA20EEED214F6382003FA06D /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		EA7DE935215A705F0010ABFE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EA857FFC215C86BE00EDB26D /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
+		EA857FFE215C8DFE00EDB26D /* EULA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EULA.txt; sourceTree = "<group>"; };
 		EA8DABBB215242A500D6C92D /* Unfollow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unfollow.swift; sourceTree = "<group>"; };
 		EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PZSwipedCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA8DABBF21533DFA00D6C92D /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 			children = (
 				EA8F189C2148E41C005EBDFC /* LoginViewController.swift */,
 				EA4A4DE621454B8E00B17ECB /* SignUpViewController.swift */,
+				EA857FFC215C86BE00EDB26D /* EULAViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				EA8F186E2146A003005EBDFC /* Utils */,
 				EAE93C032144279F00EBC0A8 /* AppDelegate.swift */,
 				EA7DE935215A705F0010ABFE /* GoogleService-Info.plist */,
+				EA857FFE215C8DFE00EDB26D /* EULA.txt */,
 				EAE93C072144279F00EBC0A8 /* Main.storyboard */,
 				EAE93C0A214427A000EBC0A8 /* Assets.xcassets */,
 				EAE93C0C214427A000EBC0A8 /* LaunchScreen.storyboard */,
@@ -324,6 +330,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA857FFF215C8DFE00EDB26D /* EULA.txt in Resources */,
 				EAE93C0E214427A000EBC0A8 /* LaunchScreen.storyboard in Resources */,
 				EA7DE936215A705F0010ABFE /* GoogleService-Info.plist in Resources */,
 				EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */,
@@ -404,6 +411,7 @@
 				EA8F18A1214A247A005EBDFC /* PhotoSeletorCell.swift in Sources */,
 				EA8F189F2149392E005EBDFC /* PhotoSelectorCollectionViewController.swift in Sources */,
 				EA8F18A5214A3294005EBDFC /* SharePhotoViewController.swift in Sources */,
+				EA857FFD215C86BE00EDB26D /* EULAViewController.swift in Sources */,
 				EA8F189B21480387005EBDFC /* UserProfileHeader.swift in Sources */,
 				EA8F18702146A015005EBDFC /* Extensions.swift in Sources */,
 				EA8F18B5214B60E8005EBDFC /* HomeViewController.swift in Sources */,

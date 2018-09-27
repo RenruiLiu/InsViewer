@@ -63,10 +63,49 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         button.isEnabled = false
         return button
     }()
-    
+    let checkBox: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("0", for: .normal)
+        button.tintColor = .white
+        button.setImage(#imageLiteral(resourceName: "uncheck").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleCheck), for: .touchUpInside)
+        return button
+    }()
+    let readEULA: UILabel = {
+        let lb = UILabel()
+        lb.text = "I've read and agree with"
+        lb.font = lb.font.withSize(12)
+        lb.textColor = .lightGray
+        return lb
+    }()
+    let EULA: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setTitle("EULA", for: .normal)
+        btn.titleLabel?.font = btn.titleLabel?.font.withSize(12)
+        btn.addTarget(self, action: #selector(handleEULA), for: .touchUpInside)
+        return btn
+    }()
     
     //____________________________________________________________________________________
     //functions
+    @objc func handleEULA(){
+        let EULA_VC = EULAViewController()
+        let navVC = UINavigationController(rootViewController: EULA_VC)
+        navVC.isNavigationBarHidden = false
+        present(navVC, animated: true)
+    }
+    
+    @objc func handleCheck(){
+        if checkBox.currentTitle == "1" {
+            checkBox.setImage(#imageLiteral(resourceName: "uncheck").withRenderingMode(.alwaysOriginal), for: .normal)
+            checkBox.setTitle("0", for: .normal)
+        } else {
+            checkBox.setImage(#imageLiteral(resourceName: "baseline_check_box_black_18dp").withRenderingMode(.alwaysOriginal), for: .normal)
+            checkBox.setTitle("1", for: .normal)
+        }
+        handleTextInputChange()
+    }
+    
     @objc func handlePlusPhoto(){
         let imgpickerController = UIImagePickerController()
         imgpickerController.delegate = self
@@ -92,7 +131,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @objc func handleTextInputChange(){
         let isFormValid = emailTextField.text?.count ?? 0 > 0 && usernameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
-        if isFormValid {
+        print(checkBox.currentTitle!)
+        if isFormValid && checkBox.currentTitle! == "1"{
             signUpBtn.isEnabled = true
             signUpBtn.backgroundColor = .mainBlue()
         } else {
@@ -147,6 +187,12 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         view.addSubview(stackView)
         stackView.anchor(top: plusPhotoBtn.bottomAnchor, paddingTop: 20, bottom: nil, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 40, right: view.rightAnchor, paddingRight: 40, width: 0, height: 200)
 
+        view.addSubview(checkBox)
+        view.addSubview(readEULA)
+        view.addSubview(EULA)
+        checkBox.anchor(top: stackView.bottomAnchor, paddingTop: 16, bottom: nil, paddingBottom: 0, left: stackView.leftAnchor, paddingLeft: 0, right: nil, paddingRight: 0, width: 24, height: 24)
+        readEULA.anchor(top: stackView.bottomAnchor, paddingTop: 16, bottom: nil, paddingBottom: 0, left: checkBox.rightAnchor, paddingLeft: 4, right: EULA.leftAnchor, paddingRight: 2, width: 0, height: 25)
+        EULA.anchor(top: stackView.bottomAnchor, paddingTop: 16, bottom: nil, paddingBottom: 0, left: readEULA.rightAnchor, paddingLeft: 2, right: nil, paddingRight: 0, width: 0, height: 25)
     }
     
     //____________________________________________________________________________________

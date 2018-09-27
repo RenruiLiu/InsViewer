@@ -47,9 +47,12 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, 
         viewControllers = [homeNavController,
                            searchNavController,
                            plusNavController,
-                           likeNavContoller,
                            userProfileNavContoller]
-        
+//        viewControllers = [homeNavController,
+//                           searchNavController,
+//                           plusNavController,
+//                           likeNavContoller,
+//                           userProfileNavContoller]
         // adjust the position of icon in tab bar
         guard let items = tabBar.items else {return}
         for item in items{
