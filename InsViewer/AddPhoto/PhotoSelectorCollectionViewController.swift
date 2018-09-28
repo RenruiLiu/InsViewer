@@ -72,7 +72,7 @@ class PhotoSelectorCollectionViewController: UICollectionViewController, UIColle
     
     fileprivate func assetFetchOptions() -> PHFetchOptions{
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 15 //fetch number of photos in library
+        fetchOptions.fetchLimit = 52 //fetch number of photos in library
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
         return fetchOptions
