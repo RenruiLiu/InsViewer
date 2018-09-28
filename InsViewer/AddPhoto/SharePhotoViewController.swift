@@ -67,13 +67,13 @@ class SharePhotoViewController: UIViewController {
             }
             guard let imageUrl = metadata?.downloadURL()?.absoluteString else {return}
             print("Successfully uploaded post image:", imageUrl)
-            self.saveToDatabaseWithImageUrl(imageUrl: imageUrl)
+            self.saveToDatabaseWithImageUrl(imageUrl: imageUrl, filename: filename)
         }
     }
     
     // create a child node "posts" which contains all infomation of posts of users
     
-    fileprivate func saveToDatabaseWithImageUrl(imageUrl: String){
+    fileprivate func saveToDatabaseWithImageUrl(imageUrl: String, filename: String){
         //
         guard let postImg = selectedImg else {return}
         guard let uid = Auth.auth().currentUser?.uid else {return}
@@ -82,7 +82,7 @@ class SharePhotoViewController: UIViewController {
         let userPostRef = Database.database().reference().child("posts").child(uid)
         let ref = userPostRef.childByAutoId()
         // imgUrl - caption - imgWidth - imgHeight - creationDate
-        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImg.size.width, "imageHeight": postImg.size.height, "creationDate": Date().timeIntervalSince1970] as [String: Any]
+        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImg.size.width, "imageHeight": postImg.size.height, "creationDate": Date().timeIntervalSince1970, "postImgFileName": filename] as [String: Any]
         ref.updateChildValues(values) { (err, ref) in
             if let _ = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true

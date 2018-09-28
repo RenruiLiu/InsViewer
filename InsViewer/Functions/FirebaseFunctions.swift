@@ -15,16 +15,30 @@ func deleteFromFirebase(post: Post){
     //deletion
     guard let uid = Auth.auth().currentUser?.uid else {return}
     guard let postId = post.id else {return}
-    Database.database().reference().child("posts").child(uid).child(postId).removeValue(completionBlock: { (err, ref) in
+    
+    let ref = Database.database().reference().child("posts").child(uid).child(postId)
+    print(post.postImgFileName)
+    
+    // delete database post
+    ref.removeValue(completionBlock: { (err, ref) in
         if let _ = err {
             showErr(info: "Failed to remove this post", subInfo: tryLater)
             return
         }
         
-        showSuccess(info: "Successfully deleted post", subInfo: "")
+        // delete storage post image
+        let delRef = Storage.storage().reference().child("posts").child(post.postImgFileName)
+        delRef.delete(completion: { (err) in
+            if let _ = err {
+                showErr(info: "Failed to remove this post", subInfo: tryLater)
+                return
+            }
         
-        // notify refresh
-        NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
+            showSuccess(info: "Successfully deleted post", subInfo: "")
+            
+            // notify refresh
+            NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
+        })
     })
 }
 
