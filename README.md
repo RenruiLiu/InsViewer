@@ -9,9 +9,6 @@ TODO:
 13. likes in cell  
 -14. show like and save in postview & profile view  
 -17. enable change language
-19. number of cells in addPhoto 
-20. number of users in search
-
 [
 1. report this post
 2. hide this post
