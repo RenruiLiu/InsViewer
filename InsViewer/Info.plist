@@ -19,11 +19,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2018092903</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We&apos;d like to access the camera to take photos</string>
+	<string>We'd like to access the camera to take photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We have to access your photo library to choose one image</string>
 	<key>UILaunchStoryboardName</key>

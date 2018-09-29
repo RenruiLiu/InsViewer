@@ -38,3 +38,8 @@ func showSuccess(info: String, subInfo: String, duration: TimeInterval = 3){
     let alert = SCLAlertView(appearance: appearance)
     alert.showSuccess(info, subTitle: subInfo, timeout: SCLAlertView.SCLTimeoutConfiguration(timeoutValue: duration, timeoutAction: {}))
 }
+func showWait(info: String, subInfo: String, duration: TimeInterval = 3){
+    let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+    let alert = SCLAlertView(appearance: appearance)
+    alert.showWait(info, subTitle: subInfo, timeout: SCLAlertView.SCLTimeoutConfiguration(timeoutValue: duration, timeoutAction: {}))
+}

@@ -162,13 +162,42 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                     showErr(info: "Failed to send verification email", subInfo: "Please try to signup again later")
                 }
                 
-                let alert = SCLAlertView()
-                alert.addButton("Yes", action: {
-                    self.checkVerify(user: user)
+                let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+                let alert = SCLAlertView(appearance: appearance)
+                alert.addButton("I've verified my email", action: {
+                    self.isEmailVerified(user: user)
                 })
-                alert.showNotice("Email sent", subTitle: "Please go verify your email now 'BEFORE' press Yes",closeButtonTitle: "Cancel")
+                alert.showSuccess("Email sent", subTitle: "Please verify your email now")
+                
             })
         }
+    }
+    
+    fileprivate func showCheckEmailAlert(user: User){
+        let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+        let alert = SCLAlertView(appearance: appearance)
+        alert.addButton("I've verified my email", action: {
+            self.isEmailVerified(user: user)
+        })
+        alert.addButton("No, I'll try again later") {
+            user.delete(completion: nil)
+            user.delete(completion: { (err) in
+                self.enableSignupBtn(bool: true)
+            })
+        }
+        alert.showWarning("Your email isn't verified", subTitle: "Please verify your email")
+    }
+    
+    fileprivate func isEmailVerified(user: User?) {
+        user?.reload(completion: { (_) in
+            guard let isEmailVerified = user?.isEmailVerified else {return}
+            if isEmailVerified {
+                self.storeUserProfile()
+            } else {
+                guard let user = user else {return}
+                self.showCheckEmailAlert(user: user)
+            }
+        })
     }
     
     fileprivate func setupInputFields(){
@@ -217,21 +246,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         view.addSubview(alreadyHaveAccountBtn)
         alreadyHaveAccountBtn.anchor(top: nil, paddingTop: 0, bottom: view.bottomAnchor, paddingBottom: 0, left: view.leftAnchor, paddingLeft: 0, right: view.rightAnchor, paddingRight: 0, width: 0, height: 50)
         
-    }
-    
-    
-    fileprivate func checkVerify(user: User?) {
-        user?.reload(completion: { (_) in
-            guard let isEmailVerified = user?.isEmailVerified else {return}
-            if isEmailVerified {
-                self.storeUserProfile()
-            } else {
-                user?.delete(completion: nil)
-                
-                showErr(info: "Your email isn't verified yet", subInfo: "Please signup again")
-                self.enableSignupBtn(bool: true)
-            }
-        })
     }
     
     fileprivate func storeUserProfile(){

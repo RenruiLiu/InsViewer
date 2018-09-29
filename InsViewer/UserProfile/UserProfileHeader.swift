@@ -146,10 +146,9 @@ class UserProfileHeader: UICollectionViewCell {
             
             // get list of users who blocked the current user
             var blockList = [String]()
+            
             Database.database().reference().child("block").child(currentUserId).observeSingleEvent(of: .value) { (snapshot) in
-                guard let dict = snapshot.value as? [String:Any] else {
-                    print("return1")
-                    return}
+                let dict = snapshot.value as? [String:Any] ?? [:]
                 for key in Array(dict.keys) {
                     blockList.append(key)
                 }
@@ -157,13 +156,11 @@ class UserProfileHeader: UICollectionViewCell {
                 // check if the current user blocked the profile user
                 var blockList1 = [String]()
                 Database.database().reference().child("block").child(userId).observeSingleEvent(of: .value) { (snapshot) in
-                    guard let dict = snapshot.value as? [String:Any] else {
-                        print("return2")
-                        return}
+                    let dict = snapshot.value as? [String:Any] ?? [:]
                     for key in Array(dict.keys) {
                         blockList1.append(key)
                     }
-                    
+
                     // if the profile user is blocked by the current user
                     if blockList1.contains(currentUserId) {
                         showWarning(info: "Connot follow", subInfo: "Please unblock the user before you follow")
