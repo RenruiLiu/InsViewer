@@ -97,15 +97,27 @@ class HomePostCell: UICollectionViewCell{
     }
     fileprivate func setupAttributedCaption(){
         guard let post = self.post else {return}
-        
-        //
+        guard let postID = post.id else {return}
+        // posts
         let attributedText = NSMutableAttributedString(string: post.user.username,attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: " \(post.caption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        
+        // post time
         let timeAgo = post.creationDate.timeAgoDisplay()
         attributedText.append(NSAttributedString(string: timeAgo, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
-        captionLabel.attributedText = attributedText
+
+        // fetch likes
+        let ref = Database.database().reference().child("likes").child(postID)
+        ref.observe(.value, with: { (snapshot) in
+            let count = snapshot.childrenCount
+            if count != 0 {
+                attributedText.append(NSAttributedString(string: "    \(count) likes", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            }
+            self.captionLabel.attributedText = attributedText
+        })
     }
+    
     //____________________________________________________________________________________
 
     @objc func handleComment(){
