@@ -2,7 +2,7 @@
 
 # Download
 Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around
-![appleStore1](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png){height=50%; width=50%}
+![appleStore1](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png){width=50%}
 ![appleStore2](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png)
 
 # Features
