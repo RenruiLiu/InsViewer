@@ -1,6 +1,8 @@
-# YuisoView
-Instagram clone with Firebase
-Available on iPhone Apple Store "YuisoView"
+# YuisoView - a Instagram clone with Google Firebase
+
+# Download
+================
+Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around
 
 TODO:  
 *3. Pagination on home page  
@@ -8,10 +10,3 @@ TODO:
 11. following & follower list  
 -14. show like and save in postview & profile view  
 -17. enable change language
-[
-1. report this post
-2. hide this post
-3. EULA in register
-4. block user (no following no commenting)
-5. 3 report to a user send a sms to developer
-]
