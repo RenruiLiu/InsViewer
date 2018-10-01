@@ -2,13 +2,13 @@
 
 # Download
 Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around
-![appleStore1](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png)
+![appleStore1](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png){height=50%; width=50%}
 ![appleStore2](https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png)
 
 # Features
 
 # Platform Requires / Limits
-It only runs on `iOS 11.4+`
+It only runs on `iOS 11.4+`  
 And please make sure that you can access `Google Service`
 
 # Used libraries
