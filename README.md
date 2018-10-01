@@ -10,6 +10,9 @@ Available on iPhone Apple Store now! Search "YuisoView" to download and play aro
         <kbd><tr><td><img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png" alt="app2" width="500"/></kbd>
 
 # Features
+1. Create account with your email
+2. Post some insteresting photos on it!
+...
 
 # Platform Requires / Limits
 1. It only runs on `iPhone` `iOS 11.4+`  
