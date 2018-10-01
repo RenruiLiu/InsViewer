@@ -1,7 +1,7 @@
 # YuisoView - a Instagram clone with Google Firebase
 
 # Download
-================
+====
 Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around
 
 TODO:  
