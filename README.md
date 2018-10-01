@@ -1,5 +1,8 @@
 # YuisoView - a Instagram clone with Google Firebase
 
+![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
+![](https://img.shields.io/badge/ios-11.4-green.svg)
+
 # Download
 Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around  
 <kbd><img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png" alt="app1" width="300"/></kbd>
