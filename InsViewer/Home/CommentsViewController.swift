@@ -81,7 +81,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         // get list of users who blocked the current user
         var blockList = [String]()
         Database.database().reference().child("block").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dict = snapshot.value as? [String:Any] else {return}
+            let dict = snapshot.value as? [String:Any] ?? [:]
             for key in Array(dict.keys) {
                 blockList.append(key)
             }

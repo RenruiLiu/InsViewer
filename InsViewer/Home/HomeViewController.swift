@@ -42,6 +42,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         fetchAllPosts()
         setupRefresher()
+        
     }
     
     //____________________________________________________________________________________
