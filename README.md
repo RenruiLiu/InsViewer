@@ -1,4 +1,4 @@
-# InsViewer
+# YuisoView
 Instagram clone with Firebase
 Available on iPhone Apple Store "YuisoView"
 
