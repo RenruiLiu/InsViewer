@@ -5,7 +5,7 @@
 ![](https://img.shields.io/badge/language-swift4.2-brightgreen.svg)
 
 # Download
-Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around  
+Available on iPhone Apple Store now! Search "YuisoView" to download and play around  
 <kbd><img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png" alt="app1" width="300"/></kbd>
         <kbd><tr><td><img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png" alt="app2" width="500"/></kbd>
 
@@ -27,3 +27,6 @@ Backend service (storage + database) -> [GoogleFirebase](https://firebase.google
 11. following & follower list  
 -14. show like and save in postview & profile view  
 -17. enable change language
+
+# LICENSE
+YuisoView is licensed under [MIT](https://github.com/RenruiLiu/YuisoView/blob/master/LICENSE)
