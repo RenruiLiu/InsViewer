@@ -1,5 +1,6 @@
 # InsViewer
 Instagram clone with Firebase
+Available on iPhone Apple Store "YuisoView"
 
 TODO:  
 *3. Pagination on home page  
