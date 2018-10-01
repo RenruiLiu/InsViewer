@@ -16,10 +16,10 @@ Available on iPhone Apple Store "YuisoView" now! Welcome to download and play ar
 2. please make sure that you can access `Google Service`
 
 # Used libraries
-[Sharaku](https://github.com/makomori/Sharaku)  
-[PZSwipedCollectionViewCell](https://github.com/EvoIos/PZSwipedCollectionViewCell)  
-[SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)  
-[GoogleFirebase](https://firebase.google.com/)
+Photo Filter -> [Sharaku](https://github.com/makomori/Sharaku)  
+Comment Cell -> [PZSwipedCollectionViewCell](https://github.com/EvoIos/PZSwipedCollectionViewCell)  
+Alert -> [SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)  
+Backend service (storage + database) -> [GoogleFirebase](https://firebase.google.com/)
 
 # TODO
 *3. Pagination on home page  
