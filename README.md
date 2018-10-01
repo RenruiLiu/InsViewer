@@ -3,7 +3,7 @@
 # Download
 Available on iPhone Apple Store "YuisoView" now! Welcome to download and play around  
 <img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore1.png" alt="app1" width="300"/>
-<img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png" alt="app2" width="500"/>
+____<img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png" alt="app2" width="500"/>
 
 # Features
 
@@ -12,9 +12,9 @@ Available on iPhone Apple Store "YuisoView" now! Welcome to download and play ar
 2. please make sure that you can access `Google Service`
 
 # Used libraries
-[Sharaku](https://github.com/makomori/Sharaku)
-[PZSwipedCollectionViewCell](https://github.com/EvoIos/PZSwipedCollectionViewCell)
-[SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)
+[Sharaku](https://github.com/makomori/Sharaku)  
+[PZSwipedCollectionViewCell](https://github.com/EvoIos/PZSwipedCollectionViewCell)  
+[SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)  
 [GoogleFirebase](https://firebase.google.com/)
 
 # TODO
