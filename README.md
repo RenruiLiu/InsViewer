@@ -13,6 +13,7 @@ Available on iPhone Apple Store now! Search "YuisoView" to download and play aro
 1. Nobody knows you here! You can start a secret journey!
 2. Post some insteresting photos on it!
 3. Enjoy our pool photo filters..  
+4. Support English and Chinese
 ...
 
 # Platform Requires / Limits
@@ -30,7 +31,6 @@ Backend service (storage + database) -> [GoogleFirebase](https://firebase.google
 18. like page  
 11. following & follower list  
 -14. show like and save in postview & profile view  
--17. enable change language  
 19. block list  
 20. notification language  
 
