@@ -10,8 +10,9 @@ Available on iPhone Apple Store now! Search "YuisoView" to download and play aro
         <kbd><tr><td><img src="https://github.com/RenruiLiu/YuisoView/blob/master/InsViewer/Assets.xcassets/assets/appleStore2.png" alt="app2" width="500"/></kbd>
 
 # Features
-1. Create account with your email
+1. Nobody knows you here! You can start a secret journey!
 2. Post some insteresting photos on it!
+3. Enjoy our pool photo filters..  
 ...
 
 # Platform Requires / Limits
