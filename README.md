@@ -31,6 +31,8 @@ Backend service (storage + database) -> [GoogleFirebase](https://firebase.google
 11. following & follower list  
 -14. show like and save in postview & profile view  
 -17. enable change language
+19. block list
+20. notification language
 
 # LICENSE
 YuisoView is licensed under [MIT](https://github.com/RenruiLiu/YuisoView/blob/master/LICENSE)
