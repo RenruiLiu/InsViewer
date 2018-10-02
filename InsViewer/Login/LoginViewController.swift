@@ -25,7 +25,8 @@ class LoginViewController: UIViewController {
     
     let emailTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Email"
+        let email = NSLocalizedString("email", comment: "")
+        tf.placeholder = email
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
@@ -35,7 +36,8 @@ class LoginViewController: UIViewController {
     }()
     let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Password"
+        let password = NSLocalizedString("password", comment: "")
+        tf.placeholder = password
         tf.isSecureTextEntry = true
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
@@ -46,7 +48,8 @@ class LoginViewController: UIViewController {
     }()
     let loginBtn: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Login", for: .normal)
+        let login = NSLocalizedString("login", comment: "")
+        button.setTitle(login, for: .normal)
         button.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
@@ -84,8 +87,9 @@ class LoginViewController: UIViewController {
         guard let password = passwordTextField.text else {return}
         Auth.auth().signIn(withEmail: email, password: password) { (user, err) in
             if let _ = err {
-                
-                showErr(info: "Failed to login", subInfo: "Please check your email and password")
+                let failLogin = NSLocalizedString("failLogin", comment: "")
+                let checkEmailPwd = NSLocalizedString("checkEmailPwd", comment: "")
+                showErr(info: failLogin, subInfo: checkEmailPwd)
                 return
             }
             print("Login Successfully with user: ", user?.uid ?? "")
@@ -116,8 +120,11 @@ class LoginViewController: UIViewController {
     let DontHaveAccountBtn: UIButton = {
         let button = UIButton(type: .system)
         // set attributed title
-        let attributedTitle = NSMutableAttributedString(string: "Dont have an account? ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSMutableAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
+        let donthaveAccount = NSLocalizedString("donthaveAccount", comment: "")
+        let signUp = NSLocalizedString("signUp", comment: "")
+        
+        let attributedTitle = NSMutableAttributedString(string: "\(donthaveAccount) ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        attributedTitle.append(NSMutableAttributedString(string: signUp, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button

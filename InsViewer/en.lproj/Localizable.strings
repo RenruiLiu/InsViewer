@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  Created by Renrui Liu on 2/10/18.
+*/
+
+"login" = "Login";
+"email" = "Email";
+"password" = "Password";
+"failLogin" = "Failed to login";
+"checkEmailPwd" = "Please check your email and password";
+"donthaveAccount" = "Dont have an account?";
+"signUp" = "SignUp";
+"back" = "Back";
+"username" = "Username";
+"readAgree" = "I've read and agree with";
+"EULA" = "EULA";
+"failCreateUser" = "Failed to create a new user";
+"checkEmail" = "Please check your email";
+"failSendEmail" = "Failed to send verification email";
+"trySignupLater" = "Please try to signup again later";
+"verifiedEmail" = "I've verified my email";
+"emailSent" = "Email sent";
+"verifyEmail" = "Please verify your email";
+"trylater" = "No, I'll try again later";
+"notVerified" = "Your email isn't verified";
+"alreadyHaveAccount" = "Already have an account?";

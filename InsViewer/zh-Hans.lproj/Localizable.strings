@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  Created by Renrui Liu on 2/10/18.
+*/
+
+"login" = "登录";
+"email" = "邮箱";
+"password" = "密码";
+"failLogin" = "登录失败";
+"checkEmailPwd" = "请检查您的邮箱和密码";
+"donthaveAccount" = "还没有账号？";
+"signUp" = "注册";
+"back" = "返回";
+"username" = "用户名";
+"readAgree" = "我已经阅读且同意";
+"EULA" = "最终用户协议";
+"failCreateUser" = "注册新用户失败";
+"checkEmail" = "请检查您的邮箱";
+"failSendEmail" = "发送验证邮件失败";
+"trySignupLater" = "请稍后再次尝试注册";
+"verifiedEmail" = "我已验证了我的邮箱";
+"emailSent" = "邮件发送";
+"verifyEmail" = "请验证您的邮箱";
+"trylater" = "不，我稍后再重试";
+"notVerified" = "您的邮箱尚未验证";
+"alreadyHaveAccount" = "已经有账号了？";

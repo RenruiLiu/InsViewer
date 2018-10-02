@@ -23,7 +23,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     let emailTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Email"
+        tf.placeholder = NSLocalizedString("email", comment: "")
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
@@ -33,7 +33,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     let usernameTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Username"
+        tf.placeholder = NSLocalizedString("username", comment: "")
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
@@ -43,7 +43,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Password"
+        tf.placeholder = NSLocalizedString("password", comment: "")
         tf.isSecureTextEntry = true
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
         tf.borderStyle = .roundedRect
@@ -54,7 +54,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     let signUpBtn: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Sign Up", for: .normal)
+        button.setTitle(NSLocalizedString("signUp", comment: ""), for: .normal)
         button.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
@@ -74,14 +74,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     let readEULA: UILabel = {
         let lb = UILabel()
-        lb.text = "I've read and agree with"
+        lb.text = NSLocalizedString("readAgree", comment: "")
         lb.font = lb.font.withSize(12)
         lb.textColor = .lightGray
         return lb
     }()
     let EULA: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("EULA", for: .normal)
+        btn.setTitle(NSLocalizedString("EULA", comment: ""), for: .normal)
         btn.titleLabel?.font = btn.titleLabel?.font.withSize(12)
         btn.addTarget(self, action: #selector(handleEULA), for: .touchUpInside)
         return btn
@@ -151,7 +151,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
             if let _ = error {
                 
-                showErr(info: "Failed to create a new user", subInfo: "Please check your email")
+                showErr(info: NSLocalizedString("failCreateUser", comment: ""), subInfo: NSLocalizedString("checkEmail", comment: ""))
                 return
             }
             print("Successfully created user: ", user?.uid ?? "")
@@ -159,15 +159,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             user?.sendEmailVerification(completion: { (err) in
                 
                 if let _ = err {
-                    showErr(info: "Failed to send verification email", subInfo: "Please try to signup again later")
+                    showErr(info: NSLocalizedString("failSendEmail", comment: ""), subInfo: NSLocalizedString("trySignupLater", comment: ""))
                 }
                 
                 let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
                 let alert = SCLAlertView(appearance: appearance)
-                alert.addButton("I've verified my email", action: {
+                alert.addButton(NSLocalizedString("verifiedEmail", comment: ""), action: {
                     self.isEmailVerified(user: user)
                 })
-                alert.showSuccess("Email sent", subTitle: "Please verify your email now")
+                
+                alert.showSuccess(NSLocalizedString("emailSent", comment: ""), subTitle: NSLocalizedString("verifyEmail", comment: ""))
                 
             })
         }
@@ -176,16 +177,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     fileprivate func showCheckEmailAlert(user: User){
         let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
         let alert = SCLAlertView(appearance: appearance)
-        alert.addButton("I've verified my email", action: {
+        alert.addButton(NSLocalizedString("verifiedEmail", comment: ""), action: {
             self.isEmailVerified(user: user)
         })
-        alert.addButton("No, I'll try again later") {
+        alert.addButton(NSLocalizedString("trylater", comment: "")) {
             user.delete(completion: nil)
             user.delete(completion: { (err) in
                 self.enableSignupBtn(bool: true)
             })
         }
-        alert.showWarning("Your email isn't verified", subTitle: "Please verify your email")
+        alert.showWarning(NSLocalizedString("notVerified", comment: ""), subTitle: NSLocalizedString("verifyEmail", comment: ""))
     }
     
     fileprivate func isEmailVerified(user: User?) {
@@ -221,8 +222,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let alreadyHaveAccountBtn: UIButton = {
         let button = UIButton(type: .system)
         // set attributed title
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        attributedTitle.append(NSMutableAttributedString(string: "Login", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
+        let alreadyhaveAccount = NSLocalizedString("alreadyHaveAccount", comment: "")
+        let attributedTitle = NSMutableAttributedString(string: "\(alreadyhaveAccount) ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        attributedTitle.append(NSMutableAttributedString(string: NSLocalizedString("login", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue: 237)]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
@@ -271,8 +273,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken]
             let values = [uid: dictionaryValues]
             Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
-                if let _ = err {
-                    showErr(info: "Failed to save user info", subInfo: tryLater)
+                if let err = err {
+                    print("Failed to save user info:",err)
                     return
                 }
                 print("Successfully saved user info into db")

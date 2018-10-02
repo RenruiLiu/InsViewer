@@ -24,6 +24,7 @@
 		EA857FFF215C8DFE00EDB26D /* EULA.txt in Resources */ = {isa = PBXBuildFile; fileRef = EA857FFE215C8DFE00EDB26D /* EULA.txt */; };
 		EA858002215C96EC00EDB26D /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA858001215C96EC00EDB26D /* FirebaseFunctions.swift */; };
 		EA858004215C99A000EDB26D /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA858003215C99A000EDB26D /* Functions.swift */; };
+		EA85801F2163070700EDB26D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA85801D2163070600EDB26D /* Localizable.strings */; };
 		EA8DABBE215249E000D6C92D /* PZSwipedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */; };
 		EA8DABC021533DFA00D6C92D /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABBF21533DFA00D6C92D /* PostViewController.swift */; };
 		EA8DABC42154CA7600D6C92D /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8DABC32154CA7600D6C92D /* EditProfileViewController.swift */; };
@@ -69,6 +70,12 @@
 		EA857FFE215C8DFE00EDB26D /* EULA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EULA.txt; sourceTree = "<group>"; };
 		EA858001215C96EC00EDB26D /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		EA858003215C99A000EDB26D /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		EA858016216305C200EDB26D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		EA858018216305CE00EDB26D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		EA85801E2163070600EDB26D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EA8580202163076A00EDB26D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		EA8580212163076B00EDB26D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		EA8580222163076C00EDB26D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		EA8DABBD215249E000D6C92D /* PZSwipedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PZSwipedCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA8DABBF21533DFA00D6C92D /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		EA8DABC32154CA7600D6C92D /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -266,6 +273,7 @@
 				EAE93C032144279F00EBC0A8 /* AppDelegate.swift */,
 				EA8DABC72159BC7900D6C92D /* InsViewer.entitlements */,
 				EA7DE935215A705F0010ABFE /* GoogleService-Info.plist */,
+				EA85801D2163070600EDB26D /* Localizable.strings */,
 				EA857FFE215C8DFE00EDB26D /* EULA.txt */,
 				EAE93C072144279F00EBC0A8 /* Main.storyboard */,
 				EAE93C0A214427A000EBC0A8 /* Assets.xcassets */,
@@ -325,6 +333,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = EAE93BF72144279F00EBC0A8;
 			productRefGroup = EAE93C012144279F00EBC0A8 /* Products */;
@@ -342,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA857FFF215C8DFE00EDB26D /* EULA.txt in Resources */,
+				EA85801F2163070700EDB26D /* Localizable.strings in Resources */,
 				EAE93C0E214427A000EBC0A8 /* LaunchScreen.storyboard in Resources */,
 				EA7DE936215A705F0010ABFE /* GoogleService-Info.plist in Resources */,
 				EAE93C0B214427A000EBC0A8 /* Assets.xcassets in Resources */,
@@ -446,10 +456,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		EA85801D2163070600EDB26D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA85801E2163070600EDB26D /* en */,
+				EA8580222163076C00EDB26D /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		EAE93C072144279F00EBC0A8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EAE93C082144279F00EBC0A8 /* Base */,
+				EA858016216305C200EDB26D /* en */,
+				EA8580202163076A00EDB26D /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -458,6 +479,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				EAE93C0D214427A000EBC0A8 /* Base */,
+				EA858018216305CE00EDB26D /* en */,
+				EA8580212163076B00EDB26D /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -469,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -529,6 +553,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -22,7 +22,8 @@ class EULAViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleCancel))
+        let back = NSLocalizedString("back", comment: "")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: back, style: .plain, target: self, action: #selector(handleCancel))
         
         view.addSubview(textView)
         textView.anchor(top: view.topAnchor, paddingTop: 16, bottom: view.bottomAnchor, paddingBottom: 16, left: view.leftAnchor, paddingLeft: 8, right: view.rightAnchor, paddingRight: 8, width: 0, height: 0)
