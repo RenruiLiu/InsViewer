@@ -292,6 +292,31 @@ class UserProfileHeader: UICollectionViewCell {
         //
         addSubview(editProfileFollowBtn)
         editProfileFollowBtn.anchor(top: postsLabel.bottomAnchor, paddingTop: 2, bottom: nil, paddingBottom: 0, left: postsLabel.leftAnchor, paddingLeft: 0, right: followingLabel.rightAnchor, paddingRight: 0, width: 0, height: 34)
+        
+        //
+        let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(didTapFollowing))
+        let tapFollower = UITapGestureRecognizer(target: self, action: #selector(didTapFollower))
+        followingLabel.isUserInteractionEnabled = true
+        followersLabel.isUserInteractionEnabled = true
+        followingLabel.addGestureRecognizer(tapFollowing)
+        followersLabel.addGestureRecognizer(tapFollower)
+    }
+    
+    @objc func didTapFollowing(){
+        let searchVC = UserSearchViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        searchVC.userId = user?.uid
+        searchVC.mode = 2
+        
+        let navEditorViewController: UINavigationController = UINavigationController(rootViewController: searchVC)
+        UIApplication.shared.keyWindow?.rootViewController?.present(navEditorViewController, animated: true)
+    }
+    @objc func didTapFollower(){
+        let searchVC = UserSearchViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        searchVC.userId = user?.uid
+        searchVC.mode = 1
+        
+        let navEditorViewController: UINavigationController = UINavigationController(rootViewController: searchVC)
+        UIApplication.shared.keyWindow?.rootViewController?.present(navEditorViewController, animated: true)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

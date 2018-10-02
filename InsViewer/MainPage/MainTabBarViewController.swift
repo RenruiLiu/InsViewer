@@ -66,7 +66,9 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, 
         self.delegate = self
 
         //check login status if not login yet:
-        if Auth.auth().currentUser == nil{
+        let isEmailVerified = Auth.auth().currentUser?.isEmailVerified ?? false
+        if Auth.auth().currentUser == nil || !isEmailVerified{
+
             // wait until the main tab bar controller is inside of the UI, then lead us to login
             DispatchQueue.main.async {
                 let loginVC = LoginViewController()
@@ -75,14 +77,13 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, 
             }
             return
         }
-        
         //login already
         setupViewControllers()
 
     }
     
     //____________________________________________________________________________________
-    fileprivate func templateNavController(unselectedImg: UIImage, selectedImg: UIImage, rootViewController: UIViewController = UIViewController()) -> UINavigationController{
+    func templateNavController(unselectedImg: UIImage, selectedImg: UIImage, rootViewController: UIViewController = UIViewController()) -> UINavigationController{
         let viewController = rootViewController
         let navController = UINavigationController(rootViewController: viewController)
         navController.tabBarItem.image = unselectedImg

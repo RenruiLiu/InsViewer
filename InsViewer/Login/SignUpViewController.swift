@@ -151,7 +151,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         Auth.auth().createUser(withEmail: email, password: password) { (user: User?, error: Error?) in
             if let _ = error {
                 
-                showErr(info: NSLocalizedString("failCreateUser", comment: ""), subInfo: NSLocalizedString("checkEmail", comment: ""))
+                showErr(info: NSLocalizedString("failCreateUser", comment: ""), subInfo: NSLocalizedString("checkEmailPwd", comment: ""))
+                user?.delete(completion: nil)
                 return
             }
             print("Successfully created user: ", user?.uid ?? "")
@@ -160,6 +161,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 
                 if let _ = err {
                     showErr(info: NSLocalizedString("failSendEmail", comment: ""), subInfo: NSLocalizedString("trySignupLater", comment: ""))
+                    return
                 }
                 
                 let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
@@ -305,4 +307,3 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
 fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
-

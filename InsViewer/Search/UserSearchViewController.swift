@@ -11,7 +11,10 @@ import Firebase
 
 class UserSearchViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
+    var users = [UserProfile]()
+    var userId: String?
     let cellId = "cellId"
+    var mode = 0 // 0 = All users, 1 = followers, 2 = followings
     
     // use lazy var to allow accessing searchbar delegate
     lazy var searchBar : UISearchBar = {
@@ -43,17 +46,73 @@ class UserSearchViewController: UICollectionViewController, UICollectionViewDele
         
         navigationController?.navigationBar.addSubview(searchBar)
         let navBar = navigationController?.navigationBar
-        searchBar.anchor(top: navBar?.topAnchor, paddingTop: 0, bottom: navBar?.bottomAnchor, paddingBottom: 0, left: navBar?.leftAnchor, paddingLeft: 8, right: navBar?.rightAnchor, paddingRight: 8, width: 0, height: 0)
         
         collectionView?.register(UserSearchCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .onDrag
         
-        fetchUsers()
+        if mode == 0 {
+            searchBar.anchor(top: navBar?.topAnchor, paddingTop: 0, bottom: navBar?.bottomAnchor, paddingBottom: 0, left: navBar?.leftAnchor, paddingLeft: 8, right: navBar?.rightAnchor, paddingRight: 8, width: 0, height: 0)
+            fetchUsers()
+            
+        }
+        else if mode == 1 {
+            searchBar.anchor(top: navBar?.topAnchor, paddingTop: 0, bottom: navBar?.bottomAnchor, paddingBottom: 0, left: navBar?.leftAnchor, paddingLeft: 75, right: navBar?.rightAnchor, paddingRight: 8, width: 0, height: 0)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("back", comment: ""), style: .plain, target: self, action: #selector(handleCancel))
+            fetchFollowers()
+            
+        }
+        else {
+            searchBar.anchor(top: navBar?.topAnchor, paddingTop: 0, bottom: navBar?.bottomAnchor, paddingBottom: 0, left: navBar?.leftAnchor, paddingLeft: 75, right: navBar?.rightAnchor, paddingRight: 8, width: 0, height: 0)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("back", comment: ""), style: .plain, target: self, action: #selector(handleCancel))
+            fetchFollowing()
+        }
     }
+    
     //____________________________________________________________________________________
-    var users = [UserProfile]()
-    fileprivate func fetchUsers(){
+    fileprivate func fetchFollowers(){
+        guard let uid = userId else {return}
+        let ref = Database.database().reference().child("followers").child(uid)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+            
+            //get list of followers
+            var followers = [String]()
+            dictionaries.forEach({ (arg) in
+                let (key, _) = arg
+                followers.append(key)
+            })
+            
+            //get their userProfile
+            self.fetchUsers(filter: followers)
+            
+        }) { (err) in
+            print("Failed to fetch followers:",err)
+        }
+    }
+    
+    fileprivate func fetchFollowing(){
+        guard let uid = userId else {return}
+        let ref = Database.database().reference().child("following").child(uid)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let dictionaries = snapshot.value as? [String:Any] else {return}
+            
+            //get list of followers
+            var following = [String]()
+            dictionaries.forEach({ (arg) in
+                let (key, _) = arg
+                following.append(key)
+            })
+            
+            //get their userProfile
+            self.fetchUsers(filter: following)
+            
+        }) { (err) in
+            print("Failed to fetch followers:",err)
+        }
+    }
+    
+    fileprivate func fetchUsers(filter: [String] = []){
         let ref = Database.database().reference().child("users")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionaries = snapshot.value as? [String:Any] else {return}
@@ -62,10 +121,19 @@ class UserSearchViewController: UICollectionViewController, UICollectionViewDele
                 if key == Auth.auth().currentUser?.uid {
                     return
                 }
-                
-                guard let userDictionary = value as? [String:Any] else {return}
-                let user = UserProfile(uid: key, dict: userDictionary)
-                self.users.append(user)
+                if !filter.isEmpty {
+                    // if key is in list, then add in users
+                    if filter.contains(key) {
+                        guard let userDictionary = value as? [String:Any] else {return}
+                        let user = UserProfile(uid: key, dict: userDictionary)
+                        self.users.append(user)
+                    }
+                } else {
+                    // add all users in users
+                    guard let userDictionary = value as? [String:Any] else {return}
+                    let user = UserProfile(uid: key, dict: userDictionary)
+                    self.users.append(user)
+                }
             })
             self.users.sort(by: { (u1, u2) -> Bool in
                 return u1.username.compare(u2.username) == .orderedAscending
@@ -102,5 +170,9 @@ class UserSearchViewController: UICollectionViewController, UICollectionViewDele
         let userProfileVC = UserProfileViewController(collectionViewLayout: UICollectionViewFlowLayout())
         userProfileVC.userId = user.uid
         navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
+    @objc func handleCancel(){
+        dismiss(animated: true, completion: nil)
     }
 }
