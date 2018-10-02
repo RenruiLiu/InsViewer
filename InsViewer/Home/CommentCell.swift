@@ -21,7 +21,8 @@ class CommentCell: PZSwipedCollectionViewCell {
             let attributedText = NSMutableAttributedString(string: comment.user.username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
             attributedText.append(NSAttributedString(string: " " + comment.text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             let timeAgo = comment.creationDate.timeAgoDisplay()
-            attributedText.append(NSAttributedString(string: "    posted " + timeAgo, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+            let posted = NSLocalizedString("posted", comment: "")
+            attributedText.append(NSAttributedString(string: "    \(posted) " + timeAgo, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
             textView.attributedText = attributedText
             
             profileImageView.loadImage(urlString: comment.user.profileImgUrl)

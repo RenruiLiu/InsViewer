@@ -258,7 +258,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let filename = NSUUID().uuidString
         Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
             if let _ = err {
-                showErr(info: "Failed to upload profile image", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoUploadProfieImg", comment: ""), subInfo: tryLater)
                 return
             }
             guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else {return}

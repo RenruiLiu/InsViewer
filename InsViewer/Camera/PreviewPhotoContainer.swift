@@ -36,7 +36,7 @@ class PreviewPhotoContainer: UIView {
             PHAssetChangeRequest.creationRequestForAsset(from: previewImage)
         }) { (success, err) in
             if let _ = err {
-                showErr(info: "Failed to save image to photo library", subInfo: tryLater)
+                showErr(info: NSLocalizedString("FailtoSavePhoto", comment: ""), subInfo: tryLater)
                 return
             }
             
@@ -51,7 +51,7 @@ class PreviewPhotoContainer: UIView {
     
     fileprivate func showSuccessInfo_dismiss(){
         let savedLabel = UILabel()
-        savedLabel.text = "Saved Successfully"
+        savedLabel.text = NSLocalizedString("savedSuccess", comment: "")
         savedLabel.font = UIFont.boldSystemFont(ofSize: 18)
         savedLabel.textAlignment = .center
         savedLabel.textColor = .white

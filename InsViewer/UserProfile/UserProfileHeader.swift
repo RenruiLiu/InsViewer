@@ -36,7 +36,7 @@ class UserProfileHeader: UICollectionViewCell {
         ref.observe(.value, with: { (snapshot) in
             count = String(snapshot.childrenCount)
             let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-            attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: NSLocalizedString("following", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             self.followingLabel.attributedText = attributedText
         }) { (err) in
             print("Failed to fetch following number",err)
@@ -46,7 +46,7 @@ class UserProfileHeader: UICollectionViewCell {
         ref1.observe(.value, with: { (snapshot) in
             count = String(snapshot.childrenCount)
             let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-            attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: NSLocalizedString("follower", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             self.followersLabel.attributedText = attributedText
         }) { (err) in
             print("Failed to fetch follower number",err)
@@ -56,7 +56,7 @@ class UserProfileHeader: UICollectionViewCell {
         ref2.observe(.value, with: { (snapshot) in
             count = String(snapshot.childrenCount)
             let attributedText = NSMutableAttributedString(string: count + "\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-            attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: NSLocalizedString("post", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             self.postsLabel.attributedText = attributedText
         }) { (err) in
             print("Failed to fetch posts number",err)
@@ -93,7 +93,7 @@ class UserProfileHeader: UICollectionViewCell {
     }()
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "username"
+        label.text = NSLocalizedString("username", comment: "")
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
@@ -118,7 +118,7 @@ class UserProfileHeader: UICollectionViewCell {
     // added lazy var to handle any change to the properties of the view
     lazy var editProfileFollowBtn: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("Edit Profile", for: .normal)
+        btn.setTitle(NSLocalizedString("editProfile", comment: ""), for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         btn.layer.borderColor = UIColor.lightGray.cgColor
@@ -137,12 +137,12 @@ class UserProfileHeader: UICollectionViewCell {
         guard let userId = user?.uid else {return} // searched user
         
         // perform Unfollow
-        if editProfileFollowBtn.titleLabel?.text == "Unfollow" {
+        if editProfileFollowBtn.titleLabel?.text == NSLocalizedString("unfollow", comment: "") {
             
             unfollow(currentUserId: currentUserId, targetUid: userId)
             self.setupFollowStyle()
             
-        } else if editProfileFollowBtn.titleLabel?.text == "Follow" {
+        } else if editProfileFollowBtn.titleLabel?.text == NSLocalizedString("follow", comment: "") {
             
             // get list of users who blocked the current user
             var blockList = [String]()
@@ -163,13 +163,13 @@ class UserProfileHeader: UICollectionViewCell {
 
                     // if the profile user is blocked by the current user
                     if blockList1.contains(currentUserId) {
-                        showWarning(info: "Connot follow", subInfo: "Please unblock the user before you follow")
+                        showWarning(info: NSLocalizedString("cannotFollow", comment: ""), subInfo: NSLocalizedString("unblockBeforeFollow", comment: ""))
                         return
                     }
         
                     // if the current user is blocked by the profile user
                     if blockList.contains(userId) {
-                        showErr(info: "Cannot follow", subInfo: "You're blocked by the user")
+                        showErr(info: NSLocalizedString("cannotFollow", comment: ""), subInfo: NSLocalizedString("blockedByUser", comment: ""))
                         return
                     }
                 
@@ -178,7 +178,7 @@ class UserProfileHeader: UICollectionViewCell {
                         if result {
                             print("Successfully followed user:", self.user?.username ?? "")
                             // change UI
-                            self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
+                            self.editProfileFollowBtn.setTitle(NSLocalizedString("unfollow", comment: ""), for: .normal)
                             self.editProfileFollowBtn.backgroundColor = .white
                             self.editProfileFollowBtn.setTitleColor(.black, for: .normal)
                         }
@@ -204,7 +204,7 @@ class UserProfileHeader: UICollectionViewCell {
     
                 if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
                     // check it's following, set "Unfollow" title
-                    self.editProfileFollowBtn.setTitle("Unfollow", for: .normal)
+                    self.editProfileFollowBtn.setTitle(NSLocalizedString("unfollow", comment: ""), for: .normal)
                 } else {
                     // check if not following, show follow UI
                     self.setupFollowStyle()
@@ -216,7 +216,7 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     fileprivate func setupFollowStyle(){
-        self.editProfileFollowBtn.setTitle("Follow", for: .normal)
+        self.editProfileFollowBtn.setTitle(NSLocalizedString("follow", comment: ""), for: .normal)
         self.editProfileFollowBtn.backgroundColor = .mainBlue()
         self.editProfileFollowBtn.setTitleColor(.white, for: .normal)
         self.editProfileFollowBtn.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor

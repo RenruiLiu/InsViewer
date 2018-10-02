@@ -19,8 +19,8 @@ class PhotoSelectorCollectionViewController: UICollectionViewController, UIColle
     // navigation bar buttons
     fileprivate func setupNavigationButtons(){
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNext))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("cancel", comment: ""), style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("next", comment: ""), style: .plain, target: self, action: #selector(handleNext))
     }
     
     // filter photo

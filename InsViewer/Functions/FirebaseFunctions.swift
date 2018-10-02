@@ -22,7 +22,6 @@ func deleteFromFirebase(post: Post){
     // delete database post
     ref.removeValue(completionBlock: { (err, ref) in
         if let _ = err {
-            showErr(info: "Failed to remove this post", subInfo: tryLater)
             return
         }
         
@@ -30,11 +29,11 @@ func deleteFromFirebase(post: Post){
         let delRef = Storage.storage().reference().child("posts").child(post.postImgFileName)
         delRef.delete(completion: { (err) in
             if let _ = err {
-                showErr(info: "Failed to remove this post", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoRemovePost", comment: ""), subInfo: tryLater)
                 return
             }
         
-            showSuccess(info: "Successfully deleted post", subInfo: "")
+            showSuccess(info: NSLocalizedString("successDeletePost", comment: ""), subInfo: "")
             
             // notify refresh
             NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
@@ -46,7 +45,7 @@ func unfollow(currentUserId: String, targetUid: String){
     //Unfollow
     Database.database().reference().child("following").child(currentUserId).child(targetUid).removeValue { (err, ref) in
         if let _ = err {
-            showErr(info: "Failed to unfollow user", subInfo: tryLater)
+            showErr(info: NSLocalizedString("failtoUnfollow", comment: ""), subInfo: tryLater)
             return
         }
         NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
@@ -59,10 +58,10 @@ func hidePost(post: Post) {
     let values = ["userId": post.user.uid]
     Database.database().reference().child("hide").child(uid).child(postID).updateChildValues(values) { (err, _) in
         if let _ = err {
-            showErr(info: "Failed to hide the post", subInfo: tryLater)
+            showErr(info: NSLocalizedString("failtoHide", comment: ""), subInfo: tryLater)
             return
         }
-        showSuccess(info: "Successfully hided the post", subInfo: "")
+        showSuccess(info: NSLocalizedString("successHide", comment: ""), subInfo: "")
         
         NotificationCenter.default.post(name: SharePhotoViewController.updateFeedNotificationName, object: nil)
     }
@@ -74,10 +73,10 @@ func reportPost(post: Post, reason: String) {
     let values = ["reporterID": uid, "reportReason":reason]
     Database.database().reference().child("report").child(postID).updateChildValues(values) { (err, _) in
         if let _ = err {
-            showErr(info: "Failed to report the post", subInfo: tryLater)
+            showErr(info: NSLocalizedString("failtoReport", comment: ""), subInfo: tryLater)
             return
         }
-        showSuccess(info: "Successfully reported the post", subInfo: "")
+        showSuccess(info: NSLocalizedString("successReport", comment: ""), subInfo: "")
     }
 }
 
@@ -114,22 +113,22 @@ func block(userA: String, userB: String){
         let values = [userA: "1"]
         Database.database().reference().child("block").child(userB).updateChildValues(values, withCompletionBlock: { (err, _) in
             if let _ = err {
-                showErr(info: "Failed to block the user", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoBlockUser", comment: ""), subInfo: tryLater)
                 return
             }
             unfollow(currentUserId: userB, targetUid: userA)
             unfollow(currentUserId: userA, targetUid: userB)
-            showSuccess(info: "Successfully blocked the user", subInfo: "")
+            showSuccess(info: NSLocalizedString("successBlockedUser", comment: ""), subInfo: "")
         })
     })
-    alertView.showWarning("Are you sure to block the user?", subTitle: "You will unfollow this user and he/she won't be able to follow or comment you", closeButtonTitle: "Cancel")
+    alertView.showWarning(NSLocalizedString("sureBlockUser", comment: ""), subTitle: NSLocalizedString("blockResult", comment: ""), closeButtonTitle: NSLocalizedString("cancel", comment: ""))
 }
 
 // userA blocks userB
 func unblock(userA: String, userB: String){
     Database.database().reference().child("block").child(userB).child(userA).removeValue { (err, _) in
         if let _ = err {
-            showErr(info: "Failed to unblock the user", subInfo: tryLater)
+            showErr(info: NSLocalizedString("failtoUnblock", comment: ""), subInfo: tryLater)
             return
         }
     }

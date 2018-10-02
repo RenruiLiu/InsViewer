@@ -38,7 +38,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     let profileImageButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 120 / 2
-        //iv.loadImage(urlString: )
         btn.contentMode = .scaleAspectFill
         btn.clipsToBounds = true
         btn.layer.masksToBounds = true
@@ -50,7 +49,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     let nameLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Name"
+        lb.text = NSLocalizedString("username", comment: "")
         lb.font = UIFont.boldSystemFont(ofSize: 14)
         return lb
     }()
@@ -61,26 +60,26 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }()
     let passwordLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Password"
+        lb.text = NSLocalizedString("password", comment: "")
         lb.font = UIFont.boldSystemFont(ofSize: 14)
         return lb
     }()
     let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Your password"
+        tf.placeholder = NSLocalizedString("currentPassword", comment: "")
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.isSecureTextEntry = true
         return tf
     }()
     let newPasswordLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "New Password"
+        lb.text = NSLocalizedString("newPassword", comment: "")
         lb.font = UIFont.boldSystemFont(ofSize: 14)
         return lb
     }()
     let newPasswordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Your new password"
+        tf.placeholder = NSLocalizedString("yourNewPassword", comment: "")
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.isSecureTextEntry = true
         return tf
@@ -130,8 +129,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     fileprivate func setupNavigationButtons(){
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("cancel", comment: ""), style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("save", comment: ""), style: .plain, target: self, action: #selector(handleSave))
     }
     
     //____________________________________________________________________________________
@@ -205,11 +204,11 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         guard let uid = self.user?.uid else {return}
         Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
             if let _ = err {
-                showErr(info: "Failed to update user profile", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoUpdateProfile", comment: ""), subInfo: tryLater)
                 return
             }
             
-            showSuccess(info: "Successfully edited user profile", subInfo: "please re-login to see update")
+            showSuccess(info: NSLocalizedString("successUpdateProfile", comment: ""), subInfo: NSLocalizedString("relogin", comment: ""))
         })
     }
     
@@ -220,12 +219,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         user?.reauthenticate(with: credential, completion: { (err) in
             if let _ = err {
                 
-                showErr(info: "Failed to verify your password", subInfo: "please check your password again")
+                showErr(info: NSLocalizedString("failtoVerifyPwd", comment: ""), subInfo: NSLocalizedString("checkPwd", comment: ""))
                 return
             }
             user?.updatePassword(to: newPassword, completion: { (err) in
                 if let _ = err {
-                    showErr(info: "Failed to setup new password", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoSetNewPwd", comment: ""), subInfo: tryLater)
                     return
                 }
                 print("Successfully changed your password, please login again")
@@ -245,7 +244,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         dismiss(animated: false, completion: {
             // present login controller after the user logged out
             let loginVC = LoginViewController()
-            print("dismiss and present")
             let navController = UINavigationController(rootViewController: loginVC)
             pvc?.present(navController, animated: true)
         })

@@ -19,7 +19,7 @@ class CommentInputAccessoryView: UIView, UITextViewDelegate {
     
     fileprivate let submitBtn: UIButton = {
         let submitBtn = UIButton(type: .system)
-        submitBtn.setTitle("Submit", for: .normal)
+        submitBtn.setTitle(NSLocalizedString("submit", comment: ""), for: .normal)
         submitBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         submitBtn.addTarget(self, action: #selector(handleSubmit), for: .touchUpInside)
         return submitBtn

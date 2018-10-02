@@ -28,7 +28,7 @@ class UserSearchCell: UICollectionViewCell {
     }()
     let usernameLabel: UILabel = {
         let lb = UILabel()
-        lb.text = "Username"
+        lb.text = NSLocalizedString("username", comment: "")
         lb.font = UIFont.boldSystemFont(ofSize: 14)
         return lb
     }()

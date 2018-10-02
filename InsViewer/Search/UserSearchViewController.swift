@@ -16,7 +16,7 @@ class UserSearchViewController: UICollectionViewController, UICollectionViewDele
     // use lazy var to allow accessing searchbar delegate
     lazy var searchBar : UISearchBar = {
         let sb = UISearchBar()
-        sb.placeholder = "Enter username"
+        sb.placeholder = NSLocalizedString("enterUsername", comment: "")
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
         sb.delegate = self
         return sb

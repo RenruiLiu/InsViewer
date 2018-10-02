@@ -58,20 +58,28 @@ extension Date{
         let week = 7 * day
         let year = 365 * day
         
+        let second = NSLocalizedString("second", comment: "")
+        let minute = NSLocalizedString("minute", comment: "")
+        let hours = NSLocalizedString("hour", comment: "")
+        let days = NSLocalizedString("day", comment: "")
+        let weeks = NSLocalizedString("week", comment: "")
+        let years = NSLocalizedString("year", comment: "")
+        let ago = NSLocalizedString("ago", comment: "")
+        
         if secondsAgo < 10{
             return "Just now"
         } else if secondsAgo < min {
-            return "\(secondsAgo) seconds ago"
+            return "\(secondsAgo) \(second) \(ago)"
         } else if secondsAgo < hour {
-            return "\(secondsAgo / min) minutes ago"
+            return "\(secondsAgo / min) \(minute) \(ago)"
         } else if secondsAgo < day {
-            return "\(secondsAgo / hour) hours ago"
+            return "\(secondsAgo / hour) \(hours) \(ago)"
         } else if secondsAgo < week {
-            return "\(secondsAgo / day) days ago"
+            return "\(secondsAgo / day) \(days) \(ago)"
         } else if secondsAgo < year {
-            return "\(secondsAgo / week) weeks ago"
+            return "\(secondsAgo / week) \(weeks) \(ago)"
         }
-        return "\(secondsAgo / year) years ago"
+        return "\(secondsAgo / year) \(years) \(ago)"
     }
 }
 

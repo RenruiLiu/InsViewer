@@ -208,7 +208,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let values = [uid: post.hasLiked == true ? 0:1]
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
             if let _ = err {
-                showErr(info: "Failed to like post", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoLike", comment: ""), subInfo: tryLater)
                 return
             }
             post.hasLiked = !post.hasLiked
@@ -238,7 +238,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             // unsave
             ref.removeValue { (err, _) in
                 if let _ = err {
-                    showErr(info: "Failed to unsave the post", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoUnsave", comment: ""), subInfo: tryLater)
                     return
                 }
                 post.hasSaved = false
@@ -251,7 +251,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             
             ref.updateChildValues(values) { (err, ref) in
                 if let _ = err {
-                    showErr(info: "Failed to save the post", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoSave", comment: ""), subInfo: tryLater)
                 }
                 
                 post.hasSaved = true

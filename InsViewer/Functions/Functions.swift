@@ -20,10 +20,10 @@ func showOptions(post: Post){
     if currentUserId == targetUid {
         //delete
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete Post", style: .destructive, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("deletePost", comment: ""), style: .destructive, handler: { (_) in
             deleteFromFirebase(post: post)
         }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil))
         UIApplication.shared.keyWindow?.rootViewController?.present(alertController,animated: true, completion: nil)
         
     } else {
@@ -31,36 +31,36 @@ func showOptions(post: Post){
         // 1.hide, 2.report other users' post, 3.unfollow, 4.block user
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alertController.addAction(UIAlertAction(title: "Unfollow", style: .default, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("unfollow", comment: ""), style: .default, handler: { (_) in
             unfollow(currentUserId: currentUserId, targetUid: targetUid)
         }))
         
-        alertController.addAction(UIAlertAction(title: "Hide", style: .destructive, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("hide", comment: ""), style: .destructive, handler: { (_) in
             let alertView = SCLAlertView()
-            alertView.addButton("Yes", action: {
+            alertView.addButton(NSLocalizedString("yes", comment: ""), action: {
                 hidePost(post: post)
             })
-            alertView.showWarning("Are you sure to hide this post?", subTitle: "", closeButtonTitle: "Cancel")
+            alertView.showWarning(NSLocalizedString("sureHide", comment: ""), subTitle: "", closeButtonTitle: NSLocalizedString("cancel", comment: ""))
         }))
         
-        alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("report", comment: ""), style: .destructive, handler: { (_) in
             
             // report alert
             let alertView = SCLAlertView()
             let textView = alertView.addTextView()
-            alertView.addButton("Report", action: {
+            alertView.addButton(NSLocalizedString("report", comment: ""), action: {
                 var reason = "None"
                 if textView.text != "" {reason = textView.text}
                 reportPost(post: post, reason: reason)
             })
-            alertView.showEdit("Reason", subTitle: "",closeButtonTitle: "Cancel")
+            alertView.showEdit(NSLocalizedString("reason", comment: ""), subTitle: "",closeButtonTitle: NSLocalizedString("cancel", comment: ""))
         }))
         
-        alertController.addAction(UIAlertAction(title: "Block this user", style: .destructive, handler: { (_) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("blockUser", comment: ""), style: .destructive, handler: { (_) in
             block(userA: currentUserId, userB: post.user.uid)
         }))
         
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil))
         UIApplication.shared.keyWindow?.rootViewController?.present(alertController,animated: true, completion: nil)
     }
 }

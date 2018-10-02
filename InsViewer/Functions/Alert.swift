@@ -11,7 +11,7 @@ import UIKit
 import SCLAlertView
 
 
-let tryLater = "Please try again later"
+let tryLater = NSLocalizedString("againlater", comment: "")
 
 func showInfo(info: String, subInfo: String, duration: TimeInterval = 3){
     let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)

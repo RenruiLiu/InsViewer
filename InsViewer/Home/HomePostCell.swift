@@ -38,7 +38,7 @@ class HomePostCell: UICollectionViewCell{
     }()
     let usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Username"
+        label.text = NSLocalizedString("username", comment: "")
         label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
@@ -112,7 +112,8 @@ class HomePostCell: UICollectionViewCell{
         ref.observe(.value, with: { (snapshot) in
             let count = snapshot.childrenCount
             if count != 0 {
-                attributedText.append(NSAttributedString(string: "    \(count) likes", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+                let like = NSLocalizedString("like", comment: "")
+                attributedText.append(NSAttributedString(string: "    \(count) \(like)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             }
             self.captionLabel.attributedText = attributedText
         })

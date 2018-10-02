@@ -18,7 +18,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Comments"
+        navigationItem.title = NSLocalizedString("comment", comment: "")
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
@@ -88,7 +88,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
             
             // if the current is blocked, then cannot comment
             if blockList.contains(self.post?.user.uid ?? "") {
-                showErr(info: "Cannot comment", subInfo: "You're blocked by the user")
+                showErr(info: NSLocalizedString("cannotComment", comment: ""), subInfo: NSLocalizedString("blockedByUser", comment: ""))
                 return
             }
             
@@ -98,7 +98,7 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
             // which means every comment is a new node containing its text, sender, creationDate etc.
             Database.database().reference().child("comment").child(postId).childByAutoId().updateChildValues(values) { (err, ref) in
                 if let _ = err {
-                    showErr(info: "Failed to comment", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoComment", comment: ""), subInfo: tryLater)
                     return
                 }
                 self.containerView.clearCommentTextView()
@@ -153,8 +153,8 @@ class CommentsViewController: UICollectionViewController, UICollectionViewDelega
         
         let ref = Database.database().reference().child("comment").child(postId).child(commentId)
         ref.removeValue { (err, _) in
-            if let err = err {
-                showErr(info: "Failed to delete the comment", subInfo: tryLater)
+            if let _ = err {
+                showErr(info: NSLocalizedString("failtoDeleteComment", comment: ""), subInfo: tryLater)
                 return
             }
             self.comments.remove(at: cellId)

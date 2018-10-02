@@ -62,7 +62,7 @@ class SharePhotoViewController: UIViewController {
                 // enable the share button when a error occurs so the user can re-share it
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 
-                showErr(info: "Failed to upload data", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoUploadData", comment: ""), subInfo: tryLater)
                 return
             }
             guard let imageUrl = metadata?.downloadURL()?.absoluteString else {return}
@@ -87,7 +87,7 @@ class SharePhotoViewController: UIViewController {
             if let _ = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
                 
-                showErr(info: "Failed to save your post", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoSavePost", comment: ""), subInfo: tryLater)
                 return
             }
             print("Successfully saved post to database")
@@ -104,7 +104,7 @@ class SharePhotoViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("share", comment: ""), style: .plain, target: self, action: #selector(handleShare))
         setupImageAndTextViews()
     }
 

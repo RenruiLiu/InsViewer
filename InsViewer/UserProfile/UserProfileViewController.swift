@@ -107,7 +107,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         guard let currentUserID = Auth.auth().currentUser?.uid else {return}
         
         if user?.uid == currentUserID {
-            alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("logout", comment: ""), style: .destructive, handler: { (_) in
                 do{
                     try Auth.auth().signOut()
                     // present login controller after the user logged out
@@ -130,13 +130,13 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
                 
                 // if the current is blocked, then show unblock
                 if blockList.contains(currentUserID) {
-                    alertController.addAction(UIAlertAction(title: "Unblock", style: .default, handler: { (_) in
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString("unblock", comment: ""), style: .default, handler: { (_) in
                         unblock(userA: currentUserID, userB: self.user?.uid ?? "")
                     }))
                     
                 } else {
                     // show block
-                    alertController.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { (_) in
+                    alertController.addAction(UIAlertAction(title: NSLocalizedString("block", comment: ""), style: .destructive, handler: { (_) in
                         block(userA: currentUserID, userB: self.user?.uid ?? "")
                     }))
                 }
@@ -144,7 +144,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         }
         
         
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel, handler: nil))
         present(alertController,animated: true, completion: nil)
     }
     
@@ -341,7 +341,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
         Database.database().reference().child("likes").child(postId).updateChildValues(values) { (err, _ref) in
             if let _ = err {
                 
-                showErr(info: "Failed to like post", subInfo: tryLater)
+                showErr(info: NSLocalizedString("failtoLike", comment: ""), subInfo: tryLater)
             }
             print("Successfully liked post")
             post.hasLiked = !post.hasLiked
@@ -382,7 +382,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             ref.removeValue { (err, _) in
                 if let _ = err {
                     
-                    showErr(info: "Failed to unsave post", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoUnsave", comment: ""), subInfo: tryLater)
                 }
                 post.hasSaved = false
                 self.posts[indexPath.item] = post
@@ -394,7 +394,7 @@ class UserProfileViewController: UICollectionViewController, UICollectionViewDel
             
             ref.updateChildValues(values) { (err, ref) in
                 if let _ = err {
-                    showErr(info: "Failed to save post", subInfo: tryLater)
+                    showErr(info: NSLocalizedString("failtoSave", comment: ""), subInfo: tryLater)
                 }
                 
                 post.hasSaved = true
