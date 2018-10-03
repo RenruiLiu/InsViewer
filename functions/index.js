@@ -56,11 +56,17 @@ exports.observeFollowing = functions.database.ref('/following/{userAID}/{userBID
             return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
                 var userA = snapshot.val();
 
+                var msgTitle = "You have a new follower"
+                var msgBody = userA.username + " is now following you"
+                if (userB.language === "zh") {
+                    msgTitle = "您有一个新的粉丝"
+                    msgBody = userA.username + "正在关注您"
+                }
                 // send message to the user who got followed
                 var message = {
                     notification: {
-                        title: "You have a new follower",
-                        body: userA.username + " is now following you"
+                        title: msgTitle,
+                        body: msgBody
                     },
                     data: {
                         followerID: userAID 
@@ -108,10 +114,14 @@ exports.observeCommenting = functions.database.ref('/comment/{postID}/{commentID
                         return admin.database().ref('/users/' + userAID).once('value', snapshot =>{
                             var userA = snapshot.val();
 
+                            var msgTitle = "You got a new comment from " + userA.username
+                            if (userB.language === "zh") {
+                                msgTitle = "您收到一条来自" + userA.username + "的评论"
+                            }
                             // send message to the user who got followed
                             var message = {
                                 notification: {
-                                    title: "You got a new comment from " + userA.username,
+                                    title: msgTitle,
                                     body: text
                                 },
                                 

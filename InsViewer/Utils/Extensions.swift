@@ -67,7 +67,7 @@ extension Date{
         let ago = NSLocalizedString("ago", comment: "")
         
         if secondsAgo < 10{
-            return "Just now"
+            return NSLocalizedString("justNow", comment: "")
         } else if secondsAgo < min {
             return "\(secondsAgo) \(second) \(ago)"
         } else if secondsAgo < hour {

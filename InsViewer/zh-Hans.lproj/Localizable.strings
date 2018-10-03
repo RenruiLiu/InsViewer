@@ -40,7 +40,7 @@
 "failtoSave" = "收藏图片失败";
 "like" = "喜欢";
 "second" = "秒";
-"minute" = "分";
+"minute" = "分钟";
 "hour" = "小时";
 "day" = "天";
 "week" = "星期";
@@ -93,3 +93,4 @@
 "sureHide" = "您确定隐藏此图片吗?";
 "blockUser" = "拉黑此用户";
 "ago" = "前";
+"justNow" = "刚刚";

@@ -271,8 +271,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             let uid = user.uid
             guard let username = self.usernameTextField.text, username.count > 0 else {return}
             guard let fcmToken = Messaging.messaging().fcmToken else {return}
+            guard let langStr = Locale.current.languageCode else {return}
             
-            let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken]
+            let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken, "language": langStr]
             let values = [uid: dictionaryValues]
             Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
                 if let err = err {
