@@ -86,6 +86,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         // fetch user's posts from the user id
         Database.fetchUserWithUID(uid: uid) { (user) in
             self.fetchPostsWithUser(user: user)
+            print("called fetch my own posts")
         }
     }
     
@@ -96,13 +97,14 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         var hidePosts = [String]()
         
         Database.database().reference().child("hide").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dict = snapshot.value as? [String:Any] else {return}
+            let dict = snapshot.value as? [String:Any] ?? [:]
             for key in Array(dict.keys) {
                 hidePosts.append(key)
             }
         
             Database.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
+                print(userIdsDictionary)
                 userIdsDictionary.forEach({ (key,value) in
                     
                     // and get their posts by using thier ids(key)
