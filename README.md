@@ -27,10 +27,11 @@ Alert -> [SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)
 Backend service (storage + database) -> [GoogleFirebase](https://firebase.google.com/)
 
 # TODO
-*3. Pagination on home page  
-18. like page   
-14. show like and save in postview & profile view  
-19. block list  
+1. Pagination on home page  
+2. like page   
+3. show like and save in postview & profile view  
+4. block list  
+5. location
 
 # LICENSE
 YuisoView is licensed under [MIT](https://github.com/RenruiLiu/YuisoView/blob/master/LICENSE)
