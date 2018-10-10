@@ -35,17 +35,11 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
         return tv
     }()
     
-    let showLocationLabel: UILabel = {
-        let lb = UILabel()
-        lb.text = "Location: "
-        lb.font = UIFont.systemFont(ofSize: 14)
-        lb.textAlignment = .center
-        return lb
-    }()
-    lazy var addLocationSwitch: UISwitch = {
-        let sw = UISwitch()
-        sw.addTarget(self, action: #selector(handleSwitchValueChanged), for: .valueChanged)
-        return sw
+    lazy var addLocationSwitch: UIButton = {
+        let btn = UIButton()
+        btn.setImage(#imageLiteral(resourceName: "baseline_location_off_black_18dp"), for: .normal)
+        btn.addTarget(self, action: #selector(handleSwitchValueChanged), for: .touchUpInside)
+        return btn
     }()
     let locationLabel: UILabel = {
         let lb = UILabel()
@@ -71,10 +65,9 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
         
         view.addSubview(addLocationSwitch)
         addLocationSwitch.anchor(top: containerView.bottomAnchor, paddingTop: 8, bottom: nil, paddingBottom: 0, left: containerView.leftAnchor, paddingLeft: 16, right: nil, paddingRight: 0, width: 0, height: 30)
-        view.addSubview(showLocationLabel)
-        showLocationLabel.anchor(top: containerView.bottomAnchor, paddingTop: 8, bottom: nil, paddingBottom: 0, left: addLocationSwitch.rightAnchor, paddingLeft: 4, right: nil, paddingRight: 0, width: 0, height: 30)
+        
         view.addSubview(locationLabel)
-        locationLabel.anchor(top: containerView.bottomAnchor, paddingTop: 8, bottom: nil, paddingBottom: 0, left: showLocationLabel.rightAnchor, paddingLeft: 4, right: containerView.rightAnchor, paddingRight: 4, width: 0, height: 30)
+        locationLabel.anchor(top: containerView.bottomAnchor, paddingTop: 8, bottom: nil, paddingBottom: 0, left: addLocationSwitch.rightAnchor, paddingLeft: 4, right: containerView.rightAnchor, paddingRight: 4, width: 0, height: 30)
     }
     
     //____________________________________________________________________________________
@@ -113,7 +106,7 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
         let userPostRef = Database.database().reference().child("posts").child(uid)
         let ref = userPostRef.childByAutoId()
         // imgUrl - caption - imgWidth - imgHeight - creationDate
-        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImg.size.width, "imageHeight": postImg.size.height, "creationDate": Date().timeIntervalSince1970, "postImgFileName": filename] as [String: Any]
+        let values = ["imageUrl": imageUrl, "caption": caption, "imageWidth": postImg.size.width, "imageHeight": postImg.size.height, "creationDate": Date().timeIntervalSince1970, "postImgFileName": filename, "location": locationLabel.text ?? ""] as [String: Any]
         ref.updateChildValues(values) { (err, ref) in
             if let _ = err {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -133,11 +126,12 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
     @objc fileprivate func handleSwitchValueChanged(){
         isShowingLocation = !isShowingLocation
         if isShowingLocation == false {
+            addLocationSwitch.setImage(#imageLiteral(resourceName: "baseline_location_off_black_18dp.png"), for: .normal)
             locationLabel.text = ""
             return
         }
         locationLabel.text = "loading..."
-        
+        addLocationSwitch.setImage(#imageLiteral(resourceName: "baseline_location_on_black_18dp.png"), for: .normal)
         locationManager.startUpdatingLocation()
     }
     
@@ -149,10 +143,9 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
             }
             if placemarks?.count ?? 0 > 0 && self.isShowingLocation {
                 let pm = placemarks?[0] as! CLPlacemark
-                let address = pm.name ?? ""
-                let suburb = pm.locality ?? ""
-                let city = pm.subLocality ?? ""
-                self.locationLabel.text = "\(address) \(suburb) \(city) "
+                let city = pm.locality ?? ""
+                let district = pm.subLocality ?? ""
+                self.locationLabel.text = " \(district) \(city) "
                 manager.stopUpdatingLocation()
             }
         }
@@ -175,7 +168,6 @@ class SharePhotoViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
         }
     }
 

@@ -18,6 +18,7 @@ struct Post {
     var hasLiked = false
     var hasSaved = false
     let postImgFileName: String
+    var location: String?
     
     init(user: UserProfile, dictionary: [String: Any]) {
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
@@ -27,5 +28,6 @@ struct Post {
         
         let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
+        self.location = dictionary["location"] as? String ?? ""
     }
 }

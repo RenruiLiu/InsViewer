@@ -25,6 +25,7 @@ class HomePostCell: UICollectionViewCell{
             likeBtn.setImage(post?.hasLiked == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal): #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
             
             BookmarkBtn.setImage(post?.hasSaved == true ? #imageLiteral(resourceName: "ribbonBlack").withRenderingMode(.alwaysOriginal): #imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysOriginal) , for: .normal)
+            
         }
     }
  
@@ -105,16 +106,22 @@ class HomePostCell: UICollectionViewCell{
         
         // post time
         let timeAgo = post.creationDate.timeAgoDisplay()
-        attributedText.append(NSAttributedString(string: timeAgo, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        attributedText.append(NSAttributedString(string: "\(timeAgo)     ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
 
         // fetch likes
         let ref = Database.database().reference().child("likes").child(postID)
         ref.observe(.value, with: { (snapshot) in
             let count = snapshot.childrenCount
             if count != 0 {
-                let like = NSLocalizedString("like", comment: "")
-                attributedText.append(NSAttributedString(string: "    \(count) \(like)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+                let attachment = NSTextAttachment()
+                attachment.image = #imageLiteral(resourceName: "like_selected")
+                attributedText.append(NSAttributedString(attachment: attachment))
+                attributedText.append(NSAttributedString(string: " \(count)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             }
+            // location
+            let location = post.location ?? ""
+            attributedText.append(NSAttributedString(string: "       \(location)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+            
             self.captionLabel.attributedText = attributedText
         })
     }
@@ -145,6 +152,7 @@ class HomePostCell: UICollectionViewCell{
         photoImgView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true // make it a square
         setupActionBtns()
         captionLabel.anchor(top: likeBtn.bottomAnchor, paddingTop: 0, bottom: bottomAnchor, paddingBottom: 0, left: leftAnchor, paddingLeft: 8, right: rightAnchor, paddingRight: 8, width: 0, height: 0)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
