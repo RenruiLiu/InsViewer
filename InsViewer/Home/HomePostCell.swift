@@ -113,10 +113,7 @@ class HomePostCell: UICollectionViewCell{
         ref.observe(.value, with: { (snapshot) in
             let count = snapshot.childrenCount
             if count != 0 {
-                let attachment = NSTextAttachment()
-                attachment.image = #imageLiteral(resourceName: "like_selected")
-                attributedText.append(NSAttributedString(attachment: attachment))
-                attributedText.append(NSAttributedString(string: " \(count)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+                attributedText.append(NSAttributedString(string: " \(count) likes", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
             }
             // location
             let location = post.location ?? ""
