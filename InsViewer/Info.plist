@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need obtain your location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need obtain your location</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -21,13 +17,17 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3</string>
+	<string>1.4</string>
 	<key>CFBundleVersion</key>
-	<string>2018100301</string>
+	<string>2018101901</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We&apos;d like to access the camera to take photos</string>
+	<string>To take a photo to post, we need to access your camera</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need to obtain your location which will be shown in your post</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need to obtain your location which will be shown in your post</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We have to access your photo library to choose one image</string>
 	<key>UILaunchStoryboardName</key>
