@@ -66,9 +66,11 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, 
         self.delegate = self
 
         //check login status if not login yet:
-        let isEmailVerified = Auth.auth().currentUser?.isEmailVerified ?? false
-        if Auth.auth().currentUser == nil || !isEmailVerified{
+        let currentUser = Auth.auth().currentUser
+        let isEmailVerified = currentUser?.isEmailVerified ?? false
+        if currentUser == nil || !isEmailVerified{
 
+            print("没登陆: currentUser是谁：",currentUser?.displayName,currentUser?.email,currentUser?.uid)
             // wait until the main tab bar controller is inside of the UI, then lead us to login
             DispatchQueue.main.async {
                 let loginVC = LoginViewController()
@@ -76,6 +78,8 @@ class MainTabBarViewController: UITabBarController, UITabBarControllerDelegate, 
                 self.present(navController, animated: true, completion: nil)
             }
             return
+        } else {
+            print("登陆了：currentUser是：",currentUser?.displayName,currentUser?.email,currentUser?.uid)
         }
         //login already
         setupViewControllers()
