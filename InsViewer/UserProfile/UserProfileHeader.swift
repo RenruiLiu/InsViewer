@@ -124,12 +124,31 @@ class UserProfileHeader: UICollectionViewCell {
         btn.layer.borderColor = UIColor.lightGray.cgColor
         btn.layer.borderWidth = 1
         btn.addTarget(self, action: #selector(handleEditProfileFollow), for: .touchUpInside)
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPress.minimumPressDuration = 5
+        btn.addGestureRecognizer(longPress)
         return btn
     }()
     
     
     //____________________________________________________________________________________
     //functions
+    
+    fileprivate var isLoggingOut = true
+    @objc func handleLongPress(){
+        if isLoggingOut {
+            print("logging out")
+            do{
+                try Auth.auth().signOut()
+                isLoggingOut = false
+                print("logged out")
+            } catch let signOutError {
+                print("Failed to logout:",signOutError)
+            }
+        }
+
+    }
+    
     @objc func handleEditProfileFollow(){
         // execute edit [profile / follow / unfollow]
         
